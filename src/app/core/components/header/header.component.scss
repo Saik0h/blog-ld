@@ -1,0 +1,45 @@
+.header {
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  padding-inline: 1rem;
+  padding-block: 1rem;
+  hr{
+    height: 3rem;
+    margin-inline: 1rem;
+  }
+  nav {
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15rem;
+    span {
+      &:hover {
+        cursor: pointer;
+        color: var(--color-red);
+      }
+    }
+  }
+  &__link-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 0.5rem;
+  }
+  &__link {
+    padding: 0.2em;
+    text-decoration: none;
+    &:hover {
+      cursor: pointer;
+      color: var(--color-red);
+    }
+  }
+  &__btn {
+    padding: 0.25em;
+    background-color: transparent;
+    border: 3px solid var(--color-red);
+    &:hover {
+      background-color: var(--color-red);
+    }
+  }
+}

@@ -1,0 +1,12 @@
+<header [className]="'header'">
+  <nav>
+    <span [routerLink]="'/'">{{ title() }}</span>
+    <ul [className]="'header__link-list'">
+      <li [className]="'header__link'" [routerLink]="'/artigos'">Artigos</li>
+      <li [className]="'header__link'" [routerLink]="'/blogs'">Blog</li>
+      <li [className]="'header__link'" [routerLink]="'/contato'">Contato</li>
+      <hr>
+      <button [routerLink]="'/curriculo'" [className]="'btn header__btn'">Ver Currículo</button>
+    </ul>
+  </nav>
+</header>

@@ -1,6 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-bg: hsl(0, 0%, 69%);
+  --color-dark: hsl(204, 86%, 6%);
+  --color-light: hsl(60, 100%, 97%);
+  --color-accent: hsl(35, 100%, 55%);
+  --color-red: hsl(349, 86%, 48%);;
+  --color-secondary: hsl(45, 7%, 35%);
+
+}
+
 * {
-  margin: 0;
   padding: 0;
+  margin: 0;
   box-sizing: border-box;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  color: var(--color-dark);
+}
+
+body {
+  background-color: var(--color-bg);
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: calc(100vh - var(--header-height));
+  margin-block-start: var(--header-height);
+  padding-block: 1.5rem;
+}
+
+.btn {
+  color: inherit;
+  font: inherit;
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  width: auto;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  transition: ease-in-out 0.2s;
+  border: 1px solid transparent;
+  &&:hover {
+    cursor: pointer;
+    transform: translateY(-1.5px);
+  }
 }
