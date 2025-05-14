@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { LoginPayload, RegisterPayload, Tokens, User } from '../../types/types';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ import { LoginPayload, RegisterPayload, Tokens, User } from '../../types/types';
 export class AuthService {
   private url = 'http://localhost:3000/api';
   private http = inject(HttpClient);
+  private router = inject(Router);
 
   register(payload: RegisterPayload): Observable<any> {
     const url = `${this.url}/auth/register`;
@@ -51,10 +53,11 @@ export class AuthService {
     );
   }
 
-  logout(id: number): Observable<any> {
+  logout(id: string): Observable<any> {
     const url = `${this.url}/auth/logout`;
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
+    this.router.navigate(['/'])
     return this.http.post(url, {id}).pipe(
       catchError((err) => {
         console.log(err);

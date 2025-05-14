@@ -1,9 +1,10 @@
 <section>
     <div>
         <div><img src="#" alt="#"></div>
-        <h3>{{user().firstname + ''+ user().lastname}}</h3>
+        <h3>{{user().firstname + ' '+ user().lastname}}</h3>
         <p>{{user().username}}</p>
-        <p></p>
+        <p>{{user().role}}</p>
+        <button (click)="logout()">Sair</button>
 
     </div>
 </section>

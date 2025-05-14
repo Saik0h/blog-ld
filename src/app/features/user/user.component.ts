@@ -2,7 +2,6 @@ import { Component, computed, OnInit, signal } from '@angular/core';
 import { User } from '../../core/types/types';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { catchError, of, tap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -29,7 +28,6 @@ export class UserComponent implements OnInit {
    this.authService.validate().pipe(
       tap((res: any) => {
         const userId = res.sub;
-        console.log(res)
         this.authService.getUser(userId).subscribe({
           next: (userData) => {
             this.user.set(userData);
@@ -49,5 +47,8 @@ export class UserComponent implements OnInit {
         return of(null); // necessário para o Observable continuar e não quebrar
       })
     ).subscribe(); // executa o fluxo
+  }
+  logout(){
+    this.authService.logout(this.user().id)
   }
 }
