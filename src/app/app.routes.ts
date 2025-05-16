@@ -6,7 +6,7 @@ export const routes: Routes = [
     path: '',
     pathMatch: 'full',
     loadComponent: () => {
-      return import('./components/homepage/homepage.component').then(
+      return import('./features/homepage/homepage.component').then(
         (m) => m.HomepageComponent
       );
     },
@@ -15,7 +15,7 @@ export const routes: Routes = [
     path: 'login',
     pathMatch: 'full',
     loadComponent: () => {
-      return import('./features/auth/login/login.component').then(
+      return import('./features/login/login.component').then(
         (m) => m.LoginComponent
       );
     },
@@ -24,7 +24,7 @@ export const routes: Routes = [
     path: 'register',
     pathMatch: 'full',
     loadComponent: () => {
-      return import('./features/auth/register/register.component').then(
+      return import('./features/register/register.component').then(
         (m) => m.RegisterComponent
       );
     },
@@ -33,7 +33,7 @@ export const routes: Routes = [
     path: 'contato',
     pathMatch: 'full',
     loadComponent: () => {
-      return import('./components/contact/contact.component').then(
+      return import('./features/contact/contact.component').then(
         (m) => m.ContactComponent
       );
     },
@@ -42,7 +42,7 @@ export const routes: Routes = [
     path: 'about',
     pathMatch: 'full',
     loadComponent: () => {
-      return import('./components/about/about.component').then(
+      return import('./features/about/about.component').then(
         (m) => m.AboutComponent
       );
     },
@@ -51,8 +51,8 @@ export const routes: Routes = [
     path: 'blogs',
     pathMatch: 'full',
     loadComponent: () => {
-      return import('./features/postagens/pages/post/post.component').then(
-        (m) => m.PostComponent
+      return import('./features/blogs/blogs.component').then(
+        (m) => m.BlogsComponent
       );
     },
   },
@@ -60,16 +60,16 @@ export const routes: Routes = [
     path: 'artigos',
     pathMatch: 'full',
     loadComponent: () => {
-      return import(
-        './features/postagens/components/artigo/artigo.component'
-      ).then((m) => m.ArtigoComponent);
+      return import('./features/artigos/artigos.component').then(
+        (m) => m.ArtigosComponent
+      );
     },
   },
   {
     path: 'curriculo',
     pathMatch: 'full',
     loadComponent: () => {
-      return import('./components/curriculo/curriculo.component').then(
+      return import('./features/curriculo/curriculo.component').then(
         (m) => m.CurriculoComponent
       );
     },
@@ -79,8 +79,8 @@ export const routes: Routes = [
     pathMatch: 'full',
     canActivate: [authGuard],
     loadComponent: () => {
-      return import('./features/user/user.component').then(
-        (m) => m.UserComponent
+      return import('./features/profile/profile.component').then(
+        (m) => m.ProfileComponent
       );
     },
   },

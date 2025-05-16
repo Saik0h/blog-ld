@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
-import { LoginPayload, RegisterPayload, Tokens, User } from '../../types/types';
+import { LoginPayload, RegisterPayload, Tokens, User } from '../../utils/types';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -53,7 +53,7 @@ export class AuthService {
     );
   }
 
-  logout(id: string): Observable<any> {
+  logout(id: string): Observable<Object> {
     const url = `${this.url}/auth/logout`;
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');

@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { AuthService } from '../../../core/services/auth/auth.service';
+import { AuthService } from '../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
-import { LoginPayload } from '../../../core/types/types';
+import { LoginPayload } from '../../core/utils/types';
 import { CommonModule } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
@@ -32,7 +32,7 @@ export class LoginComponent {
         localStorage.setItem('refreshToken', tokens.refreshToken);
 
         // Redirecionar após login bem-sucedido
-        this.router.navigate(['/perfil'])
+        this.router.navigate(['/perfil']);
       },
       error: (err) => {
         const error = signal(this.error);

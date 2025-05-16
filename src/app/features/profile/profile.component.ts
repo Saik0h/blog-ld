@@ -1,15 +1,16 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
-import { User } from '../../core/types/types';
-import { AuthService } from '../../core/services/auth/auth.service';
+import { Component, signal } from '@angular/core';
+import { User } from '../../core/utils/types';
 import { catchError, of, tap } from 'rxjs';
+import { AuthService } from '../../core/services/auth/auth.service';
 
 @Component({
-  selector: 'app-user',
-  standalone: true,
-  templateUrl: './user.component.html',
+  selector: 'app-profile',
+  imports: [],
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.css'
 })
-export class UserComponent implements OnInit {
-  user = signal<User>({
+export class ProfileComponent {
+user = signal<User>({
     id: '',
     firstname: '',
     lastname: '',
@@ -51,4 +52,5 @@ export class UserComponent implements OnInit {
   logout(){
     this.authService.logout(this.user().id)
   }
+
 }
