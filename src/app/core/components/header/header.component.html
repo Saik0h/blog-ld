@@ -6,7 +6,7 @@
       <li [className]="'header__link'" [routerLink]="'/blogs'">Blog</li>
       <li [className]="'header__link'" [routerLink]="'/contato'">Contato</li>
       <hr>
-      <button [routerLink]="'/curriculo'" [className]="'btn header__btn'">Ver Currículo</button>
+      <app-header-btn [goTo]="'/curriculo'"/>
     </ul>
   </nav>
 </header>

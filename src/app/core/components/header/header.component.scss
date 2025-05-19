@@ -34,12 +34,4 @@
       color: var(--color-red);
     }
   }
-  &__btn {
-    padding: 0.25em;
-    background-color: transparent;
-    border: 3px solid var(--color-red);
-    &:hover {
-      background-color: var(--color-red);
-    }
-  }
 }

@@ -1,0 +1,36 @@
+.footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    &-nav{
+        display: flex;
+        justify-content: space-around;
+        padding-inline: 5rem;
+        align-items: center;
+        width: 100%;
+        gap: 5rem;
+
+        &__internal, &__socials{
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            &-item{
+                padding: 0.1em;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 0.5em;
+                text-decoration: none;
+                font-size: 1rem;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

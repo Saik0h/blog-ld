@@ -1,25 +1,30 @@
-import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { Injectable } from '@angular/core';
+import {
+  CanActivate,
+  Router,
+  UrlTree,
+} from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
-import { catchError, map, of, tap } from 'rxjs';
 
-export const authGuard: CanActivateFn = () => {
-  const router = inject(Router);
-  const authService = inject(AuthService);
-  return authService.validate().pipe(
-    map(()=> true),
-    catchError(()=>{
-        return authService.validateCurrent().pipe(
-            tap((tokens: any)=>{
-                localStorage.setItem('token', tokens.accessToken)
-                localStorage.setItem('refreshToken', tokens.refreshToken)
-            }),
-            map(()=> true),
-            catchError(()=>{
-                router.navigate(['/login']);
-                return of(false)
-            })
-        )
-    })
-  )
-};
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(): Observable<boolean | UrlTree> {
+    return this.authService.isLoggedIn$.pipe(
+      take(1), // pega só o último valor e completa
+      map((isLoggedIn) => {
+        if (isLoggedIn) {
+          return true; // pode acessar a rota
+        } else {
+          // redireciona para página de login se não estiver logado
+          return this.router.createUrlTree(['/login']);
+        }
+      })
+    );
+  }
+}

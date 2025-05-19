@@ -1,0 +1,61 @@
+<form action="" (submit)="onRegister()" #registerForm="ngForm">
+  <h2>Registrar</h2>
+
+  <div class="form-group">
+    <label for="firstname">Primeiro Nome: </label>
+    <input
+      type="text"
+      id="firstname"
+      name="firstname"
+      [(ngModel)]="firstname"
+      class="form-control"
+      placeholder="Digite seu nome"
+      required
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="lastname">Ultimo Nome: </label>
+    <input
+      type="text"
+      id="lastname"
+      name="lastname"
+      [(ngModel)]="lastname"
+      class="form-control"
+      placeholder="Digite seu sobrenome"
+      required
+
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="username">Apelido: </label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      [(ngModel)]="username"
+      class="form-control"
+      placeholder="Digite seu apelido"
+      required
+
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="password">Senha: </label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      [(ngModel)]="password"
+      class="form-control"
+      placeholder="Digite sua senha"
+      required
+    />
+  </div>
+
+  <button type="submit" class="btn btn-primary">Registrar</button>
+
+  <p>Already have an account? <a routerLink="/login">Login here</a></p>
+</form>

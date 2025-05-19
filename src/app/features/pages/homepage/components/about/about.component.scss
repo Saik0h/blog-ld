@@ -1,0 +1,64 @@
+.about {
+    & > div {
+      margin-block: auto;
+    }
+
+    @media (max-width: 864px) {
+        display: flex;
+        flex-direction: column;
+
+    &__content, &__img-wrapper {
+        width: 100%;
+        max-width: 100vw;
+        margin-inline: auto;
+        margin-block: 0;
+        padding-inline: 1rem;
+        }
+    }
+    
+
+  display: flex;
+  flex-direction: row;
+  margin-inline: 2.5rem;
+  margin-block: 3.2rem;
+  justify-content: center;
+  gap: 4.5rem;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 60ch;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  &__subtitle {
+    font-size: 2rem;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.8);
+    margin-top: 0.5rem;
+  }
+  &__description {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  &__img-wrapper {
+      
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 250px;
+      width: 450px;
+      max-height: 500px;
+      img {
+          object-fit: cover;
+      width:  100%;
+    }
+  }
+}

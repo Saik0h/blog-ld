@@ -3,9 +3,9 @@
   --color-dark: hsl(204, 86%, 6%);
   --color-light: hsl(60, 100%, 97%);
   --color-accent: hsl(35, 100%, 55%);
-  --color-red: hsl(349, 86%, 48%);;
+  --color-red: hsl(349, 86%, 48%);
   --color-secondary: hsl(45, 7%, 35%);
-
+  /* tudo aqui é experimental */
 }
 
 * {

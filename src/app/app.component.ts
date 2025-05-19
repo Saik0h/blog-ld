@@ -1,15 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { CoreModule } from './core/core.module';
+import { slideInAnimation } from './core/animations/route-animations';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CoreModule],
-  providers:[HttpClient, FormsModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [RouterOutlet],
+  animations: [slideInAnimation],
+  template: ` <router-outlet></router-outlet> `,
 })
-export class AppComponent {
-  title = signal('Lais Donida');
-}
+export class AppComponent {}
