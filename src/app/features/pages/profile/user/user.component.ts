@@ -1,51 +1,34 @@
 import { Component, inject, signal } from '@angular/core';
 import { User } from '../../../../core/utils/types';
 import { AuthService } from '../../../../core/services/auth/auth.service';
+import { UserProfileCardComponent } from '../ui/user-profile-card/user-profile-card.component';
+import { UserService } from '../services/user-service';
 
 @Component({
   selector: 'app-user',
-  imports: [],
+  imports: [UserProfileCardComponent],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
 export class UserComponent {
-user = signal<User>({
+  user = signal<User>({
     id: '',
-    profileImage: '',
+    profileImage: 'https://placehold.co/600x400',
     firstname: '',
     lastname: '',
     username: '',
     role: '',
   });
 
-   loading = signal<boolean>(true);
-  error = signal<string | null>(null);
+  private server = inject(UserService);
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageUrl = e.target?.result;
-        this.user.update((prevUser) => ({
-          ...prevUser,
-          profileImage: imageUrl as string,
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
+  ngOnInit() {
+    this.server.getMe().subscribe({
+      next: (data) => {
+        this.user.set(data as User)
+        console.log(this.user())
+      }
+    })
   }
-  
-  private authService = inject(AuthService);
-  
-    uploadImage() {
-      const fileInput = document.querySelector('#file-input') as HTMLInputElement;
-      if (!fileInput) throw new Error('Elemento de entrada de arquivo não encontrado');
-      const file = fileInput.files?.[0];
-      if (!file) throw new Error('Nenhum arquivo selecionado');
-      return this.authService.uploadImage(file);
-    }
-
-  
 
 }

@@ -1,0 +1,8 @@
+<div class="profile-card">
+    <img [src]="user().profileImage" alt="Profile photo" class="profile-photo" />
+    <h2>{{ user().firstname }} {{ user().lastname }}</h2>
+    <p class="username">{{ user().username }}</p>
+    <p class="role">{{user().role}}</p>
+    <button (click)="logout()">Sair</button>
+
+</div>

@@ -18,13 +18,17 @@ export const errorInterceptor: HttpInterceptorFn = (
 
       if (error.error?.message) {
         message = error.error.message;
-      } else if (error.status === 0) {
+      }
+      if (error.status === 0) {
         message = 'Não foi possível conectar ao servidor.';
-      } else if (error.status === 401) {
+      }
+      if (error.status === 401) {
         message = 'Sessão expirada. Faça login novamente.';
-      } else if (error.status === 403) {
+      }
+      if (error.status === 403) {
         message = 'Você não tem permissão para isso.';
-      } else if (error.status === 404) {
+      }
+      if (error.status === 404) {
         message = 'Recurso não encontrado.';
       }
 

@@ -1,16 +1,3 @@
 <section>
-  <div>
-    <div>
-      <input id="file-input" type="file" (change)="onFileSelected($event)" />
-      <button (click)="uploadImage()">Upload</button>
-      <img
-        [src]="`data:image/png;base64,${user().profileImage}`"
-        alt="profilePicture"
-      />
-    </div>
-    <h3>{{ user().firstname + " " + user().lastname }}</h3>
-    <p>{{ user().username }}</p>
-    <p>{{ user().role }}</p>
-    <!-- <button (click)="logout()">Sair</button> -->
-  </div>
+  <app-user-profile-card [user]="user" />
 </section>

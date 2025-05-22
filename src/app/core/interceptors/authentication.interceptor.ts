@@ -1,57 +1,51 @@
 import {
   HttpClient,
   HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
+  HttpHandlerFn,
+  HttpInterceptorFn,
   HttpRequest,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { Observable, catchError, switchMap, throwError } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthInterceptor implements HttpInterceptor {
-  private isRefreshing: boolean = false;
-  private http = inject(HttpClient);
-  intercept = (
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> => {
-    return next.handle(req).pipe(
-      catchError((error) => {
-        if (error.status === 401 && !this.isRefreshing) {
-          this.isRefreshing = true;
+// Global flag to prevent multiple simultaneous refreshes
+let isRefreshing = false;
 
-          return this.http
-            .post(
-              'http://localhost:3000/api/auth/refresh',
-              {},
-              { withCredentials: true }
-            )
-            .pipe(
-              tap((res) => {
-                return res;
-              }),
-              switchMap(() => {
-                this.isRefreshing = false;
-                return next.handle(req);
-              }),
-              catchError((err) => {
-                this.isRefreshing = false;
-                return throwError(() => err);
-              })
-            );
-        }
-        return throwError(() => error);
-      })
-    );
-  };
-}
+export const authInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<any>> => {
+  const http = inject(HttpClient);
 
+  return next(req).pipe(
+    catchError((error) => {
+      if (error.status === 401 && !isRefreshing) {
+        isRefreshing = true;
+
+        return http
+          .post('http://localhost:3000/api/auth/refresh', {}, { withCredentials: true })
+          .pipe(
+            switchMap(() => {
+              isRefreshing = false;
+              // Retry the original request
+              return next(req);
+            }),
+            catchError((err) => {
+              isRefreshing = false;
+              return throwError(() => err);
+            })
+          );
+      }
+
+      return throwError(() => error);
+    })
+  );
+};
+
+// 👇 Correct way to provide it
 export const authInterceptorProvider = {
   provide: HTTP_INTERCEPTORS,
-  useClass: AuthInterceptor,
+  useValue: authInterceptor,
   multi: true,
 };
