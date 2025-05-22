@@ -3,9 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   catchError,
-  lastValueFrom,
   Observable,
-  startWith,
   tap,
   throwError,
 } from 'rxjs';
@@ -20,26 +18,15 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
 
-  public isLoggedIn$ = new BehaviorSubject<boolean>(false);
-
-  constructor() {
-    this.checkAuthStatus(); // Verifica status ao carregar o serviço
+  constructor(){
+this.getUser()
   }
 
-  private checkAuthStatus() {
-    this.http
-      .get(`${this.url}/auth/status`, { withCredentials: true })
-      .subscribe({
-        next: () => this.isLoggedIn$.next(true),
-        error: () => this.isLoggedIn$.next(false),
-      });
-  }
 
  register(payload: RegisterPayload) {
     const url = `${this.url}/auth/register`;
     return this.http.post<{ message: string }>(url, payload, { withCredentials: true }).pipe(
       tap(() => {
-        this.isLoggedIn$.next(true);
         this.router.navigate(['/perfil']);
       }),
       catchError((err) => throwError(() => err))
@@ -50,50 +37,15 @@ export class AuthService {
     const url = `${this.url}/auth/login`;
     return this.http.post<{ message: string }>(url, payload, { withCredentials: true }).pipe(
       tap(() => {
-        this.isLoggedIn$.next(true);
       }),
       catchError((err) => throwError(() => err))
     );
   }
 
-   validate(): Observable<any> {
-    const url = `${this.url}/auth/status`;
-    return this.http.get(url, { withCredentials: true }).pipe(
-      tap(() => this.isLoggedIn$.next(true)),
-      catchError((err) => {
-        this.isLoggedIn$.next(false);
-        return throwError(() => err);
-      })
-    );
-  }
 
-  validateCurrent() {
-    const url = `${this.url}/auth/refresh`;
-    return this.http.post(url, {}, { withCredentials: true }).pipe(
-      catchError((err) => {
-        console.log(err);
-        return throwError(() => err);
-      }),
-      tap((res: any) => {
-        return res;
-      })
-    );
-  }
-
-   logout(): Observable<Object> {
-    const url = `${this.url}/auth/logout`;
-    this.isLoggedIn$.next(false);
-    this.router.navigate(['/']);
-    return this.http.post(url, {}, { withCredentials: true }).pipe(
-      catchError((err) => throwError(() => err))
-    );
-  
-  }
-
-  getUser = (id: string): Observable<any> => {
-    const url = `${this.url}/users/${id}`;
-    return this.http.get(url).pipe(
-      tap((user) => console.log(user)), // loga o resultado corretamente
+   getUser = (): Observable<any> => {
+    return this.http.get(`${this.url}/auth/status`, {withCredentials: true}).pipe(
+      tap((user) => console.log(user)), 
       catchError((err) => {
         console.error('Erro ao buscar usuário:', err);
         return throwError(() => err);

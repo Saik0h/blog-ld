@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { User } from '../../../../core/utils/types';
 import { AuthService } from '../../../../core/services/auth/auth.service';
-import { tap, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-user',
@@ -47,34 +46,6 @@ user = signal<User>({
       return this.authService.uploadImage(file);
     }
 
-  ngOnInit(): void {
-    this.authService
-      .validate()
-      .pipe(
-        tap((res: any) => {
-          const userId = res.sub;
-          this.authService.getUser(userId).subscribe({
-            next: (userData) => {
-              this.user.set(userData);
-              this.loading.set(false);
-            },
-            error: (err) => {
-              console.error(err);
-              this.error.set('Erro ao carregar dados do usuário.');
-              this.loading.set(false);
-            },
-          });
-        }),
-        catchError((err) => {
-          console.error('Erro ao validar usuário:', err);
-          this.error.set('Você não está autenticado.');
-          this.loading.set(false);
-          return of(null); // necessário para o Observable continuar e não quebrar
-        })
-      )
-      .subscribe(); // executa o fluxo
-  }
-  logout() {
-    this.authService.logout();
-  }
+  
+
 }

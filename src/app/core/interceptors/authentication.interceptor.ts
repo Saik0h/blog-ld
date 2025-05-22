@@ -6,7 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, switchMap, throwError } from 'rxjs';
+import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @Injectable({
@@ -23,30 +23,32 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error) => {
         if (error.status === 401 && !this.isRefreshing) {
           this.isRefreshing = true;
-          
+
           return this.http
-          .post<{ accessToken: string }>(
-            'http://localhost:3000/api/auth/refresh',
-            {},
-            { withCredentials: true }
-          )
-          .pipe(
-            switchMap(() => {
-              this.isRefreshing = false;
-              return next.handle(req);
-            }),
-            catchError((err) => {
-              this.isRefreshing = false;
-              return throwError(() => err);
-            })
+            .post(
+              'http://localhost:3000/api/auth/refresh',
+              {},
+              { withCredentials: true }
+            )
+            .pipe(
+              tap((res) => {
+                return res;
+              }),
+              switchMap(() => {
+                this.isRefreshing = false;
+                return next.handle(req);
+              }),
+              catchError((err) => {
+                this.isRefreshing = false;
+                return throwError(() => err);
+              })
             );
-          }
+        }
         return throwError(() => error);
       })
     );
   };
 }
-
 
 export const authInterceptorProvider = {
   provide: HTTP_INTERCEPTORS,

@@ -68,11 +68,9 @@ export const routes: Routes = [
 
   {
     path: 'auth',
-    data: { animation: 'AuthShell' },
+    data: { animation: 'AuthComponents' },
     loadChildren: async () => {
-      return import('./features/auth/auth-shell.module').then(
-        (m) => m.AuthShellModule
-      );
+      return import('./features/auth/auth-routes').then((m) => m.routes);
     },
   },
 ];

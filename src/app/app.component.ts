@@ -5,6 +5,6 @@ import { slideInAnimation } from './core/animations/route-animations';
   selector: 'app-root',
   imports: [RouterOutlet],
   animations: [slideInAnimation],
-  template: ` <router-outlet></router-outlet> `,
+  template: `<router-outlet></router-outlet> `,
 })
 export class AppComponent {}
