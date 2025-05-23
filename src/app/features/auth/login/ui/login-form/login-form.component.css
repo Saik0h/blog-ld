@@ -1,0 +1,47 @@
+.login-container {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form input {
+  padding: 0.50rem;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.login-form button {
+  padding: 0.75rem;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.login-form button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+.register-link {
+  &:hover {
+    color: #007bff;
+    cursor: pointer;
+  }
+}
+
+.error-message {
+  color: red;
+  margin-top: 1rem;
+}

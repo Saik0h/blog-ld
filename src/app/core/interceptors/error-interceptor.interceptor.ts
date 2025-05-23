@@ -23,7 +23,8 @@ export const errorInterceptor: HttpInterceptorFn = (
         message = 'Não foi possível conectar ao servidor.';
       }
       if (error.status === 401) {
-        message = 'Sessão expirada. Faça login novamente.';
+
+        message = ' ';
       }
       if (error.status === 403) {
         message = 'Você não tem permissão para isso.';

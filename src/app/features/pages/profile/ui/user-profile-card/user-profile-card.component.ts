@@ -1,6 +1,6 @@
 import { Component, inject, Input, signal } from '@angular/core';
 import { User } from '../../../../../core/utils/types';
-import { UserService } from '../../services/user-service';
+import { UserService } from '../../auth/services/user-service';
 import { tap } from 'rxjs';
 
 @Component({

@@ -7,9 +7,9 @@ import {
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
 
-// Global flag to prevent multiple simultaneous refreshes
 let isRefreshing = false;
 
 export const authInterceptor: HttpInterceptorFn = (
@@ -17,22 +17,26 @@ export const authInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
   const http = inject(HttpClient);
-
+  const router = inject(Router);
   return next(req).pipe(
     catchError((error) => {
       if (error.status === 401 && !isRefreshing) {
         isRefreshing = true;
 
         return http
-          .post('http://localhost:3000/api/auth/refresh', {}, { withCredentials: true })
+          .post(
+            'http://localhost:3000/api/auth/refresh',
+            {},
+            { withCredentials: true }
+          )
           .pipe(
             switchMap(() => {
               isRefreshing = false;
-              // Retry the original request
               return next(req);
             }),
             catchError((err) => {
               isRefreshing = false;
+              router.navigate(['auth/login']);
               return throwError(() => err);
             })
           );
@@ -43,7 +47,6 @@ export const authInterceptor: HttpInterceptorFn = (
   );
 };
 
-// 👇 Correct way to provide it
 export const authInterceptorProvider = {
   provide: HTTP_INTERCEPTORS,
   useValue: authInterceptor,
