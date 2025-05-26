@@ -1,1 +1,68 @@
-<app-register-form [register]="onRegister" />
+<section class="register">
+  <h2>Crie sua conta</h2>
+
+  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+    <div class="form-group">
+      <label for="firstname">Nome</label>
+      <input
+        type="text"
+        id="firstname"
+        name="firstname"
+        required
+        [(ngModel)]="registerData.firstname"
+        #firstModel="ngModel"
+      />
+      <small *ngIf="firstModel.invalid && firstModel.touched">
+        Nome é obrigatório.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="lastname">Sobrenome</label>
+      <input
+        type="text"
+        id="lastname"
+        name="lastname"
+        required
+        [(ngModel)]="registerData.lastname"
+        #lastModel="ngModel"
+      />
+      <small *ngIf="lastModel.invalid && lastModel.touched">
+        Sobrenome é obrigatório.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="username">Usuário</label>
+      <input
+        type="username"
+        id="username"
+        name="username"
+        required
+        [(ngModel)]="registerData.username"
+        #usernameModel="ngModel"
+      />
+      <small *ngIf="usernameModel.invalid && usernameModel.touched">
+        Usuário inválido.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Senha</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+        minlength="6"
+        [(ngModel)]="registerData.password"
+        #passwordModel="ngModel"
+      />
+      <small *ngIf="passwordModel.invalid && passwordModel.touched">
+        Senha deve ter pelo menos 6 caracteres.
+      </small>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Registrar</button>
+  </form>
+</section>

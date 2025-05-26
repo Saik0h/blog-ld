@@ -1,25 +1,35 @@
 <article class="blog">
-  <!-- Author and Title -->
-  <div class="blog-header">
-    <div class="author-image">
+  <header class="blog-header">
+    <figure class="author-image">
       <img [src]="post().author.profileImage" [alt]="post().author.firstname" />
-    </div>
-    <h3>{{ post().title }}</h3>
-  </div>
+      <figcaption>{{ post().author.firstname | titlecase }} {{ post().author.lastname | titlecase }}</figcaption>
+    </figure>
+    <h1>{{ post().title }}</h1>
+  </header>
 
-  <!-- Main Content -->
-  <div class="blog-content">
-    <img [src]="post().image" [alt]="post().title" />
+  <section class="blog-content">
+    <figure>
+      <img [src]="post().image" [alt]="post().title" />
+      <figcaption>{{ post().title }}</figcaption>
+    </figure>
     <p>{{ post().text }}</p>
-  </div>
+  </section>
 
-  <div class="blog-meta">
-    <p>Published on: {{ post().createdAt | date}}</p>
-    <div class="references">
-      <p>References:</p>
-      @for (r of post().references; track $index) {
-      <p class="reference-item">{{ r }}</p>
-      }
-    </div>
-  </div>
+  <footer class="blog-meta">
+    <p>
+      Published on: 
+      <time [attr.datetime]="post().createdAt">
+        {{ post().createdAt | date }}
+      </time>
+    </p>
+
+    <section class="references">
+      <h2>References</h2>
+      <ul>
+        @for (r of post().references; track $index) {
+        <li class="reference-item">{{ r }}</li>
+        }
+      </ul>
+    </section>
+  </footer>
 </article>

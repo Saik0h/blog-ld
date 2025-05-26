@@ -14,7 +14,7 @@ import {
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { errorInterceptor } from './core/interceptors/error-interceptor.interceptor';
-import { authInterceptor, authInterceptorProvider } from './core/interceptors/authentication.interceptor';
+import { authInterceptor, authInterceptorProvider } from './features/pages/profile/auth/interceptors/authentication.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

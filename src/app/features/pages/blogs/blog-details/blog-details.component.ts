@@ -1,21 +1,12 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, inject, input, Input, Signal, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { Post } from '../../../../core/utils/types';
-import { DatePipe } from '@angular/common';
+import { DatePipe, TitleCasePipe } from '@angular/common';
 
-interface blog {
-  user: { profileImage: string; firstname: string; lastname: string };
-  title: string;
-  image: string;
-  image_alt: string;
-  text: string;
-  references: string[];
-  createdAt: string;
-}
 @Component({
   selector: 'app-blog-details',
-  imports: [DatePipe],
+  imports: [DatePipe, TitleCasePipe],
   templateUrl: './blog-details.component.html',
   styleUrl: './blog-details.component.css',
 })

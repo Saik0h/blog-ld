@@ -1,4 +1,4 @@
-.article {
+.artigo {
   max-width: 800px;
   margin: 2rem auto;
   padding: 2rem;
@@ -9,11 +9,18 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-.article-header {
+.artigo-header {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
+}
+
+.author-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .author-image img {
@@ -24,27 +31,44 @@
   border: 2px solid var(--color-accent);
 }
 
-.article-header h3 {
-  font-size: 1.5rem;
+.author-image figcaption {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  color: var(--color-secondary);
+}
+
+.artigo-header h1 {
+  font-size: 1.75rem;
   color: var(--color-dark);
   margin: 0;
 }
 
-.article-content img {
+.artigo-content figure {
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.artigo-content img {
   width: 100%;
   max-height: 400px;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 1rem;
 }
 
-.article-content p {
+.artigo-content figcaption {
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+  margin-top: 0.25rem;
+  text-align: center;
+}
+
+.artigo-content p {
   font-size: 1.125rem;
   line-height: 1.8;
   color: var(--color-secondary);
 }
 
-.article-meta {
+.artigo-meta {
   margin-top: 2rem;
   font-size: 0.95rem;
   color: var(--color-secondary);
@@ -52,18 +76,35 @@
   padding-top: 1rem;
 }
 
-.references p:first-child {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+.artigo-meta time {
+  font-style: italic;
+  color: var(--color-accent);
 }
 
-.reference-item {
+.references {
+  margin-top: 1rem;
+}
+
+.references h2 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+}
+
+.references ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.references li {
   margin-left: 1rem;
   position: relative;
   padding-left: 1em;
 }
 
-.reference-item::before {
+.references li::before {
   content: '•';
   color: var(--color-accent);
   position: absolute;

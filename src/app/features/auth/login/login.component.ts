@@ -5,32 +5,32 @@ import { LoginPayload } from '../../../core/utils/types';
 import { CommonModule } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { LoginFormComponent } from './ui/login-form/login-form.component';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, CommonModule, LoginFormComponent],
+  imports: [FormsModule, CommonModule],
   providers: [AuthService, NgForm],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  username = signal('');
-  password = signal('');
-  error = signal('');
-  private router = inject(Router);
-  private authService = inject(AuthService);
-
-  onLogin = (payload: LoginPayload) => {
-    console.log(payload)
-
-    this.authService.login(payload).subscribe({
-      error: (err) => {
-        const error = signal(this.error);
-        error().set(err.error.message);
-        console.error('Erro de login:', err);
-      },
-      complete: () => this.router.navigate(['perfil']),
-    });
+  loginData: LoginPayload = {
+    username: '',
+    password: ''
   };
+
+  private authService: AuthService = inject(AuthService);
+  private router: Router = inject(Router);
+
+  onSubmit() {
+    this.authService.login(this.loginData).subscribe({
+      next: () => {
+        this.router.navigate(['/profile']);
+      },
+      error: err => {
+        throwError(() => { err })
+      }
+    });
+  }
 }

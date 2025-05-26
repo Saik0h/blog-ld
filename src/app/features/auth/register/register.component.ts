@@ -1,39 +1,36 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RegisterPayload } from '../../../core/utils/types';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { throwError } from 'rxjs';
 import { FormsModule, NgForm } from '@angular/forms';
-import { tap, catchError, throwError } from 'rxjs';
-import { RegisterFormComponent } from './ui/register-form/register-form.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [RegisterFormComponent],
+  imports: [FormsModule, CommonModule],
   providers: [AuthService, NgForm],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  error = signal('');
+  registerData: RegisterPayload = {
+    firstname: '',
+    lastname: '',
+    username: '',
+    password: ''
+  };
 
-  private authService = inject(AuthService);
-  private router = inject(Router);
+  private authService: AuthService = inject(AuthService)
+  private router: Router = inject(Router);
 
-  onRegister(payload: RegisterPayload) {
-
-    console.log(payload);
-
-    this.authService.register(payload).pipe(
-      tap(() => {
+  onSubmit() {
+    this.authService.register(this.registerData).subscribe({
+      next: () => {
+        console.log('Registro bem-sucedido!', this.registerData);
         this.router.navigate(['/perfil']);
-      }),
-      catchError((err) => {
-        const error = signal(this.error);
-        error().set(err.error.message);
-        console.error('Erro de registro:', err);
-        return throwError(() => err);
-      })
-    );
+      },
+      error: err => throwError(() => { err }),
+    });
   }
 }

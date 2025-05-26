@@ -12,4 +12,9 @@ export class HeaderComponent {
   title = signal('Website Logo');
   btnText = 'Ver Currículo';
   btnGoTo = 'curriculo';
+  headerLinks = signal([
+    { label: 'Artigos', path: '/artigos' },
+    { label: 'Blog', path: '/blogs' },
+    { label: 'Contato', path: '/contato' },
+  ]);
 }

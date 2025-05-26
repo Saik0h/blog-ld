@@ -16,6 +16,13 @@
   margin-bottom: 1.5rem;
 }
 
+.author-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
 .author-image img {
   width: 56px;
   height: 56px;
@@ -24,10 +31,21 @@
   border: 2px solid var(--color-accent);
 }
 
-.blog-header h3 {
-  font-size: 1.5rem;
+.author-image figcaption {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  color: var(--color-secondary);
+}
+
+.blog-header h1 {
+  font-size: 1.75rem;
   color: var(--color-dark);
   margin: 0;
+}
+
+.blog-content figure {
+  margin: 0;
+  margin-bottom: 1rem;
 }
 
 .blog-content img {
@@ -35,7 +53,13 @@
   max-height: 400px;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 1rem;
+}
+
+.blog-content figcaption {
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+  margin-top: 0.25rem;
+  text-align: center;
 }
 
 .blog-content p {
@@ -52,18 +76,35 @@
   padding-top: 1rem;
 }
 
-.references p:first-child {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+.blog-meta time {
+  font-style: italic;
+  color: var(--color-accent);
 }
 
-.reference-item {
+.references {
+  margin-top: 1rem;
+}
+
+.references h2 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+}
+
+.references ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.references li {
   margin-left: 1rem;
   position: relative;
   padding-left: 1em;
 }
 
-.reference-item::before {
+.references li::before {
   content: '•';
   color: var(--color-accent);
   position: absolute;

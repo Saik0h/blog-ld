@@ -1,12 +1,19 @@
-<header [className]="'header'">
-  <nav>
-    <span [routerLink]="'/'">{{ title() }}</span>
-    <ul [className]="'header__link-list'">
-      <li [className]="'header__link'" [routerLink]="'/artigos'">Artigos</li>
-      <li [className]="'header__link'" [routerLink]="'/blogs'">Blog</li>
-      <li [className]="'header__link'" [routerLink]="'/contato'">Contato</li>
-      <hr />
-      <app-button [text]="btnText" [goTo]="btnGoTo" />
+<header class="header">
+  <nav class="header__nav">
+    <h1 class="header__title">
+      <a [routerLink]="'/'">{{ title() }}</a>
+    </h1>
+
+    <ul class="header__link-list">
+      @for (l of headerLinks(); track $index) {
+        <li class="header__link-item">
+          <a [routerLink]="l.path" class="header__link">{{l.label}}</a>
+        </li>
+      }
     </ul>
+
+    <div class="header__cta">
+      <app-button [text]="btnText" [goTo]="btnGoTo" />
+    </div>
   </nav>
 </header>

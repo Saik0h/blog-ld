@@ -1,7 +1,29 @@
-<app-login-form
-  [submit]="onLogin"
-  />
-  @if(error()){
-      <p style="color: red">{{ error() }}</p>
-    }
-    
+<section class="login">
+  <h2>Entrar</h2>
+
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="form-group">
+      <label for="username">Usuário</label>
+      <input type="username" id="username" name="username" required [(ngModel)]="loginData.username"
+        #usernameModel="ngModel" />
+      @if(usernameModel.invalid && usernameModel.touched){
+      <small>
+        Nome de usuário inválido.
+      </small>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="password">Senha</label>
+      <input type="password" id="password" name="password" required minlength="8" [(ngModel)]="loginData.password"
+        #passwordModel="ngModel" />
+      @if(passwordModel.invalid && passwordModel.touched){
+      <small>
+        Senha deve ter no mínimo 8 caracteres.
+      </small>
+      }
+    </div>
+
+    <button type="submit" [disabled]="loginForm.invalid">Login</button>
+  </form>
+</section>

@@ -2,11 +2,11 @@ import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from '../../../../core/utils/types';
-import { DatePipe } from '@angular/common';
+import { DatePipe, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-artigo-detail',
-  imports: [DatePipe],
+  imports: [DatePipe, TitleCasePipe],
   templateUrl: './artigo-detail.component.html',
   styleUrl: './artigo-detail.component.css',
 })

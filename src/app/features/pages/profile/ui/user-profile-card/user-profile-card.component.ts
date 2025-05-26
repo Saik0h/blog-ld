@@ -19,9 +19,9 @@ export class UserProfileCardComponent {
       role: ''
     }
   )!
-  server = inject(UserService)
+  user_S = inject(UserService)
   logout = () => {
-  this.server.logout()  
+  this.user_S.logout()  
   }
 
 }
