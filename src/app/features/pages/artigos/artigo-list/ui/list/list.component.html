@@ -1,0 +1,8 @@
+<section class="artigo-list">
+  @if(artigos.length === 0){
+  <div>There's nothing to see here</div>
+  } @else { 
+    @for (art of artigos; track art.id) {
+  <app-artigo [Artigo]="art" />
+  } }
+</section>

@@ -1,5 +1,5 @@
 <form
-  (ngSubmit)="submit()"
+  (ngSubmit)="login()"
   #loginForm="ngForm"
   class="login-container login-form"
 >
@@ -9,6 +9,7 @@
     name="username"
     [(ngModel)]="username"
     id="username"
+    autocomplete="username"
     required
   />
   <label for="password">Senha</label>
@@ -18,12 +19,14 @@
     [(ngModel)]="password"
     id="password"
     minlength="8"
+    autocomplete="current-password"
     required
   />
 
-  <button type="submit">Entrar</button>
+  <input type="submit" value="Entrar" />
   <p>
-    Doesn't have an account? <strong [className]="'register-link'" [routerLink]="'/auth/registrar'"
+    Doesn't have an account?
+    <strong [className]="'register-link'" [routerLink]="'/auth/registrar'"
       >Sign in</strong
     >
   </p>

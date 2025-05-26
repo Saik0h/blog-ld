@@ -1,1 +1,42 @@
-<p>curriculo works!</p>
+<section class="curriculo">
+  <aside class="sidebar">
+    <img
+      [src]="profile.pic"
+      [alt]="profile.picAlt"
+      class="profile-photo"
+    />
+    <h1>{{ profile.name }}</h1>
+    <p class="job-title">{{ profile.job_title }}</p>
+    <div class="contact-info">
+      @for(i of contact_info; track i.plat){
+      <p>{{ i.plat }}: <a [href]="i.link" target="_blank">{{ i.desc }}</a></p>
+      }
+    </div>
+  </aside>
+  <main class="main-content">
+    <section class="summary">
+      <h2>Formações</h2>
+      <ul>
+        @for(i of formacao; track $index){
+        <li>{{ i }}</li>
+        }
+      </ul>
+    </section>
+    <section class="experience">
+      <h2>Experiência em:</h2>
+      <ul>
+        @for(i of experiencia; track $index){
+        <li>{{ i }}</li>
+        }
+      </ul>
+    </section>
+    <section class="education">
+      <h2>Docência</h2>
+      <ul>
+        @for(i of docencia; track $index){
+        <li>{{ i }}</li>
+        }
+      </ul>
+    </section>
+  </main>
+</section>

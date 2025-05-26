@@ -1,0 +1,80 @@
+<form action="" (submit)="submit()" #registerForm="ngForm">
+  <h2>Registrar</h2>
+
+  <div class="form-group">
+    <label for="firstname">Primeiro Nome: </label>
+    <input
+      type="text"
+      id="firstname"
+      name="firstname"
+      [(ngModel)]="firstname"
+      class="form-control"
+      placeholder="Digite seu nome"
+      autocomplete="given-name"
+      required
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="lastname">Ultimo Nome: </label>
+    <input
+      type="text"
+      id="lastname"
+      name="lastname"
+      [(ngModel)]="lastname"
+      class="form-control"
+      placeholder="Digite seu sobrenome"
+      autocomplete="family-name"
+      required
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="username">Apelido: </label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      [(ngModel)]="username"
+      class="form-control"
+      placeholder="Digite seu apelido"
+      autocomplete="username"
+      required
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="password">Senha: </label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      [(ngModel)]="password"
+      class="form-control"
+      placeholder="Digite sua senha"
+      autocomplete="new-password"
+      [required]="password()"
+    />
+  </div>
+  <div class="form-group">
+    <label for="confirm-password">Confirme sua Senha: </label>
+    <input
+      type="password"
+      id="confirm-password"
+      name="confirm-password"
+      [(ngModel)]="confirm_password"
+      class="form-control"
+      placeholder="Digite novamente sua senha"
+      autocomplete="new-password"
+      required
+    />
+  </div>
+
+  <input type="submit" class="btn" value="Registrar" />
+
+  <p>Already have an account? <a routerLink="/login">Login here</a></p>
+
+  @if (error()) {
+  <p style="color: red">{{ error() }}</p>
+  }
+</form>

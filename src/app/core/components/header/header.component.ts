@@ -1,13 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { HeaderBtnComponent } from "./header-btn/header-btn.component";
+import { ButtonComponent } from '../shared/button.component';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, HeaderBtnComponent],
+  imports: [RouterLink, ButtonComponent],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-title= signal('Website Logo')
+  title = signal('Website Logo');
+  btnText = 'Ver Currículo';
+  btnGoTo = 'curriculo';
 }

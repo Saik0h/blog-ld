@@ -47,7 +47,6 @@ export const routes: Routes = [
       {
         path: 'perfil',
         data: { animation: 'ProfilePage' },
-        canActivate: [AuthGuard],
         loadComponent: async () => {
           return import('./features/pages/profile/user/user.component').then(
             (m) => m.UserComponent
@@ -65,10 +64,9 @@ export const routes: Routes = [
       },
     ],
   },
-
   {
     path: 'auth',
-    data: { animation: 'AuthComponents' },
+    data: { animation: 'AuthLayout' },
     loadChildren: async () => {
       return import('./features/auth/auth-routes').then((m) => m.routes);
     },

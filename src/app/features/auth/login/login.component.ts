@@ -20,14 +20,9 @@ export class LoginComponent {
   error = signal('');
   private router = inject(Router);
   private authService = inject(AuthService);
-  ngOnInit() {
-  }
 
-  onLogin() {
-    const payload: LoginPayload = {
-      username: this.username(),
-      password: this.password(),
-    };
+  onLogin = (payload: LoginPayload) => {
+    console.log(payload)
 
     this.authService.login(payload).subscribe({
       error: (err) => {
@@ -35,7 +30,7 @@ export class LoginComponent {
         error().set(err.error.message);
         console.error('Erro de login:', err);
       },
+      complete: () => this.router.navigate(['perfil']),
     });
-    this.router.navigate(['perfil']);
-  }
+  };
 }

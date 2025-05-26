@@ -5,8 +5,8 @@
       <li [className]="'header__link'" [routerLink]="'/artigos'">Artigos</li>
       <li [className]="'header__link'" [routerLink]="'/blogs'">Blog</li>
       <li [className]="'header__link'" [routerLink]="'/contato'">Contato</li>
-      <hr>
-      <app-header-btn [goTo]="'/curriculo'"/>
+      <hr />
+      <app-button [text]="btnText" [goTo]="btnGoTo" />
     </ul>
   </nav>
 </header>

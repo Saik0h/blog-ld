@@ -1,0 +1,59 @@
+.contact-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  background-color: var(--color-light);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.contact-form h2 {
+  text-align: center;
+  color: var(--color-dark);
+  margin-bottom: 1.5rem;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-form label {
+  font-weight: 500;
+  color: var(--color-dark);
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--color-bg);
+  border-radius: 6px;
+  background-color: white;
+  color: var(--color-dark);
+  font-size: 1rem;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--color-accent);
+  outline: none;
+  box-shadow: 0 0 0 2px hsla(35, 100%, 55%, 0.3);
+}
+
+.contact-form button {
+  background-color: var(--color-accent);
+  color: var(--color-light);
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.contact-form button:hover {
+  background-color: hsl(35, 100%, 45%);
+}

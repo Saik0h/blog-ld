@@ -1,0 +1,55 @@
+.blog-card {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  background-color: var(--color-light);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.blog-card:hover {
+  transform: scale(1.01);
+}
+
+.blog-image img {
+  width: 200px;
+  height: 140px;
+  object-fit: cover;
+}
+
+.blog-info {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+.blog-info h3 {
+  margin-top: 0;
+  color: var(--color-dark);
+  font-size: 1.25rem;
+}
+
+.snippet {
+  color: var(--color-secondary);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0.5rem 0 1rem;
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: var(--color-bg);
+  margin-bottom: 0.5rem;
+}
+
+.read-more {
+  color: var(--color-accent);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.read-more:hover {
+  color: var(--color-dark);
+}

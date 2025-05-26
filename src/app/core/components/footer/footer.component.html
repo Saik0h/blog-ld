@@ -2,15 +2,19 @@
   <nav class="footer-nav">
     <ul class="footer-nav__socials">
       @for(item of socialsNavLinks(); track item.label) {
-      <li [routerLink]="item.url" class="footer-nav__socials-item">
-        <span></span> <span>{{ item.label }}</span>
+      <li class="footer-nav__socials-item">
+        <a href="">
+          <span><i [className]="item.icon"></i> </span>
+          <span>{{ item.label }}</span>
+        </a>
       </li>
       }
     </ul>
     <ul class="footer-nav__internal">
       @for(item of internalNavLinks(); track item.label) {
       <li [routerLink]="item.url" class="footer-nav__internal-item">
-        <span></span> <span>{{ item.label }}</span>
+        <span style="display: block"><i [class]="item.icon"></i></span>
+        <span>{{ item.label }}</span>
       </li>
       }
     </ul>

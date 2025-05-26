@@ -1,4 +1,7 @@
-<app-login-form [(username)]="username" [(password)]="password" [onLogin]="onLogin"></app-login-form> 
-@if(error()){
-<p style="color: red">{{ error() }}</p>
-}
+<app-login-form
+  [submit]="onLogin"
+  />
+  @if(error()){
+      <p style="color: red">{{ error() }}</p>
+    }
+    

@@ -8,14 +8,11 @@ import { slideInAnimation } from '../../animations/route-animations';
   selector: 'app-layout',
   imports: [HeaderComponent, FooterComponent, RouterOutlet],
   animations: [slideInAnimation],
-  template: ` <app-header></app-header>
-    <main
-      class="router-container"
-      [@routeAnimation]="prepareRoute(outlet)"
-    >
-      <router-outlet #outlet="outlet"></router-outlet>
+  template: ` <app-header />
+    <main class="router-container" [@routeAnimation]="prepareRoute(outlet)">
+      <router-outlet #outlet="outlet" />
     </main>
-    <app-footer></app-footer>`,
+    <app-footer />`,
   styles: [
     `
       .router-container {

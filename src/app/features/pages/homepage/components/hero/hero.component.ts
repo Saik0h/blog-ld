@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { ButtonComponent } from '../../../../components/button/button.component';
+import { Component, signal } from '@angular/core';
+import { ButtonComponent } from '../../../../../core/components/shared/button.component';
 
 @Component({
   selector: 'app-hero',
   imports: [ButtonComponent],
   templateUrl: './hero.component.html',
-  styleUrl: './hero.component.scss'
+  styleUrl: './hero.component.css',
 })
 export class HeroComponent {
-
+  btnText = signal('Saiba mais!');
 }

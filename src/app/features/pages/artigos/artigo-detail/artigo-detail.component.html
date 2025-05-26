@@ -1,1 +1,25 @@
-<p>artigo-detail works!</p>
+<article class="article">
+  <!-- Author and Title -->
+  <div class="article-header">
+    <div class="author-image">
+      <img [src]="post().author.profileImage" [alt]="post().author.firstname" />
+    </div>
+    <h3>{{ post().title }}</h3>
+  </div>
+
+  <!-- Main Content -->
+  <div class="article-content">
+    <img [src]="post().image" [alt]="post().title" />
+    <p>{{ post().text }}</p>
+  </div>
+
+  <div class="article-meta">
+    <p>Published on: {{ post().createdAt | date}}</p>
+    <div class="references">
+      <p>References:</p>
+      @for (r of post().references; track $index) {
+      <p class="reference-item">{{ r }}</p>
+      }
+    </div>
+  </div>
+</article>

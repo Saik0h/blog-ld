@@ -5,35 +5,22 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { tap, catchError, throwError } from 'rxjs';
+import { RegisterFormComponent } from './ui/register-form/register-form.component';
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule, CommonModule],
+  imports: [RegisterFormComponent],
   providers: [AuthService, NgForm],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-  firstname = signal('');
-  lastname = signal('');
-  username = signal('');
-  password = signal('');
   error = signal('');
 
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  onchangeFirstname() {
-    console.log(this.firstname());
-  }
-
-  onRegister() {
-    const payload: RegisterPayload = {
-      firstname: this.firstname(),
-      lastname: this.lastname(),
-      username: this.username(),
-      password: this.password(),
-    };
+  onRegister(payload: RegisterPayload) {
 
     console.log(payload);
 

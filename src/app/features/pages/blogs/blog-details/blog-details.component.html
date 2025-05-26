@@ -1,9 +1,25 @@
-<div>
-    <h1>Blog Details</h1>
-    <div class="blog-details">
-        <h2>{{ blog().title }}</h2>
-        <p>{{ blog().content }}</p>
-        <img [src]="blog().imageUrl" alt="{{ blog().title }}" />
+<article class="blog">
+  <!-- Author and Title -->
+  <div class="blog-header">
+    <div class="author-image">
+      <img [src]="post().author.profileImage" [alt]="post().author.firstname" />
     </div>
- 
-</div>
+    <h3>{{ post().title }}</h3>
+  </div>
+
+  <!-- Main Content -->
+  <div class="blog-content">
+    <img [src]="post().image" [alt]="post().title" />
+    <p>{{ post().text }}</p>
+  </div>
+
+  <div class="blog-meta">
+    <p>Published on: {{ post().createdAt | date}}</p>
+    <div class="references">
+      <p>References:</p>
+      @for (r of post().references; track $index) {
+      <p class="reference-item">{{ r }}</p>
+      }
+    </div>
+  </div>
+</article>

@@ -1,6 +1,7 @@
-import { Component, Input, model } from '@angular/core';
+import { Component, inject, Input, input, model, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { LoginPayload } from '../../../../../core/utils/types';
 
 @Component({
   selector: 'app-login-form',
@@ -10,12 +11,15 @@ import { RouterLink } from '@angular/router';
   styleUrl: './login-form.component.css',
 })
 export class LoginFormComponent {
-  username = model<string>('');
-  password = model<string>('');
-  
-  @Input() onLogin!: () => void;
+  username = signal<string>('');
+  password = signal<string>('');
 
-  submit(): void {
-      return this.onLogin();
+  @Input() submit = (payload: LoginPayload) => {}; 
+
+  login() {
+    return this.submit({
+      username: this.username(),
+      password: this.password(),
+    });
   }
 }

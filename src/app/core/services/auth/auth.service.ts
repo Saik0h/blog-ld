@@ -1,13 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import {
-  BehaviorSubject,
-  catchError,
-  Observable,
-  tap,
-  throwError,
-} from 'rxjs';
-import { LoginPayload, RegisterPayload, Tokens, User } from '../../utils/types';
+  Artigo,
+  Blog,
+  LoginPayload,
+  Post,
+  RegisterPayload,
+  Tokens,
+  User,
+} from '../../utils/types';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -18,39 +20,51 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
 
-  constructor(){
-this.getUser()
+  constructor() {
+    this.getUser();
   }
 
-
- register(payload: RegisterPayload) {
+  register(payload: RegisterPayload) {
     const url = `${this.url}/auth/register`;
-    return this.http.post<{ message: string }>(url, payload, { withCredentials: true }).pipe(
-      tap(() => {
-        this.router.navigate(['/perfil']);
-      }),
-      catchError((err) => throwError(() => err))
-    );
+    return this.http
+      .post<{ message: string }>(url, payload, { withCredentials: true })
+      .pipe(
+        tap(() => {
+          this.router.navigate(['/perfil']);
+        }),
+        catchError((err) => throwError(() => err))
+      );
+  }
+
+  getBlogs(): Observable<Blog[]> {
+    return this.http.get(`${this.url}/posts/blogs`) as Observable<Blog[]>;
+  }
+
+  getArtigos(): Observable<Artigo[]> {
+    return this.http.get(`${this.url}/posts/artigos`) as Observable<Artigo[]>;
+  }
+
+  getOnePost(id: string): Observable<Post> {
+    return this.http.get(`${this.url}/posts/${id}`) as Observable<Post>;
   }
 
   login(payload: LoginPayload): Observable<{ message: string }> {
     const url = `${this.url}/auth/login`;
-    return this.http.post<{ message: string }>(url, payload, { withCredentials: true }).pipe(
-      tap(() => {
-      }),
-      catchError((err) => throwError(() => err))
-    );
+    return this.http
+      .post<{ message: string }>(url, payload, { withCredentials: true })
+      .pipe(catchError((err) => throwError(() => err)));
   }
 
-
-   getUser = (): Observable<any> => {
-    return this.http.get(`${this.url}/auth/status`, {withCredentials: true}).pipe(
-      tap((user) => console.log(user)), 
-      catchError((err) => {
-        console.error('Erro ao buscar usuário:', err);
-        return throwError(() => err);
-      })
-    );
+  getUser = (): Observable<any> => {
+    return this.http
+      .get(`${this.url}/auth/status`, { withCredentials: true })
+      .pipe(
+        tap((user) => console.log(user)),
+        catchError((err) => {
+          console.error('Erro ao buscar usuário:', err);
+          return throwError(() => err);
+        })
+      );
   };
 
   uploadImage(file: File) {

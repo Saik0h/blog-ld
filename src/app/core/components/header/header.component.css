@@ -3,7 +3,7 @@
   color: var(--color-light);
   padding-inline: 1rem;
   padding-block: 1rem;
-  hr{
+  hr {
     height: 3rem;
     margin-inline: 1rem;
   }
@@ -16,22 +16,22 @@
     span {
       &:hover {
         cursor: pointer;
-        color: var(--color-red);
+        color: var(--color-accent);
       }
     }
   }
-  &__link-list {
+  .header__link-list {
     display: flex;
     align-items: center;
     list-style: none;
     gap: 0.5rem;
   }
-  &__link {
+  .header__link {
     padding: 0.2em;
     text-decoration: none;
     &:hover {
       cursor: pointer;
-      color: var(--color-red);
+      color: var(--color-accent);
     }
   }
 }
