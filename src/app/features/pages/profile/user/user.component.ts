@@ -2,10 +2,13 @@ import { Component, inject, signal } from '@angular/core';
 import { User } from '../../../../core/utils/types';
 import { UserProfileCardComponent } from '../ui/user-profile-card/user-profile-card.component';
 import { UserService } from '../auth/services/user-service';
+import { throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { PostFormComponent } from '../ui/post-form/post-form.component';
 
 @Component({
   selector: 'app-user',
-  imports: [UserProfileCardComponent],
+  imports: [UserProfileCardComponent, PostFormComponent],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
 })
@@ -13,7 +16,7 @@ export class UserComponent {
   isLoading: boolean = false;
   user = signal<User>({
     id: '',
-    profileImage: 'https://placehold.co/600x400',
+    profileImage: '',
     firstname: '',
     lastname: '',
     username: '',
@@ -21,6 +24,7 @@ export class UserComponent {
   });
 
   private server = inject(UserService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -34,6 +38,17 @@ export class UserComponent {
       },
       complete: () => {
         this.isLoading = false;
+      },
+    });
+  }
+
+  logout = () => {
+    this.server.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        throwError(() => err);
       },
     });
   }

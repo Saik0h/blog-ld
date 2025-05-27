@@ -1,4 +1,4 @@
-.artigo-card {
+.post-card {
   display: flex;
   flex-direction: row;
   gap: 1.5rem;
@@ -9,22 +9,22 @@
   transition: transform 0.2s ease;
 }
 
-.artigo-card:hover {
+.post-card:hover {
   transform: scale(1.01);
 }
 
-.artigo-image img {
+.post-image img {
   width: 200px;
   height: 140px;
   object-fit: cover;
 }
 
-.artigo-info {
+.post-info {
   flex: 1;
   padding: 1rem 0;
 }
 
-.artigo-info h3 {
+.post-info h3 {
   margin-top: 0;
   color: var(--color-dark);
   font-size: 1.25rem;

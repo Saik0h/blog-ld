@@ -1,0 +1,141 @@
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 700px;
+  margin: auto;
+  padding: 2rem;
+  background-color: var(--color-light);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  font-family: sans-serif;
+}
+
+fieldset {
+  border: 1px solid var(--color-secondary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: white;
+}
+
+legend {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  padding: 0 0.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--color-secondary);
+  border-radius: 6px;
+  background-color: var(--color-bg);
+  color: var(--color-dark);
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  outline: 2px solid var(--color-accent);
+  background-color: var(--color-light);
+}
+
+.reference-input-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.add-ref-button {
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color-accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-ref-button:hover {
+  background-color: hsl(35, 100%, 50%);
+}
+
+.reference-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badge {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-secondary);
+  border-radius: 50px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.delRef {
+  background: none;
+  border: none;
+  color: var(--color-red);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.image-preview {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 250px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button {
+  padding: 0.75rem 1.25rem;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  align-self: center;
+  transition: background-color 0.2s ease;
+}
+
+.submit-button:hover {
+  background-color: hsl(204, 86%, 10%);
+}
+
+@media (max-width: 600px) {
+  .reference-input-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-ref-button {
+    width: 100%;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
+}

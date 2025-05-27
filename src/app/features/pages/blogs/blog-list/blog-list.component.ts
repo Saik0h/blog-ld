@@ -1,13 +1,19 @@
 import { Component, inject, OnInit, Signal, signal } from '@angular/core';
-import { ListComponent } from './ui/list/list.component';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { Blog } from '../../../../core/utils/types';
+import { PostCardComponent } from '../../shared/blog-card/post-card.component';
 
 @Component({
   selector: 'app-blog-list',
-  imports: [ListComponent],
-  template: ` <h3>Blogs</h3>
-    <app-list [blogs]="blogs()" />`,
+  imports: [PostCardComponent],
+  template: `
+    <h3>Blogs</h3>
+    <section>
+      @for (blog of blogs(); track blog.id){
+      <app-post-card category="blogs" [post]="blog"></app-post-card>
+      }
+    </section>
+  `,
   styles: [
     `
       h3 {
@@ -26,7 +32,7 @@ export class BlogListComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getBlogs().subscribe({
       next: (blogs) => {
-        console.log(blogs)
+        console.log(blogs);
         this.blogs.set([...(blogs as Blog[])]);
       },
       error: (err) => console.error('Erro ao carregar blogs:', err),

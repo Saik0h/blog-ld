@@ -7,8 +7,9 @@ import { User } from '../../../../../core/utils/types';
   providedIn: 'root',
 })
 export class UserService {
-  http = inject(HttpClient);
-  url = 'http://localhost:3000/api';
+  private http = inject(HttpClient);
+  private readonly url = 'http://localhost:3000/api';
+
   getMe(): Observable<User> {
     return this.http.get<User>(`${this.url}/auth/status`, {
       withCredentials: true,
@@ -21,5 +22,11 @@ export class UserService {
       {},
       { withCredentials: true }
     );
+  }
+
+  post<T>(body: any): Observable<T> {
+    return this.http.post<T>(`${this.url}/posts`, body, {
+      withCredentials: true,
+    });
   }
 }

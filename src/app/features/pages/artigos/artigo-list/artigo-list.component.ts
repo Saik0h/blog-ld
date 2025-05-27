@@ -1,13 +1,19 @@
 import { Component, inject, signal } from '@angular/core';
-import { ListComponent } from './ui/list/list.component';
 import { Artigo } from '../../../../core/utils/types';
 import { AuthService } from '../../../../core/services/auth/auth.service';
+import { PostCardComponent } from '../../shared/blog-card/post-card.component';
 
 @Component({
   selector: 'app-artigo-list',
-  imports: [ListComponent],
-  template: `<h2 class="artigos-header">Artigos</h2>
-    <app-list [artigos]="artigos()" />`,
+  imports: [PostCardComponent],
+  template: `
+    <h3>Artigos</h3>
+    <section>
+      @for (artigo of artigos(); track artigo.id){
+      <app-post-card category="artigos" [post]="artigo" />
+      }
+    </section>
+  `,
   styles: [
     `
       .artigos-header {

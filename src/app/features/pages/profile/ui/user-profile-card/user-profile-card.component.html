@@ -1,8 +1,21 @@
-<div class="profile-card">
-    <img [src]="user().profileImage" alt="Profile photo" class="profile-photo" />
-    <h2>{{ user().firstname }} {{ user().lastname }}</h2>
+<article class="profile-card">
+  <header class="profile-header">
+    <figure>
+      <img 
+        [src]="user().profileImage" 
+        alt="Foto de perfil de {{ user().firstname }} {{ user().lastname }}" 
+        class="profile-photo" 
+      />
+      <figcaption class="sr-only">
+        Foto de perfil de {{ user().firstname }} {{ user().lastname }}
+      </figcaption>
+    </figure>
+    <h2 class="profile-name">{{ user().firstname }} {{ user().lastname }}</h2>
     <p class="username">{{ user().username }}</p>
-    <p class="role">{{user().role}}</p>
-    <button (click)="logout()">Sair</button>
+    <p class="role">{{ user().role }}</p>
+  </header>
 
-</div>
+  <footer class="profile-footer">
+    <button class="logout-button" (click)="logout()">Sair</button>
+  </footer>
+</article>

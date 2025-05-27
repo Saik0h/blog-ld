@@ -6,22 +6,20 @@ import { tap } from 'rxjs';
 @Component({
   selector: 'app-user-profile-card',
   templateUrl: './user-profile-card.component.html',
-  styleUrls: ['./user-profile-card.component.css']
+  styleUrls: ['./user-profile-card.component.css'],
 })
 export class UserProfileCardComponent {
-  @Input() user = signal<User>(
-    {
-      id: '',
-      profileImage: '',
-      firstname: '',
-      lastname: '',
-      username: '',
-      role: ''
-    }
-  )!
-  user_S = inject(UserService)
-  logout = () => {
-  this.user_S.logout()  
-  }
+  @Input() user = signal<User>({
+    id: '',
+    profileImage: '',
+    firstname: '',
+    lastname: '',
+    username: '',
+    role: '',
+  })!;
+  @Input() logout = () => {};
 
+  logoutUser() {
+    this.logout();
+  }
 }

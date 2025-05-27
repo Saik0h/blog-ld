@@ -26,7 +26,7 @@ export class LoginComponent {
   onSubmit() {
     this.authService.login(this.loginData).subscribe({
       next: () => {
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/perfil']);
       },
       error: err => {
         throwError(() => { err })
