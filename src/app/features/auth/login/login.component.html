@@ -1,26 +1,35 @@
-<section class="login">
+<section class="login-form">
   <h2>Entrar</h2>
 
   <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-    <div class="form-group">
+    <div class="form-control">
       <label for="username">Usuário</label>
-      <input type="username" id="username" name="username" required [(ngModel)]="loginData.username"
-        #usernameModel="ngModel" />
+      <input
+        type="username"
+        id="username"
+        name="username"
+        required
+        [(ngModel)]="loginData.username"
+        #usernameModel="ngModel"
+      />
       @if(usernameModel.invalid && usernameModel.touched){
-      <small>
-        Nome de usuário inválido.
-      </small>
+      <small> Nome de usuário inválido. </small>
       }
     </div>
 
-    <div class="form-group">
+    <div class="form-control">
       <label for="password">Senha</label>
-      <input type="password" id="password" name="password" required minlength="8" [(ngModel)]="loginData.password"
-        #passwordModel="ngModel" />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+        minlength="8"
+        [(ngModel)]="loginData.password"
+        #passwordModel="ngModel"
+      />
       @if(passwordModel.invalid && passwordModel.touched){
-      <small>
-        Senha deve ter no mínimo 8 caracteres.
-      </small>
+      <small> Senha deve ter no mínimo 8 caracteres. </small>
       }
     </div>
 

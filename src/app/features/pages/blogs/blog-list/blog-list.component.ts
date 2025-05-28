@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Blog } from '../../../../core/utils/types';
-import { PostCardComponent } from '../../shared/blog-card/post-card.component';
+import { PostCardComponent } from '../../shared/post-card/post-card.component';
 import { PostService } from '../../../../core/services/post.service';
 
 @Component({

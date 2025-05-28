@@ -33,6 +33,7 @@
   background-color: white;
   color: var(--color-dark);
   font-size: 1rem;
+  resize: vertical;
 }
 
 .contact-form input:focus,
@@ -56,4 +57,10 @@
 
 .contact-form button:hover {
   background-color: hsl(35, 100%, 45%);
+}
+
+.form-control{
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
 }

@@ -13,8 +13,8 @@ import {
 } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
-import { errorInterceptor } from './core/interceptors/error-interceptor.interceptor';
-import { authInterceptor, authInterceptorProvider } from './features/pages/profile/auth/interceptors/authentication.interceptor';
+import { errorInterceptor } from './core/interceptors/error.interceptor';
+import { authInterceptor } from './core/interceptors/authentication.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

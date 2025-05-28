@@ -5,14 +5,14 @@ export type Curriculum = {
   personal_data: {
     profileImage: string;
     firstName: string;
-    lastName:string;
+    lastName: string;
     credential: string;
     jobTitle: string;
-  }
-  contact_info: CurriculumContactInfo
-  teaching_info: CurriculumTeachingInfo
-  experience_info: CurriculumExperienceInfo
-  academic_info: CurriculumAcademicInfo
+  };
+  contact_info: CurriculumContactInfo;
+  teaching_info: CurriculumTeachingInfo;
+  experience_info: CurriculumExperienceInfo;
+  academic_info: CurriculumAcademicInfo;
 };
 export type CurriculumContactInfo = { title: string; items: string[] };
 export type CurriculumAcademicInfo = { title: string; items: string[] };
@@ -62,3 +62,28 @@ export type Artigo = {
   updatedAt: string;
 };
 export type Post = Blog | Artigo;
+
+export type MailPayload = {
+  name: string;
+  email: string;
+  message: string;
+  subject?: string;
+};
+
+export type Mail = {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  subject: string;
+  createdAt: string;
+  read: boolean;
+};
+
+export type PostPayload = {
+  category: string;
+  title: string;
+  text: string;
+  references?: string[];
+  image?: string;
+};

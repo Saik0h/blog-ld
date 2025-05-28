@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../../core/guards/auth.guard';
+import { loginGuard } from './login/login.guard';
 
 export const routes: Routes = [
   {
     path: '',
     loadComponent: async () => {
-      return import('./layout/layout.component').then((m) => m.LayoutComponent);
+      return import('./layout.component').then((m) => m.LayoutComponent);
     },
     children: [
       {
@@ -15,12 +16,13 @@ export const routes: Routes = [
       },
       {
         path: 'login',
-        canActivate: [AuthGuard],
+        canActivate:[loginGuard],
         loadComponent: () =>
           import('./login/login.component').then((m) => m.LoginComponent),
       },
       {
         path: 'registrar',
+        canActivate:[AuthGuard],
         loadComponent: () =>
           import('./register/register.component').then(
             (m) => m.RegisterComponent

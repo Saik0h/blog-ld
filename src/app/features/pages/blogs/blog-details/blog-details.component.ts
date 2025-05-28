@@ -1,6 +1,5 @@
 import { Component, inject, input, Input, Signal, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../../../core/services/auth.service';
 import { Post } from '../../../../core/utils/types';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { PostService } from '../../../../core/services/post.service';

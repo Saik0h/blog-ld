@@ -3,9 +3,8 @@
   --color-dark: hsl(204, 86%, 6%);
   --color-light: hsl(60, 100%, 97%);
   --color-accent: hsl(35, 100%, 55%);
-  --color-red: hsl(349, 86%, 48%);
   --color-secondary: hsl(45, 7%, 35%);
-  /* tudo aqui é experimental */
+    --color-primary: hsl(45, 7%, 35%);
 }
 
 * {
@@ -27,11 +26,7 @@ body {
 section {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: flex-start;
-  min-height: calc(100vh - var(--header-height));
-  margin-block-start: var(--header-height);
-  padding-block: 1.5rem;
 }
 
 .btn {

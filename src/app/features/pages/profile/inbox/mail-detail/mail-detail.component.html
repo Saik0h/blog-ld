@@ -1,0 +1,24 @@
+@if(mail() && !isLoading()){
+<article>
+  <header>
+    <div>
+      <span>Remetente: </span> <span>{{ mail().name }}</span>
+    </div>
+    <div>
+      <span>E-mail: </span> <span>{{ mail().email }}</span>
+    </div>
+  </header>
+  <h2>{{ mail().subject }}</h2>
+  <p>{{ mail().message }}</p>
+  <p>
+    Sent at: <time>{{ mail().createdAt | date }}</time>
+  </p>
+  <button type="button" class="btn" (click)="deleteButtonClick()">
+    Delete
+  </button>
+</article>
+} @else if(isLoading()) {
+<div>Loading...</div>
+} @else {
+<div>Not Found</div>
+}

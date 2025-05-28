@@ -1,5 +1,4 @@
 import {
-  HttpClient,
   HttpEvent,
   HttpHandlerFn,
   HttpInterceptorFn,
@@ -9,6 +8,7 @@ import {
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 let isRefreshing = false;
 
@@ -16,30 +16,27 @@ export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
-  const http = inject(HttpClient);
+  const authService: AuthService = inject(AuthService);
   const router = inject(Router);
   return next(req).pipe(
     catchError((error) => {
+      console.log(error)
       if (error.status === 401 && !isRefreshing) {
         isRefreshing = true;
 
-        return http
-          .post(
-            'http://localhost:3000/api/auth/refresh',
-            {},
-            { withCredentials: true }
-          )
-          .pipe(
-            switchMap(() => {
-              isRefreshing = false;
-              return next(req);
-            }),
-            catchError((err) => {
-              isRefreshing = false;
-              router.navigate(['auth/login']);
-              return throwError(() => err);
-            })
-          );
+        return authService.refresh().pipe(
+          switchMap(() => {
+            isRefreshing = false;
+            authService.isAuthenticated.set(true)
+            return next(req);
+          }),
+          catchError((err) => {
+            isRefreshing = false;
+            authService.isAuthenticated.set(false)
+            router.navigate(['auth/login']);
+            return throwError(() => err);
+          })
+        );
       }
 
       return throwError(() => error);

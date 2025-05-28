@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginPayload, RegisterPayload, User, Message } from '../utils/types';
 
@@ -9,6 +9,7 @@ import { LoginPayload, RegisterPayload, User, Message } from '../utils/types';
 export class AuthService {
   private readonly url = 'http://localhost:3000/api/auth';
   private readonly http = inject(HttpClient);
+  public isAuthenticated = signal<boolean>(false)
 
   register = (data: RegisterPayload): Observable<Message> => {
     const url = `${this.url}/register`;
@@ -45,4 +46,5 @@ export class AuthService {
       { withCredentials: true }
     );
   };
+
 }
