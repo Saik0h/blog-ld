@@ -1,39 +1,40 @@
 <section class="curriculo">
   <aside class="sidebar">
     <img
-      [src]="profile.pic"
-      [alt]="profile.picAlt"
+      [src]="profile().profileImage"
+      [alt]="profile().firstName"
       class="profile-photo"
     />
-    <h1>{{ profile.name }}</h1>
-    <p class="job-title">{{ profile.job_title }}</p>
+    <h1>{{ profile().firstName }} {{ profile().lastName }}</h1>
+    <p class="job-title">{{ profile().jobTitle }}</p>
+    <p class="credential">{{profile().credential}}</p>
     <div class="contact-info">
-      @for(i of contact_info; track i.plat){
-      <p>{{ i.plat }}: <a [href]="i.link" target="_blank">{{ i.desc }}</a></p>
+      @for(i of contactInfo().items; track i){
+      <p>{{ i }}: <a [href]="i.link" target="_blank">{{ i }}</a></p>
       }
     </div>
   </aside>
   <main class="main-content">
     <section class="summary">
-      <h2>Formações</h2>
+      <h2>{{academicInfo().title}}</h2>
       <ul>
-        @for(i of formacao; track $index){
+        @for(i of academicInfo().items; track $index){
         <li>{{ i }}</li>
         }
       </ul>
     </section>
     <section class="experience">
-      <h2>Experiência em:</h2>
+      <h2>{{experienceInfo().title}}</h2>
       <ul>
-        @for(i of experiencia; track $index){
+        @for(i of experienceInfo().items; track $index){
         <li>{{ i }}</li>
         }
       </ul>
     </section>
     <section class="education">
-      <h2>Docência</h2>
+      <h2>{{teachingInfo().title}}</h2>
       <ul>
-        @for(i of docencia; track $index){
+        @for(i of teachingInfo().items; track $index){
         <li>{{ i }}</li>
         }
       </ul>

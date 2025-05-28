@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { CurriculumService } from '../../../core/services/curriculum.service';
+import { Curriculum, CurriculumContactInfo, CurriculumExperienceInfo } from '../../../core/utils/types';
 
 @Component({
   selector: 'app-curriculo',
@@ -6,20 +8,45 @@ import { Component } from '@angular/core';
   styleUrl: './curriculo.component.css',
 })
 export class CurriculoComponent {
-  
-  profile = {
-    pic: 'contact.jpeg',
-    picAlt: 'pessoa',
-    name: 'Lais Donida',
-    job_title: 'Fonoaudiologa',
-  }
-  contact_info = [
-    { plat: 'e-mail', desc:'lais.donida@gmail.com',  link: 'mailTo:lais.donida@gmail.com' },
-    { plat: 'linkedIn', desc:'Lais Donida', link: 'https://www.linkedin.com/in/lais-donida-85b57355/' },
-    { plat: 'instagram', desc:'@dra.laisdonida', link: 'https://www.instagram.com/dra.laisdonida/' },
-  ];
+  private server = inject(CurriculumService);
+  profile = signal({
+    profileImage: '',
+    firstName: '',
+    lastName: '',
+    jobTitle: '',
+    credential: '',
+  })
 
-  formacao: string[] = ['Fonoaudióloga graduada Pela UFSC', 'Terapeuta DIR Floortime'];
-  experiencia: string[] = ['Autismo', 'Comunicação Alternativa', 'Transtornos motores de fala', 'Atraso motor de fala', 'TDAH', 'Transtorno deo desenvolvimento intelectual', 'Leitura e escrita', 'Afasia'];
-  docencia: string[] = ['Professora do curso de fonoaudiologia da UFSC','Professora do programa de pós-graduação em TEA da ACE/FGG (Joinville)'];
+  contactInfo = signal<CurriculumContactInfo>({
+    title: 'Informações de contato',
+    items: []
+  })
+
+  academicInfo = signal<CurriculumContactInfo>({
+    title: 'Formações',
+    items: []
+  })
+
+  teachingInfo = signal<CurriculumContactInfo>({
+    title: 'Docência',
+    items: []
+  })
+
+  experienceInfo = signal<CurriculumExperienceInfo>({
+    title: 'Experiência com:',
+    items: []
+  })
+
+  ngOnInit() {
+    this.server.getCurriculum().subscribe({
+      next: (res: Curriculum) => {
+        console.log(res)
+      this.academicInfo.set(res.academic_info);
+      this.contactInfo.set(res.contact_info);
+      this.experienceInfo.set(res.experience_info);
+      this.teachingInfo.set(res.teaching_info)
+      this.profile.set(res.personal_data)
+      },
+    });
+  }
 }

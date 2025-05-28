@@ -1,5 +1,5 @@
 import { Component, Inject, inject, model, signal } from '@angular/core';
-import { AuthService } from '../../../core/services/auth/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { LoginPayload } from '../../../core/utils/types';
 import { CommonModule } from '@angular/common';

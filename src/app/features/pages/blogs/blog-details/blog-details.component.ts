@@ -1,8 +1,9 @@
 import { Component, inject, input, Input, Signal, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../../../core/services/auth/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { Post } from '../../../../core/utils/types';
 import { DatePipe, TitleCasePipe } from '@angular/common';
+import { PostService } from '../../../../core/services/post.service';
 
 @Component({
   selector: 'app-blog-details',
@@ -12,7 +13,7 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
 })
 export class BlogDetailComponent {
   private route = inject(ActivatedRoute);
-  private server = inject(AuthService);
+  private server = inject(PostService);
   post = signal<Post>({
     id: '',
     authorId: '',

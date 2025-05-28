@@ -1,7 +1,8 @@
 import { Component, inject, OnInit, Signal, signal } from '@angular/core';
-import { AuthService } from '../../../../core/services/auth/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { Blog } from '../../../../core/utils/types';
 import { PostCardComponent } from '../../shared/blog-card/post-card.component';
+import { PostService } from '../../../../core/services/post.service';
 
 @Component({
   selector: 'app-blog-list',
@@ -27,10 +28,10 @@ import { PostCardComponent } from '../../shared/blog-card/post-card.component';
 export class BlogListComponent implements OnInit {
   blogs = signal<Blog[]>([]);
 
-  private authService = inject(AuthService);
+  private server = inject(PostService);
 
   ngOnInit(): void {
-    this.authService.getBlogs().subscribe({
+    this.server.getBlogs().subscribe({
       next: (blogs) => {
         console.log(blogs);
         this.blogs.set([...(blogs as Blog[])]);

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RegisterPayload } from '../../../core/utils/types';
-import { AuthService } from '../../../core/services/auth/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { FormsModule, NgForm } from '@angular/forms';

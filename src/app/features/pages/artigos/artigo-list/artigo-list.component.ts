@@ -1,7 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { Artigo } from '../../../../core/utils/types';
-import { AuthService } from '../../../../core/services/auth/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { PostCardComponent } from '../../shared/blog-card/post-card.component';
+import { PostService } from '../../../../core/services/post.service';
 
 @Component({
   selector: 'app-artigo-list',
@@ -27,10 +28,10 @@ import { PostCardComponent } from '../../shared/blog-card/post-card.component';
 export class ArtigoListComponent {
   artigos = signal<Artigo[]>([]);
 
-  private authService = inject(AuthService);
+  private server = inject(PostService);
 
   ngOnInit(): void {
-    this.authService.getArtigos().subscribe({
+    this.server.getArtigos().subscribe({
       next: (artigos) => {
         console.log(artigos);
         this.artigos.set([...(artigos as Artigo[])]);
