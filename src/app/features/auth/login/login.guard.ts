@@ -6,9 +6,8 @@ export const loginGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  const isAuthenticated = authService.isAuthenticated();
-
-  if (isAuthenticated) {
+  if (authService.isAuthenticated()) {
+    console.log('Authorized')
     router.navigate(['perfil']);
     return false;
   } else {

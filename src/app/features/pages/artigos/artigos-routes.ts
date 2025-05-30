@@ -13,7 +13,6 @@ export const routes: Routes = [
   {
     path: ':id',
     data: { animation: 'Artigo' },
-
     loadComponent: async () => {
       return import('./artigo-detail/artigo-detail.component').then(
         (m) => m.ArtigoDetailComponent

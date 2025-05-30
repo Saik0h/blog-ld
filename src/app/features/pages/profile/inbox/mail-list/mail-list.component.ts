@@ -1,8 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, model, signal } from '@angular/core';
 import { Mail } from '../../../../../core/utils/types';
 import { InboxService } from '../../../../../core/services/inbox.service';
 import { DatePipe } from '@angular/common';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-mail-list',
@@ -11,13 +12,18 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
   styleUrl: './mail-list.component.css',
 })
 export class MailListComponent {
-  private readonly mailService = inject(InboxService);
-  public readonly mails = signal<Mail[]>([]);
   public readonly isLoading = signal<boolean>(true)
+  public readonly mails = signal<Mail[]>([]);
+  public readonly query = model<string>('')
+  private readonly mailService = inject(InboxService);
 
-  ngOnInit() {
-    this.mailService.getAllMails().subscribe({
-      next: (mails: Mail[]) => this.mails.set(mails),
-    });
+  constructor() {
+    console.log(this.isLoading())
+    this.mailService.searchMails(this.query().trim()).subscribe({
+      next: (res: Mail[]) => this.mails.set(res),
+      complete: () => this.isLoading.set(false)
+    })
   }
+
+
 }

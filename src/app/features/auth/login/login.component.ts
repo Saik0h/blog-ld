@@ -24,9 +24,10 @@ export class LoginComponent {
   private router: Router = inject(Router);
 
   onSubmit() {
-    this.authService.login(this.loginData).subscribe({
+    this.authService.login(this.loginData)
+    .subscribe({
       next: () => {
-        this.router.navigate(['/perfil']);
+        this.router.navigate(['/profile']);
       },
       error: err => {
         throwError(() => { err })

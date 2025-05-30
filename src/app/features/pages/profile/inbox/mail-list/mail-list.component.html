@@ -1,16 +1,21 @@
-@if(mails().length !== 0) {
-  <app-search-bar />
-<ul>
-  @for (mail of mails(); track mail.id) {
-  <li [className]="mail.read ? 'read' : 'unread'">
-    <h3>{{ mail.subject }}</h3>
-    <p>{{ mail.message }}</p>
-    <p>sent by: {{ mail.name }}</p>
-    <p>email: {{ mail.email }}</p>
-    <p>{{ mail.createdAt | date }}</p>
-  </li>
-  }
-</ul>
-} @else {
+@if(isLoading()){
+<div>Loading...</div>
+} @else if(mails().length === 0) {
 <div>Nothing to see here</div>
+} @else {
+<section class="inbox-section">
+  <h2>Caixa de Entrada</h2>
+  <app-search-bar />
+  <ul>
+    @for (mail of mails(); track mail.id) {
+    <li [className]="mail.read ? 'read' : 'unread'">
+      <h3>{{ mail.subject }}</h3>
+      <p>{{ mail.message }}</p>
+      <p>sent by: {{ mail.name }}</p>
+      <p>email: {{ mail.email }}</p>
+      <p>{{ mail.createdAt | date }}</p>
+    </li>
+    }
+  </ul>
+</section>
 }

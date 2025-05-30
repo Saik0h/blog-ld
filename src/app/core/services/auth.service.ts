@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginPayload, RegisterPayload, User, Message } from '../utils/types';
 
 @Injectable({
@@ -22,7 +22,7 @@ export class AuthService {
     const url = `${this.url}/login`;
     return this.http.post<Message>(url, data, {
       withCredentials: true,
-    });
+    })
   };
 
   getUser = (): Observable<User> => {

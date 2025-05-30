@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './core/components/layout.component';
-import { AuthGuard } from './core/guards/auth.guard';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -43,22 +43,12 @@ export const routes: Routes = [
             (m) => m.CurriculoComponent
           );
         },
-      },
-      {
-        path: 'perfil',
-        canActivate:[AuthGuard],
-        data: { animation: 'ProfilePage' },
-        loadComponent: async () => {
-          return import('./features/pages/profile/user/user.component').then(
-            (m) => m.UserComponent
-          );
-        },
       },{
-        path: 'inbox',
-        canActivate:[AuthGuard],
-        data: { animation: 'InboxPage' },
+        path: 'profile',
+        canActivate:[authGuard],
+        data: { animation: 'ProfilePage' },
         loadChildren: async () => {
-          return import('./features/pages/profile/inbox/inbox-routes').then(
+          return import('./features/pages/profile/profile-routes').then(
             (m) => m.routes
           );
         },
