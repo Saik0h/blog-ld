@@ -3,6 +3,8 @@
     {{ title() }}
   </header>
   <section>
-    {{content()}}
+  @for(i of content(); track i.id){
+    <div>{{i.subject}}</div>
+  }  
   </section>
 </article>

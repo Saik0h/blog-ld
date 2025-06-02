@@ -1,5 +1,6 @@
 @if(!isNotFound() && !isLoading()){
 <article>
+  <a [routerLink]="'/profile/inbox'">Voltar</a>
   <header>
     <div>
       <span>Remetente: </span> <span>{{ mail().name }}</span>
@@ -18,7 +19,7 @@
   </button>
 </article>
 } @else if(isLoading()) {
-<div>Loading...</div>
+<app-loading/>
 } @else {
-<div>Not Found</div>
+<app-page-not-found/>
 }

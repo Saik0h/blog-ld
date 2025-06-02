@@ -6,22 +6,133 @@
   gap: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   padding: 2rem;
   flex-wrap: wrap;
 }
 
 .sidebar {
-  width: 280px;
   background: var(--color-bg);
-  border-radius: 12px;
-  padding: 1.5rem;
-  color: var(--color-dark);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--color-secondary);
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar .button-wrapper {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.profile-photo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent);
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+.sidebar h1 {
+  font-size: 1.5rem;
   text-align: center;
-  flex-shrink: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.sidebar .job-title,
+.sidebar .credential {
+  text-align: center;
+  color: var(--color-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.contact-info {
+  margin-block: 1.5rem;
+  max-height: 40ch;
+  overflow-y: auto;
+}
+
+.contact-info p {
+  font-size: 0.95rem;
+  margin: 0.25rem 0;
+}
+
+.contact-info a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+input[type="text"],
+input[type="url"] {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-light);
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+input:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.sidebar button {
+  background: var(--color-accent);
+  color: var(--color-light);
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-right: 0.5rem;
+}
+
+.sidebar button:hover {
+  background: var(--color-accent);
+}
+
+.sidebar button:disabled {
+  background: var(--color-secondary);
+  cursor: not-allowed;
+}
+
+.sidebar .contact-info button {
+  background: transparent;
+  color: var(--color-accent);
+  border: none;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+}
+
+.sidebar .contact-info button:hover {
+  text-decoration: underline;
+}
+
+.sidebar .contact-info .field {
+  border: 1px solid var(--color-accent);
+  padding-inline: 0.75em;
+  border-radius: 3px;
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 1rem;
+  }
 }
 
 .profile-photo {

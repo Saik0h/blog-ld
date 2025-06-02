@@ -3,11 +3,12 @@ import { Artigo } from '../../../../core/utils/types';
 import { PostCardComponent } from '../../shared/post-card/post-card.component';
 import { PostService } from '../../../../core/services/post.service';
 import { LoadingComponent } from '../../shared/loading/loading.component';
-import { ResourceNotFoundComponent } from '../../shared/resource-not-found/resource-not-found.component';
+import { PageNotFoundComponent } from '../../shared/page-not-found/page-not-found.component';
+import { ResourceEmptyComponent } from '../../shared/resource-empty/resource-empty.component';
 
 @Component({
   selector: 'app-artigo-list',
-  imports: [PostCardComponent, ResourceNotFoundComponent, LoadingComponent],
+  imports: [PostCardComponent, PageNotFoundComponent, ResourceEmptyComponent, LoadingComponent],
   templateUrl: './artigo-list.component.html',
   styles: [
     `

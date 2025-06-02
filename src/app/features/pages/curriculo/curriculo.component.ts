@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, model, signal } from '@angular/core';
 import { CurriculumService } from '../../../core/services/curriculum.service';
 import {
   Curriculum,
@@ -11,10 +11,11 @@ import {
 import { throwError } from 'rxjs';
 import { LoadingComponent } from '../shared/loading/loading.component';
 import { CurriculoSectionComponent } from './ui/curriculo-section/curriculo-section.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-curriculo',
-  imports: [LoadingComponent, CurriculoSectionComponent],
+  imports: [LoadingComponent, CurriculoSectionComponent, FormsModule],
   templateUrl: './curriculo.component.html',
   styleUrl: './curriculo.component.css',
 })
@@ -30,6 +31,9 @@ export class CurriculoComponent {
   public readonly experienceInfo = signal<CurriculumExperienceInfo | null>(
     null
   );
+  newItemLabel = model('')
+  newItemLink = model('')
+  newItemPlatform = model('')
 
   constructor() {
     this.isLoading.set(true);
@@ -59,7 +63,7 @@ export class CurriculoComponent {
   editar() {
     this.editMode.set(!this.editMode());
   }
- 
+
   deleteAcademicItem = (id: number) => {
     this.server.deleteAcademicItem(id).subscribe({
       next: (res) => console.log(res),
@@ -120,15 +124,17 @@ export class CurriculoComponent {
     });
   };
 
-  createContactItem = (body: { description: string }) => {
+  createContactItem = (body: {label: string, link: string, platform: string}) => {
     this.server.createContactItem(body).subscribe({
       next: (res) => console.log(res),
     });
   };
 
-  updateContactItem = (id: number, body: { description: string }) => {
-    this.server.updateContactItem(id, body).subscribe({
+  updateContactItem = (item: {id: number, label: string, link: string, platform: string}) => {
+    this.server.updateContactItem(item).subscribe({
       next: (res) => console.log(res),
     });
   };
+
+
 }

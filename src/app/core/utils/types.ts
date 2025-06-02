@@ -19,14 +19,17 @@ export type CurriculumPersonalData = {
   credential: string;
   jobTitle: string;
 };
-export type CurriculumContactInfo = { title: string; items: {
-  label: string;
-  link: string;
-  platform: string
-}[]};
-export type CurriculumAcademicInfo = { title: string; items: {id: number, description: string}[] };
-export type CurriculumExperienceInfo = { title: string; items: {id: number, description: string}[] };
-export type CurriculumTeachingInfo = { title: string; items: {id: number, description: string}[] };
+export type CurriculumContactInfo = {
+  title: string; items: {
+    id: number;
+    label: string;
+    link: string;
+    platform: string
+  }[]
+};
+export type CurriculumAcademicInfo = { title: string; items: { id: number, description: string }[] };
+export type CurriculumExperienceInfo = { title: string; items: { id: number, description: string }[] };
+export type CurriculumTeachingInfo = { title: string; items: { id: number, description: string }[] };
 export type CurriculumDataUpdate = any;
 export type CurriculumBodyCreate = any;
 export type RegisterPayload = {

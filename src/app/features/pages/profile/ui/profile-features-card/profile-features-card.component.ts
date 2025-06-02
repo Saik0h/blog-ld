@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, Input, input, signal } from '@angular/core';
+import { Mail } from '../../../../../core/utils/types';
 
 @Component({
   selector: 'app-profile-features-card',
@@ -8,5 +9,6 @@ import { Component, input } from '@angular/core';
 })
 export class ProfileFeaturesCardComponent {
 title = input()
-content = input()
+@Input() content = signal<Mail[]>([])
+
 }

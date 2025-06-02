@@ -3,13 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Blog, Post } from '../../../../core/utils/types';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { PostService } from '../../../../core/services/post.service';
-import { ResourceNotFoundComponent } from '../../shared/resource-not-found/resource-not-found.component';
 import { throwError } from 'rxjs';
 import { LoadingComponent } from '../../shared/loading/loading.component';
+import { PageNotFoundComponent } from '../../shared/page-not-found/page-not-found.component';
 
 @Component({
   selector: 'app-blog-details',
-  imports: [DatePipe, TitleCasePipe, ResourceNotFoundComponent, LoadingComponent],
+  imports: [DatePipe, TitleCasePipe, PageNotFoundComponent, LoadingComponent],
   templateUrl: './blog-details.component.html',
   styleUrl: './blog-details.component.css',
 })

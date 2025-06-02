@@ -4,12 +4,12 @@ import { Post } from '../../../../core/utils/types';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { PostService } from '../../../../core/services/post.service';
 import { throwError } from 'rxjs';
-import { ResourceNotFoundComponent } from '../../shared/resource-not-found/resource-not-found.component';
 import { LoadingComponent } from '../../shared/loading/loading.component';
+import { PageNotFoundComponent } from '../../shared/page-not-found/page-not-found.component';
 
 @Component({
   selector: 'app-artigo-detail',
-  imports: [DatePipe, TitleCasePipe, ResourceNotFoundComponent, LoadingComponent],
+  imports: [DatePipe, TitleCasePipe, PageNotFoundComponent, LoadingComponent],
   templateUrl: './artigo-detail.component.html',
   styleUrl: './artigo-detail.component.css',
 })

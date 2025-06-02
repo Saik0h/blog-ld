@@ -1,50 +1,77 @@
 @if(isLoading()){
-<app-loading></app-loading>
+<app-loading />
 }@else if(!isLoading() && profile()){
 <section class="curriculo">
   <article class="sidebar">
-    <img
-      [src]="profile()!.profileImage"
-      [alt]="profile()!.firstname"
-      class="profile-photo"
-    />
+    <img [src]="profile()?.profileImage" [alt]="profile()?.firstname" class="profile-photo" />
     @if(editMode()){
-    <button>editar nome</button>
+    <article>
+
+      <input [(ngModel)]="profile()!.firstname!" placeholder="Primeiro Nome" type="text" />
+      <input [(ngModel)]="profile()!.lastname!" placeholder="Sobrenome" type="text" />
+      <input [(ngModel)]="profile()!.jobTitle!" placeholder="Cargo" type="text" />
+      <input [(ngModel)]="profile()!.credential!" placeholder="Credencial" type="text" />
+
+      <div class="contact-info">
+        @for(item of contactInfo()!.items; track item.label){
+        <fieldset class="field">
+
+          <legend>
+            <button (click)="deleteContactItem(item.id)">Remover</button>
+            <button (click)="updateContactItem(item)">Atualizar</button>
+          </legend>
+          <label [for]="item.platform">Plataforma</label>
+          <input [(ngModel)]="item.platform" placeholder="Plataforma" type="text" [id]="item.platform" />
+
+          <label [for]="item.label">Tag ou nome:</label>
+          <input [(ngModel)]="item.label" placeholder="Nome" type="text" [id]="item.label" />
+
+          <label [for]="item.link">Link</label>
+          <input [(ngModel)]="item.link" placeholder="Link" type="url" [id]="item.link" />
+        </fieldset>
+        }
+      </div>
+      <div class="create-contact-item">
+        <div>
+          <label for="new-item-platform">Plataforma</label>
+          <input [(ngModel)]="newItemPlatform" placeholder="Plataforma" type="text" id='new-item-platform' />
+
+          <label for="new-item-label">Tag ou nome:</label>
+          <input [(ngModel)]="newItemLabel" placeholder="Nome" type="text" id="new-item-label" />
+
+          <label for="new-item-link">Link</label>
+          <input [(ngModel)]="newItemLink" placeholder="Link" type="url" id="new-item-link" />
+        </div><button
+          (click)="createContactItem({label: newItemLabel(), link: newItemLink(), platform: newItemPlatform()})">Novo</button>
+      </div>
+    </article>
+
+    }@else{
+    <section>
+      <h1>{{ profile()?.firstname }} {{ profile()?.lastname }}</h1>
+      <p class="job-title">{{ profile()?.jobTitle }}</p>
+      <p class="credential">{{ profile()?.credential }}</p>
+
+      <div class="contact-info">
+        @for (i of contactInfo()?.items; track i.label) {
+        <p>
+          {{ i.platform }}: <a [href]="i.link" target="_blank">{{ i.label }}</a>
+        </p>
+        }
+      </div>
+
+      <button (click)="editar()">Editar</button>
+    </section>
     }
-    <h1>
-      {{ profile()!.firstname }}
-      {{ profile()!.lastname }}
-    </h1>
-    <p class="job-title">{{ profile()!.jobTitle }}</p>
-    <p class="credential">{{ profile()!.credential }}</p>
-    <div class="contact-info">
-      @for(i of contactInfo()!.items; track i.label ){
-      <p>
-        {{ i.platform }}: <a [href]="i.link" target="_blank">{{ i.label }}</a>
-      </p>
-      }
-    </div>
-    <button (click)="editar()">Editar</button>
   </article>
+
   <main class="main-content">
-    <app-curriculo-section
-      [topic]="academicInfo()!"
-      [createItem]="createAcademicItem"
-      [deleteItem]="deleteAcademicItem"
-      [updateItem]="updateAcademicItem"
-    />
-    <app-curriculo-section
-      [topic]="experienceInfo()!"
-      [deleteItem]="deleteExperienceItem"
-      [createItem]="createExperienceItem"
-      [updateItem]="updateExperienceItem"
-    />
-    <app-curriculo-section
-      [topic]="teachingInfo()!"
-      [createItem]="createTeachingItem"
-      [deleteItem]="deleteTeachingItem"
-      [updateItem]="updateTeachingItem"
-    />
+    <app-curriculo-section [topic]="academicInfo()!" [createItem]="createAcademicItem" [deleteItem]="deleteAcademicItem"
+      [updateItem]="updateAcademicItem" />
+    <app-curriculo-section [topic]="experienceInfo()!" [deleteItem]="deleteExperienceItem"
+      [createItem]="createExperienceItem" [updateItem]="updateExperienceItem" />
+    <app-curriculo-section [topic]="teachingInfo()!" [createItem]="createTeachingItem" [deleteItem]="deleteTeachingItem"
+      [updateItem]="updateTeachingItem" />
   </main>
 </section>
 }

@@ -3,11 +3,12 @@ import { Blog } from '../../../../core/utils/types';
 import { PostCardComponent } from '../../shared/post-card/post-card.component';
 import { PostService } from '../../../../core/services/post.service';
 import { LoadingComponent } from '../../shared/loading/loading.component';
-import { ResourceNotFoundComponent } from '../../shared/resource-not-found/resource-not-found.component';
+import { ResourceEmptyComponent } from '../../shared/resource-empty/resource-empty.component';
+import { PageNotFoundComponent } from '../../shared/page-not-found/page-not-found.component';
 
 @Component({
   selector: 'app-blog-list',
-  imports: [PostCardComponent, LoadingComponent, ResourceNotFoundComponent],
+  imports: [PostCardComponent, LoadingComponent, ResourceEmptyComponent, PageNotFoundComponent],
   templateUrl: './blog-list.component.html',
   styles: [
     `

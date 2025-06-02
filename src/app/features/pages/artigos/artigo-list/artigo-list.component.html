@@ -2,9 +2,9 @@
 @if(isLoading()){
 <app-loading />
 } @if(error()){
-<app-resource-not-found />
+<app-page-not-found />
 }@else if (!isLoading() && artigos() && artigos().length === 0) {
-<div>it seems no one posted anything yet</div>
+<app-resource-empty />
 } @else{
 <section>
   @for (artigo of artigos(); track artigo.id){

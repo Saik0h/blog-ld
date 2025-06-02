@@ -1,19 +1,22 @@
 import { Component, inject, signal } from '@angular/core';
 import { InboxService } from '../../../../../core/services/inbox.service';
 import { Mail, Message } from '../../../../../core/utils/types';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { throwError } from 'rxjs';
+import { LoadingComponent } from '../../../shared/loading/loading.component';
+import { PageNotFoundComponent } from '../../../shared/page-not-found/page-not-found.component';
 
 @Component({
   selector: 'app-mail-detail',
-  imports: [DatePipe],
+  imports: [DatePipe, PageNotFoundComponent, LoadingComponent, RouterLink],
   templateUrl: './mail-detail.component.html',
   styleUrl: './mail-detail.component.css',
 })
 export class MailDetailComponent {
   private mailService = inject(InboxService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   isNotFound = signal(false);
   public readonly isLoading = signal<boolean>(true);
   public readonly mail = signal({
@@ -34,7 +37,7 @@ export class MailDetailComponent {
       error: (err) => {
         this.isLoading.set(false);
         this.isNotFound.set(true);
-        throwError(()=> err)
+        throwError(() => err)
       },
       complete: () => {
         if (!this.mail().read) {
@@ -50,8 +53,17 @@ export class MailDetailComponent {
   }
 
   deleteButtonClick = () => {
+    this.isLoading.set(true)
     this.mailService.deleteMail(this.mail().id).subscribe({
-      next: (response) => console.log(response),
+      error: (err) => { 
+        throwError(() => err) 
+      this.isLoading.set(false)
+      this.router.navigate(['/profile/inbox'])
+      },
+      complete: () => {
+        this.isLoading.set(false)
+        this.router.navigate(['/profile/inbox'])
+      }
     });
   };
 }

@@ -46,10 +46,8 @@ export class CurriculumService {
     return this.http.patch<Message>(`${this.url}/academic/${id}`, data);
   };
 
-  createAcademicItem = (body:{description: string}): Observable<Message> => {
-    return this.http.post<Message>(`${this.url}/academic/item`, {
-      data: body.description,
-    });
+  createAcademicItem = (data: { description: string }): Observable<Message> => {
+    return this.http.post<Message>(`${this.url}/academic/item`, data);
   };
 
   deleteAcademicItem = (id: number): Observable<Message> => {
@@ -101,13 +99,12 @@ export class CurriculumService {
   };
 
   updateContactItem = (
-    id: number,
-    data: { description: string }
+    data: { id: number, label: string, link: string, platform: string }
   ): Observable<Message> => {
-    return this.http.patch<Message>(`${this.url}/contact/${id}`, data);
+    return this.http.patch<Message>(`${this.url}/contact/${data.id}`, data);
   };
 
-  createContactItem = (data: { description: string }): Observable<Message> => {
+  createContactItem = (data: {label: string, link: string, platform: string}): Observable<Message> => {
     return this.http.post<Message>(`${this.url}/contact/item`, data);
   };
 
