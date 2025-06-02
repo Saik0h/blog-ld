@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, effect, Input, signal } from '@angular/core';
 import { User } from '../../../../../core/utils/types';
 
 @Component({
@@ -16,7 +16,7 @@ export class UserProfileCardComponent {
     role: '',
   });
   @Input() logout = () => {};
-
+  public readonly open = signal(false);
   logoutUser() {
     this.logout();
   }

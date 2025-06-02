@@ -1,10 +1,10 @@
 :root {
-  --color-bg: hsl(0, 0%, 69%);
+  --color-bg: hsl(0, 0%, 95%);
   --color-dark: hsl(204, 86%, 6%);
   --color-light: hsl(60, 100%, 97%);
   --color-accent: hsl(35, 100%, 55%);
   --color-secondary: hsl(45, 7%, 35%);
-    --color-primary: hsl(45, 7%, 35%);
+  --color-primary: hsl(220, 85%, 55%);
 }
 
 * {

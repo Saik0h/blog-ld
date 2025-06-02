@@ -1,8 +1,9 @@
 .header {
   background-color: var(--color-dark);
   color: var(--color-light);
-  padding-inline: 1rem;
-  padding-block: 1rem;
+  padding: 2rem 1rem;
+  border-bottom: 3px solid var(--color-accent);
+  font-size: 0.95rem;
 
   .header__nav {
     display: grid;

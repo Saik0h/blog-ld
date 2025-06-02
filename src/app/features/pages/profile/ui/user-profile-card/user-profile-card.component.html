@@ -1,11 +1,19 @@
-<article class="profile-card">
+<aside [class]="open() ? 'sidebar open' : 'sidebar'">
+  <button (click)="open.set(!open())" class="toggle-sidebar-btn">
+    {{ open() ? '<' : '>' }}
+  </button>
+
   <header class="profile-header">
     <figure>
+      @if(user().profileImage){
       <img 
         [src]="user().profileImage" 
         alt="Foto de perfil de {{ user().firstname }} {{ user().lastname }}" 
         class="profile-photo" 
       />
+      } @else{
+        <i class="bi bi-person-circle"></i>
+      }
       <figcaption class="sr-only">
         Foto de perfil de {{ user().firstname }} {{ user().lastname }}
       </figcaption>
@@ -18,4 +26,4 @@
   <footer class="profile-footer">
     <button class="logout-button" (click)="logout()">Sair</button>
   </footer>
-</article>
+</aside>

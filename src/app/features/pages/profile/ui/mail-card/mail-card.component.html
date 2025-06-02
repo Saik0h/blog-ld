@@ -1,0 +1,9 @@
+<li [class]="mail.read ? 'read' : 'unread'" class="mail-card" (click)="redirect(mail.id)">
+  <h3>{{ mail.subject }}</h3>
+  <p>{{ mail.message }}</p>
+  <div class="mail-details">
+    <span>Sent by: {{ mail.name }}</span>
+    <span>Email: {{ mail.email }}</span>
+  </div>
+  <p class="mail-date">{{ mail.createdAt | date }}</p>
+</li>

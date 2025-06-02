@@ -1,6 +1,6 @@
 .hero {
   height: 90vh;
-  background-image: url('../../../../../../../public/homepage.jpg');
+  background-image: url('/homepage.jpg');
   background-size: cover;
   background-position: center;
   position: relative;

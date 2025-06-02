@@ -1,0 +1,14 @@
+<h3>{{ title() }}</h3>
+@if(isLoading()){
+<app-loading />
+} @if(error()){
+<app-resource-not-found />
+}@else if (!isLoading() && artigos() && artigos().length === 0) {
+<div>it seems no one posted anything yet</div>
+} @else{
+<section>
+  @for (artigo of artigos(); track artigo.id){
+  <app-post-card category="artigos" [post]="artigo"></app-post-card>
+  }
+</section>
+}

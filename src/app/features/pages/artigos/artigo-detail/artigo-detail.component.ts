@@ -1,20 +1,24 @@
 import { Component, inject, Input, OnInit, signal } from '@angular/core';
-import { AuthService } from '../../../../core/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from '../../../../core/utils/types';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { PostService } from '../../../../core/services/post.service';
+import { throwError } from 'rxjs';
+import { ResourceNotFoundComponent } from '../../shared/resource-not-found/resource-not-found.component';
+import { LoadingComponent } from '../../shared/loading/loading.component';
 
 @Component({
   selector: 'app-artigo-detail',
-  imports: [DatePipe, TitleCasePipe],
+  imports: [DatePipe, TitleCasePipe, ResourceNotFoundComponent, LoadingComponent],
   templateUrl: './artigo-detail.component.html',
   styleUrl: './artigo-detail.component.css',
 })
 export class ArtigoDetailComponent {
   private route = inject(ActivatedRoute);
   private server = inject(PostService);
-  post = signal<Post>({
+  isLoading = signal(false);
+  error = signal(false);
+  artigo = signal<Post>({
     id: '',
     authorId: '',
     author: {
@@ -29,12 +33,22 @@ export class ArtigoDetailComponent {
     createdAt: '',
     updatedAt: '',
   });
-  ngOnInit() {
+  constructor() {
+    this.isLoading.set(true);
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.server.getOnePost(id).subscribe((post) => {
-        this.post.set(post);
+      this.server.getOneArtigo(id).subscribe({
+        next: (post) => {
+          this.artigo.set(post);
+        },
+        error: (err) => {
+          this.error.set(true);
+          this.isLoading.set(false);
+          throwError(() => err);
+        },
+        complete: () => this.isLoading.set(false),
       });
     }
+    this.isLoading.set(false);
   }
 }

@@ -1,0 +1,63 @@
+.section {
+  margin-bottom: 2rem;
+}
+
+.section .title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--color-dark);
+  font-size: 1.3rem;
+  padding-bottom: 0.4rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--color-accent);
+}
+
+.title-input {
+  font-size: 1.9rem;
+  font-weight: 600;
+  border: none;
+  text-transform: capitalize;
+  height: fit-content;
+  width: fit-content;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+ul {
+  list-style: disc;
+  padding-left: 1.2rem;
+}
+
+ul li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.section {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.change-title-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}

@@ -21,4 +21,12 @@ export class PostService {
   getOnePost(id: string): Observable<Post> {
     return this.http.get(`${this.url}/${id}`) as Observable<Post>;
   }
+  
+  getOneArtigo(id: string): Observable<Post> {
+    return this.http.get(`${this.url}/artigos/${id}`) as Observable<Post>;
+  }
+  
+  getOneBlog(id: string): Observable<Post> {
+    return this.http.get(`${this.url}/blogs/${id}`) as Observable<Post>;
+  }
 }

@@ -1,11 +1,12 @@
 <section class="about">
   <div class="about__content">
     <h1 class="about__title">{{ title() }}</h1>
-    <h2 class="about__subtitle">{{subtitle()}}</h2>
     <p class="about__description">
       {{ description() }}
     </p>
   </div>
 
-  <div class="about__img-wrapper"><img [src]="imageUrl()" alt="#" /></div>
+  <div class="about__img-wrapper">
+    <img [src]="imageUrl()" [alt]="title() || 'Imagem sobre nós'" />
+  </div>
 </section>

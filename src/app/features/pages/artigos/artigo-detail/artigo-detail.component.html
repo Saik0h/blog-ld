@@ -1,35 +1,47 @@
+@if(isLoading()){
+<app-loading />
+} @else if(artigo()) {
 <article class="artigo">
   <header class="artigo-header">
     <figure class="author-image">
-      <img [src]="post().author.profileImage" [alt]="post().author.firstname" />
-      <figcaption>{{ post().author.firstname | titlecase }} {{ post().author.lastname | titlecase }}</figcaption>
+      <img
+        [src]="artigo()!.author.profileImage"
+        [alt]="artigo()!.author.firstname"
+      />
+      <figcaption>
+        {{ artigo()!.author.firstname | titlecase }}
+        {{ artigo()!.author.lastname | titlecase }}
+      </figcaption>
     </figure>
-    <h1>{{ post().title }}</h1>
+    <h1>{{ artigo()!.title }}</h1>
   </header>
 
   <section class="artigo-content">
     <figure>
-      <img [src]="post().image" [alt]="post().title" />
-      <figcaption>{{ post().title }}</figcaption>
+      <img [src]="artigo()!.image" [alt]="artigo()!.title" />
+      <figcaption>{{ artigo()!.title }}</figcaption>
     </figure>
-    <p>{{ post().text }}</p>
+    <p>{{ artigo()!.text }}</p>
   </section>
 
   <footer class="artigo-meta">
     <p>
-      Published on: 
-      <time [attr.datetime]="post().createdAt">
-        {{ post().createdAt | date }}
+      Published on:
+      <time [attr.datetime]="artigo()!.createdAt">
+        {{ artigo()!.createdAt | date }}
       </time>
     </p>
 
     <section class="references">
       <h2>References</h2>
       <ul>
-        @for (r of post().references; track $index) {
+        @for (r of artigo()!.references; track $index) {
         <li class="reference-item">{{ r }}</li>
         }
       </ul>
     </section>
   </footer>
 </article>
+} @else {
+<app-resource-not-found />
+}

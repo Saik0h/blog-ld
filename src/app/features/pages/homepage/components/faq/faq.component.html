@@ -1,0 +1,19 @@
+<section class="faq">
+  <h2 class="faq-title">Perguntas Frequentes</h2>
+  <ul class="faq-list">
+    @for(item of faqs; track item.question){
+        <li class="faq-item" [class.open]="item.open">
+          <button class="faq-question" (click)="toggle(item)">
+            {{ item.question }}
+            <span class="icon">{{ item.open ? '-' : '+' }}</span>
+          </button>
+          @if(item.open){
+              <div class="faq-answer">
+                <p>{{ item.answer }}</p>
+              </div>
+          }
+        </li>
+    }
+  </ul>
+</section>
+

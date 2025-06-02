@@ -1,4 +1,10 @@
-<section>
-<app-user-profile-card ></app-user-profile-card>
-<app-mail-list></app-mail-list>
-</section>
+<main class="profile-page">
+  <app-user-profile-card [user]="user" [logout]="logout" />
+  <section class="features-section">
+    <header>
+      <h2>Welcome to your profile</h2>
+    </header>
+    <app-profile-features-card [title]="'Unred Mails'" [content]="user().firstname" />
+    <app-profile-features-card [title]="'Pending Posts'" [content]="user().lastname"/>
+  </section>
+</main>

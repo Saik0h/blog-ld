@@ -1,39 +1,41 @@
-import { Component, inject, input, Input, Signal, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Post } from '../../../../core/utils/types';
+import { Blog, Post } from '../../../../core/utils/types';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { PostService } from '../../../../core/services/post.service';
+import { ResourceNotFoundComponent } from '../../shared/resource-not-found/resource-not-found.component';
+import { throwError } from 'rxjs';
+import { LoadingComponent } from '../../shared/loading/loading.component';
 
 @Component({
   selector: 'app-blog-details',
-  imports: [DatePipe, TitleCasePipe],
+  imports: [DatePipe, TitleCasePipe, ResourceNotFoundComponent, LoadingComponent],
   templateUrl: './blog-details.component.html',
   styleUrl: './blog-details.component.css',
 })
 export class BlogDetailComponent {
   private route = inject(ActivatedRoute);
   private server = inject(PostService);
-  post = signal<Post>({
-    id: '',
-    authorId: '',
-    author: {
-      firstname: '',
-      lastname: '',
-      profileImage: '',
-    },
-    title: '',
-    image: '',
-    text: '',
-    references: [],
-    createdAt: '',
-    updatedAt: '',
-  });
-  ngOnInit() {
+  isLoading = signal(false);
+  error = signal(false);
+  blog = signal<Blog | null>(null);
+  constructor() {
+    this.isLoading.set(true);
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.server.getOnePost(id).subscribe((post) => {
-        this.post.set(post);
+      this.server.getOneBlog(id).subscribe({
+        next: (b: Blog) => {
+          this.blog.set(b);
+        },
+        error: (err) => {
+          this.error.set(true);
+          this.isLoading.set(false);
+          throwError(() => err);
+        },
+        complete: () => this.isLoading.set(false),
       });
+    } else {
+      this.isLoading.set(false);
     }
   }
 }

@@ -1,0 +1,38 @@
+.not-found-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100svw;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+}
+
+.not-found-container h1 {
+  font-size: 8rem;
+  margin: 0;
+  color: var(--color-light); /* A red accent color */
+}
+
+.not-found-container p {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+}
+
+.not-found-container a {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-accent);
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.not-found-container a:hover {
+  background-color: #d32f2f;
+}

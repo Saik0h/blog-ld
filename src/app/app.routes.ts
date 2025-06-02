@@ -43,9 +43,10 @@ export const routes: Routes = [
             (m) => m.CurriculoComponent
           );
         },
-      },{
+      },
+      {
         path: 'profile',
-        canActivate:[authGuard],
+        canActivate: [authGuard],
         data: { animation: 'ProfilePage' },
         loadChildren: async () => {
           return import('./features/pages/profile/profile-routes').then(
@@ -69,6 +70,14 @@ export const routes: Routes = [
     data: { animation: 'AuthLayout' },
     loadChildren: async () => {
       return import('./features/auth/auth-routes').then((m) => m.routes);
+    },
+  },
+  {
+    path: '**',
+    loadComponent: async () => {
+      return import(
+        './features/pages/shared/page-not-found/page-not-found.component'
+      ).then((m) => m.PageNotFoundComponent);
     },
   },
 ];

@@ -1,35 +1,47 @@
+@if(isLoading()){
+<app-loading />
+} @else if(blog()) {
 <article class="blog">
   <header class="blog-header">
     <figure class="author-image">
-      <img [src]="post().author.profileImage" [alt]="post().author.firstname" />
-      <figcaption>{{ post().author.firstname | titlecase }} {{ post().author.lastname | titlecase }}</figcaption>
+      <img
+        [src]="blog()!.author.profileImage"
+        [alt]="blog()!.author.firstname"
+      />
+      <figcaption>
+        {{ blog()!.author.firstname | titlecase }}
+        {{ blog()!.author.lastname | titlecase }}
+      </figcaption>
     </figure>
-    <h1>{{ post().title }}</h1>
+    <h1>{{ blog()!.title }}</h1>
   </header>
 
   <section class="blog-content">
     <figure>
-      <img [src]="post().image" [alt]="post().title" />
-      <figcaption>{{ post().title }}</figcaption>
+      <img [src]="blog()!.image" [alt]="blog()!.title" />
+      <figcaption>{{ blog()!.title }}</figcaption>
     </figure>
-    <p>{{ post().text }}</p>
+    <p>{{ blog()!.text }}</p>
   </section>
 
   <footer class="blog-meta">
     <p>
-      Published on: 
-      <time [attr.datetime]="post().createdAt">
-        {{ post().createdAt | date }}
+      Published on:
+      <time [attr.datetime]="blog()!.createdAt">
+        {{ blog()!.createdAt | date }}
       </time>
     </p>
 
     <section class="references">
       <h2>References</h2>
       <ul>
-        @for (r of post().references; track $index) {
+        @for (r of blog()!.references; track $index) {
         <li class="reference-item">{{ r }}</li>
         }
       </ul>
     </section>
   </footer>
 </article>
+} @else {
+<app-resource-not-found />
+}

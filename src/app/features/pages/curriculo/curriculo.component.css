@@ -66,27 +66,7 @@
   color: var(--color-secondary);
 }
 
-.main-content section {
-  margin-bottom: 2rem;
-}
 
-.main-content h2 {
-  color: var(--color-dark);
-  border-bottom: 2px solid var(--color-accent);
-  padding-bottom: 0.4rem;
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-}
-
-ul {
-  list-style: disc;
-  padding-left: 1.2rem;
-}
-
-ul li {
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
-}
 
 /* Responsividade */
 @media (max-width: 768px) {

@@ -1,0 +1,51 @@
+.mail-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: box-shadow 0.3s, border-color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: var(--color-accent);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #222;
+  }
+
+  p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  .mail-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 0.5rem;
+  }
+
+  .mail-date {
+    text-align: right;
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 0.3rem;
+  }
+
+  &.read {
+    background-color: #f9f9f9;
+    border-color: #ccc;
+  }
+
+  &.unread {
+    background-color: #fffdf7;
+    border-color: var(--color-accent);
+  }
+}

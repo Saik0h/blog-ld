@@ -4,33 +4,27 @@ import {
   style,
   animate,
   query,
-  group,
 } from '@angular/animations';
 
-const slideInAnimation = trigger('routeAnimation', [
-  transition('* <=> *', [
-    query(':enter, :leave', [style({ position: 'absolute', width: '100%' })], {
-      optional: true,
-    }),
-    group([
-      query(
-        ':enter',
-        [
-          style({ transform: 'translateX(100%)' }),
-          animate('0.5s ease-in-out', style({ transform: 'translateX(0%)' })),
-        ],
-        { optional: true }
-      ),
-      query(
-        ':leave',
-        [
-          style({ transform: 'translateX(100%)' }),
-          animate('0.5s ease-out', style({ transform: 'translateX(100%)' })),
-        ],
-        { optional: true }
-      ),
-    ]),
-  ]),
-]);
+export const fadeAnimation =
+  trigger('routeAnimation', [
+    transition('* <=> *', [
+      query(':enter, :leave', [
+        style({
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          opacity: 0
+        })
+      ], { optional: true }),
+      query(':leave', [
+        animate('100ms ease-in-out', style({ opacity: 0 }))
+      ], { optional: true }),
+      query(':enter', [
+        style({ opacity: 0 }),
+        animate('100ms ease-in-out', style({ opacity: 1 }))
+      ], { optional: true })
+    ])
+  ]);
 
-export { slideInAnimation };
