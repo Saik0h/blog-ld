@@ -5,22 +5,22 @@
 
   <header class="profile-header">
     <figure>
-      @if(user().profileImage){
+      @if(user()!.profileImage){
       <img
-        [src]="user().profileImage"
-        alt="Foto de perfil de {{ user().firstname }} {{ user().lastname }}"
+        [src]="user()!.profileImage"
+        alt="Foto de perfil de {{ user()!.firstname }} {{ user()!.lastname }}"
         class="profile-photo"
       />
       } @else{
       <i class="bi bi-person-circle"></i>
       }
       <figcaption class="sr-only">
-        Foto de perfil de {{ user().firstname }} {{ user().lastname }}
+        Foto de perfil de {{ user()!.firstname }} {{ user()!.lastname }}
       </figcaption>
     </figure>
-    <h2 class="profile-name">{{ user().firstname }} {{ user().lastname }}</h2>
-    <p class="username">{{ user().username }}</p>
-    <p class="role">{{ user().role }}</p>
+    <h2 class="profile-name">{{ user()!.firstname }} {{ user()!.lastname }}</h2>
+    <p class="username">{{ user()!.username }}</p>
+    <p class="role">{{ user()!.role }}</p>
   </header>
   <input type="file" (change)="uploadImage($event)" />
   <footer class="profile-footer">

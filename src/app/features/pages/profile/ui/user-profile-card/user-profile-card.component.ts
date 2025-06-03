@@ -1,6 +1,7 @@
 import { Component, effect, inject, Input, signal } from '@angular/core';
 import { User } from '../../../../../core/utils/types';
-import { ImageService } from '../../../../../shared/helpers/storeImage';
+import { ImageService } from '../../../../../core/services/image.service';
+
 @Component({
   selector: 'app-user-profile-card',
   templateUrl: './user-profile-card.component.html',
@@ -8,18 +9,11 @@ import { ImageService } from '../../../../../shared/helpers/storeImage';
 })
 export class UserProfileCardComponent {
   imgService = inject(ImageService);
-  @Input() user = signal<User>({
-    id: '',
-    profileImage: '',
-    firstname: '',
-    lastname: '',
-    username: '',
-    role: '',
-  });
+  @Input({required: true}) user = signal<User | null>(null);
   @Input() logout = () => {};
   public readonly open = signal(false);
   uploadImage(e: any) {
-    this.imgService.uploadImage(e, this.user());
+    this.imgService.uploadImage(e, this.user()!);
   }
   logoutUser() {
     this.logout();

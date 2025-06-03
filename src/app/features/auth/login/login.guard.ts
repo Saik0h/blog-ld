@@ -5,12 +5,13 @@ import { AuthService } from '../../../core/services/auth.service';
 export const loginGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-
-  if (authService.isAuthenticated()) {
-    console.log('Authorized')
-    router.navigate(['perfil']);
-    return false;
-  } else {
+  const isAuthenticated = authService.isAuthenticated()
+  if (!isAuthenticated) {
+    console.log(isAuthenticated)
     return true;
+  } else {
+    router.navigate(['profile']);
+    return false;
   }
+  return true
 };

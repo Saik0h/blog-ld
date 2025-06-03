@@ -11,4 +11,7 @@ export class ProfileFeaturesCardComponent {
 title = input()
 @Input() content = signal<Mail[]>([])
 
+constructor(){
+  console.log(this.content())
+}
 }

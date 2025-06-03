@@ -99,3 +99,21 @@ export type PostPayload = {
   references?: string[];
   image?: string;
 };
+
+export type faq = {
+  id: number
+  question: string;
+  answer: string
+}
+
+export type faqDisplay = {
+  id: number
+  question: string;
+  answer: string
+  open: boolean
+}
+
+export type faqPayload = {
+  question: string;
+  answer: string
+}

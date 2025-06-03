@@ -22,6 +22,8 @@ import { FormsModule } from '@angular/forms';
 export class CurriculoComponent {
   private server = inject(CurriculumService);
   public readonly isLoading = signal(false);
+  public readonly isProcessing = signal(false);
+
   public readonly error = signal(false);
   public readonly editMode = signal(false);
   public readonly profile = signal<CurriculumPersonalData | null>(null);
@@ -35,7 +37,8 @@ export class CurriculoComponent {
   newItemLink = model('')
   newItemPlatform = model('')
 
-  constructor() {
+
+  loadCurriculum() {
     this.isLoading.set(true);
     this.server.getCurriculum().subscribe({
       next: (res: Curriculum) => {
@@ -60,79 +63,203 @@ export class CurriculoComponent {
     });
   }
 
+  constructor() {
+    this.loadCurriculum()
+  }
+  
   editar() {
     this.editMode.set(!this.editMode());
   }
 
   deleteAcademicItem = (id: number) => {
+    this.isProcessing.set(true)
     this.server.deleteAcademicItem(id).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
+    
   };
 
   createAcademicItem = (body: { description: string }) => {
+    this.isProcessing.set(true)
     this.server.createAcademicItem(body).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
   };
 
   updateAcademicItem = (id: number, body: { description: string }) => {
+    this.isProcessing.set(true)
     this.server.updateAcademicItem(id, body).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
   };
 
   deleteExperienceItem = (id: number) => {
+    this.isProcessing.set(true)
     this.server.deleteExperiencesItem(id).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
   };
 
   createExperienceItem = (body: { description: string }) => {
+    this.isProcessing.set(true)
     this.server.createExperiencesItem(body).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
   };
 
   updateExperienceItem = (id: number, body: { description: string }) => {
+    this.isProcessing.set(true)
     this.server.updateExperiencesItem(id, body).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
   };
 
   deleteTeachingItem = (id: number) => {
+    this.isProcessing.set(true)
     this.server.deleteTeachingItem(id).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
   };
 
   createTeachingItem = (body: { description: string }) => {
+    this.isProcessing.set(true)
     this.server.createTeachingItem(body).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
   };
 
   updateTeachingItem = (id: number, body: { description: string }) => {
+    this.isProcessing.set(true)
     this.server.updateTeachingItem(id, body).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
   };
 
   deleteContactItem = (id: number) => {
+    this.isProcessing.set(true)
     this.server.deleteContactItem(id).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+      this.loadCurriculum()
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
   };
 
-  createContactItem = (body: {label: string, link: string, platform: string}) => {
+  createContactItem = (body: { label: string, link: string, platform: string }) => {
+    this.isProcessing.set(true)
     this.server.createContactItem(body).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
   };
 
-  updateContactItem = (item: {id: number, label: string, link: string, platform: string}) => {
+  updateContactItem = (item: { id: number, label: string, link: string, platform: string }) => {
+    this.isProcessing.set(true)
     this.server.updateContactItem(item).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+
+      },
+      error: (err) => {
+        this.isProcessing.set(false)
+        throwError(() => err)
+      },
+      complete: () => {
+        this.isProcessing.set(false)
+      }
     });
   };
 

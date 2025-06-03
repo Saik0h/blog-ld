@@ -17,15 +17,8 @@ import { LoadingComponent } from '../shared/loading/loading.component';
 export class ProfileComponent {
   router = inject(Router);
   authService = inject(AuthService);
-  user = signal<User>({
-    firstname: '',
-    id: '',
-    lastname: '',
-    profileImage: '',
-    role: '',
-    username: ''
-
-  });
+  user = signal<User | null>(null);
+  
   private readonly mailService: InboxService = inject(InboxService);
   public readonly isLoading = signal(false)
   readonly unreadMails = signal<Mail[]>([])
@@ -40,7 +33,7 @@ export class ProfileComponent {
     });
     this.mailService.getAllMails().pipe(
       map((mails): Mail[] => mails.filter(mail => {
-        mail.read === true
+        return mail.read !== true
       }))
     ).subscribe({
       next: (res) => { this.unreadMails.set(res) },
@@ -49,14 +42,11 @@ export class ProfileComponent {
         throwError(() => err)
       },
       complete: () => {this.isLoading.set(false)
-        console.log(this.unreadMails())
       }
     })
   }
 
   logout = () => {
-    this.authService.logout().subscribe({
-      next: () => { this.router.navigate(['/']) }
-    })
+    this.authService.logout()
   }
 }

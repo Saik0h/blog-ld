@@ -15,27 +15,18 @@ export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
- 
-  const authService: AuthService = inject(AuthService);
+
+  const authService = inject(AuthService);
   const router = inject(Router);
 
   const request = next(req).pipe(
     catchError((err: HttpErrorResponse) => {
-      console.log(err)
       if (err.status === 401) {
-        authService.refresh().pipe(
-          switchMap(() => {
-            return next(req)
-          }),
-          catchError((err) => {
-            router.navigate(['auth/login']);
-            return throwError(() => err)
-          })
-        )
-      }
-      return throwError(() => err)
-    })
-  )
+        authService.refresh()
+      };
+      return next(req)
+    }
+    ))
   return request
-};
+}
 

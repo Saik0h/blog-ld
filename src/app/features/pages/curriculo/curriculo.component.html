@@ -2,9 +2,10 @@
 <app-loading />
 }@else if(!isLoading() && profile()){
 <section class="curriculo">
-  <article class="sidebar">
+  <article class="profile-card">
     <img [src]="profile()?.profileImage" [alt]="profile()?.firstname" class="profile-photo" />
     @if(editMode()){
+    <button (click)="editMode.set(false)" class="switch-mode">Modo de visualização</button>
     <article>
 
       <input [(ngModel)]="profile()!.firstname!" placeholder="Primeiro Nome" type="text" />
@@ -17,8 +18,8 @@
         <fieldset class="field">
 
           <legend>
-            <button (click)="deleteContactItem(item.id)">Remover</button>
-            <button (click)="updateContactItem(item)">Atualizar</button>
+            <button [disabled]="isProcessing()" (click)="deleteContactItem(item.id)">Remover</button>
+            <button [disabled]="isProcessing()" (click)="updateContactItem(item)">Atualizar</button>
           </legend>
           <label [for]="item.platform">Plataforma</label>
           <input [(ngModel)]="item.platform" placeholder="Plataforma" type="text" [id]="item.platform" />
@@ -41,13 +42,14 @@
 
           <label for="new-item-link">Link</label>
           <input [(ngModel)]="newItemLink" placeholder="Link" type="url" id="new-item-link" />
-        </div><button
+        </div><button [disabled]="isProcessing()"
           (click)="createContactItem({label: newItemLabel(), link: newItemLink(), platform: newItemPlatform()})">Novo</button>
       </div>
     </article>
 
     }@else{
-    <section>
+    <button class="switch-mode" [disabled]="isProcessing()" (click)="editar()">Editar</button>
+    <article class="profile-card">
       <h1>{{ profile()?.firstname }} {{ profile()?.lastname }}</h1>
       <p class="job-title">{{ profile()?.jobTitle }}</p>
       <p class="credential">{{ profile()?.credential }}</p>
@@ -60,8 +62,7 @@
         }
       </div>
 
-      <button (click)="editar()">Editar</button>
-    </section>
+    </article>
     }
   </article>
 

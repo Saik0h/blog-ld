@@ -1,10 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { SupabaseService } from '../../core/services/supabase.service';
-import { User } from '../../core/utils/types';
+import { User } from '../utils/types';
+import { SupabaseService } from './supabase.service';
 import { v7 as uuid } from 'uuid';
-
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ImageService {
   private readonly supabase = inject(SupabaseService);
