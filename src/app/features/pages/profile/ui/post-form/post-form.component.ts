@@ -2,7 +2,6 @@ import { Component, inject, model, signal } from '@angular/core';
 import { UserService } from '../../../../../core/services/user.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { imageToBase64 } from '../../../../../shared/helpers/imageToBase64';
 import { Post, PostPayload } from '../../../../../core/utils/types';
 import { Router } from '@angular/router';
 
@@ -63,18 +62,6 @@ export class PostFormComponent {
   }
   async onSubmit() {
     const payload = signal(this.post());
-    let img: string | undefined;
-    if (!this.selectedImage) {
-      img = undefined;
-    } else {
-      img = await imageToBase64(this.selectedImage);
-      payload.update((current) => {
-        return {
-          ...current,
-          image: img!,
-        };
-      });
-    }
 
     const urlToGo = this.post().category === 'BLOG' ? `/blogs` : `/artigos`;
     this.userService.post(payload()).subscribe({
