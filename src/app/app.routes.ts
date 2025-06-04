@@ -36,8 +36,8 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'curriculo',
         data: { animation: 'CurriculumPage' },
+        path: 'curriculo',
         loadComponent: async () => {
           return import('./features/pages/curriculo/curriculo.component').then(
             (m) => m.CurriculoComponent
@@ -74,6 +74,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
+    data: { animation: 'NotFoundPage' },
     loadComponent: async () => {
       return import(
         './features/pages/shared/page-not-found/page-not-found.component'

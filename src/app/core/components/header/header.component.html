@@ -1,8 +1,9 @@
 <header class="header">
   <nav class="header__nav">
-    <h1 class="header__title">
-      <a [routerLink]="'/'">{{ title() }}</a>
-    </h1>
+    <div class="header__image">
+        <img [routerLink]="'/'" [src]="url()" [alt]="url()"  />
+      
+    </div>
 
     <ul class="header__link-list">
       @for (l of headerLinks(); track $index) {

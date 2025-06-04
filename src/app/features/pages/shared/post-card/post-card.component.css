@@ -1,55 +1,57 @@
 .post-card {
   display: flex;
-  flex-direction: row;
-  gap: 1.5rem;
-  background-color: var(--color-light);
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  flex-direction: column;
+  background: var(--color-bg);
+  border-radius: 1rem;
   overflow: hidden;
-  transition: transform 0.2s ease;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 400px;
+  margin: 1rem auto;
 }
 
 .post-card:hover {
-  transform: scale(1.01);
+  transform: translateY(-1 px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
 }
 
 .post-image img {
-  width: 200px;
-  height: 140px;
+  width: 100%;
+  min-height: 200px;
   object-fit: cover;
 }
 
 .post-info {
-  flex: 1;
-  padding: 1rem 0;
+  padding: 1rem;
 }
 
-.post-info h3 {
-  margin-top: 0;
+.post-title {
+  font-size: 1.5rem;
   color: var(--color-dark);
-  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .snippet {
   color: var(--color-secondary);
-  font-size: 1rem;
-  line-height: 1.5;
-  margin: 0.5rem 0 1rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
 }
 
 .meta {
-  font-size: 0.85rem;
-  color: var(--color-bg);
-  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
 }
 
 .read-more {
+  display: inline-block;
   color: var(--color-accent);
-  font-weight: 500;
+  font-weight: bold;
   text-decoration: none;
-  transition: color 0.2s ease;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.3s;
 }
 
 .read-more:hover {
-  color: var(--color-dark);
+  border-color: #ff9f1f;
 }

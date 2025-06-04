@@ -24,13 +24,8 @@ export class ProfileComponent {
   readonly unreadMails = signal<Mail[]>([])
   constructor() {
     this.isLoading.set(true)
-    this.authService.getUser().subscribe({
-      next: (user: User) => this.user.set(user),
-      error: (err) => {
-        this.isLoading.set(false)
-        throwError(() => err)
-      },
-    });
+    this.user.set(this.authService.user())
+    console.log(this.authService.user())
     this.mailService.getAllMails().pipe(
       map((mails): Mail[] => mails.filter(mail => {
         return mail.read !== true

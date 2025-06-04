@@ -4,7 +4,7 @@
   background: var(--color-light);
   display: flex;
   gap: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   padding: 2rem;
@@ -19,7 +19,7 @@
   max-width: 420px;
   width: 100%;
   margin: 0 auto;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   color: var(--color-secondary);
   transition: all 0.3s ease-in-out;
   position: relative;
@@ -89,7 +89,7 @@ input:focus {
   outline: none;
 }
 
-.profile-card button:not(.switch-mode) {
+.profile-card button:not(.switch-mode, .btn-loading) {
   background: var(--color-accent);
   color: var(--color-light);
   border: none;
@@ -130,7 +130,6 @@ input:focus {
   padding-inline: 0.75em;
   border-radius: 3px;
 }
-
 
 @media (max-width: 480px) {
   .profile-card {
@@ -180,8 +179,6 @@ input:focus {
   color: var(--color-secondary);
 }
 
-
-
 /* Responsividade */
 @media (max-width: 768px) {
   .curriculo {
@@ -219,4 +216,34 @@ input:focus {
   transform: translateY(-1px);
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
   cursor: pointer;
+}
+
+.btn-loading {
+  position: relative;
+  background-color: transparent;
+  border:2px solid #ff9f2f;
+  border-radius: 5px;
+  content: "";
+  width: 65px;
+  height: 35px;
+}
+.btn-loading::after {
+  position: absolute;
+  top: calc(50% - 7.5px);
+  left: calc(50% - 7.25px);
+  display: block;
+  min-width: 10px;
+  min-height:10px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  content: "";
+  z-index: 1000;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

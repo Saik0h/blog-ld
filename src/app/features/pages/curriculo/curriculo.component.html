@@ -3,76 +3,178 @@
 }@else if(!isLoading() && profile()){
 <section class="curriculo">
   <article class="profile-card">
-    <img [src]="profile()?.profileImage" [alt]="profile()?.firstname" class="profile-photo" />
+    <img
+      [src]="profile()?.profileImage"
+      [alt]="profile()?.firstname"
+      class="profile-photo"
+    />
     @if(editMode()){
-    <button (click)="editMode.set(false)" class="switch-mode">Modo de visualização</button>
+    <button (click)="editMode.set(false)" class="switch-mode">
+      Modo de visualização
+    </button>
     <article>
+      <label for="profile-firstname">Firstname</label>
+      <input
+        [(ngModel)]="profile()!.firstname!"
+        id="profile-firstname"
+        placeholder="Primeiro Nome"
+        type="text"
+      />
+      <label for="profile-lastname">Lastname</label>
+      <input
+        [(ngModel)]="profile()!.lastname!"
+        id="profile-lastname"
+        placeholder="Sobrenome"
+        type="text"
+      />
+      <label for="profile-jobtitle">Profissão</label>
+      <input
+        [(ngModel)]="profile()!.jobTitle!"
+        id="profile-jobtitle"
+        placeholder="Cargo"
+        type="text"
+      />
+      <label for="profile-credential">Credencial</label>
+      <input
+        [(ngModel)]="profile()!.credential!"
+        id="profile-credential"
+        placeholder="Credencial"
+        type="text"
+      />
 
-      <input [(ngModel)]="profile()!.firstname!" placeholder="Primeiro Nome" type="text" />
-      <input [(ngModel)]="profile()!.lastname!" placeholder="Sobrenome" type="text" />
-      <input [(ngModel)]="profile()!.jobTitle!" placeholder="Cargo" type="text" />
-      <input [(ngModel)]="profile()!.credential!" placeholder="Credencial" type="text" />
-
+      <button
+        (click)="UpdateProfileInfo()"
+        [disabled]="isProcessing()"
+        [class]="isProcessing() ? 'btn-loading' : 'btn'"
+      >
+        {{ isProcessing() ? "" : "Salvar" }}
+      </button>
       <div class="contact-info">
-        @for(item of contactInfo()!.items; track item.label){
+        @for(item of contactInfo()!.items; track item.id){
         <fieldset class="field">
-
           <legend>
-            <button [disabled]="isProcessing()" (click)="deleteContactItem(item.id)">Remover</button>
-            <button [disabled]="isProcessing()" (click)="updateContactItem(item)">Atualizar</button>
+            <button
+              [disabled]="isProcessing()"
+              (click)="deleteContactItem(item.id)"
+              [class]="isProcessing() ? 'btn-loading' : ''"
+            >
+              {{ isProcessing() ? "" : "Remover" }}
+            </button>
+            <button
+              [disabled]="isProcessing()"
+              (click)="updateContactItem(item)"
+              [class]="isProcessing() ? 'btn-loading' : ''"
+            >
+              {{ isProcessing() ? "" : "Atualizar" }}
+            </button>
           </legend>
           <label [for]="item.platform">Plataforma</label>
-          <input [(ngModel)]="item.platform" placeholder="Plataforma" type="text" [id]="item.platform" />
+          <input
+            [(ngModel)]="item.platform"
+            placeholder="Plataforma"
+            type="text"
+            [id]="item.platform"
+          />
 
           <label [for]="item.label">Tag ou nome:</label>
-          <input [(ngModel)]="item.label" placeholder="Nome" type="text" [id]="item.label" />
+          <input
+            [(ngModel)]="item.label"
+            placeholder="Nome"
+            type="text"
+            [id]="item.label"
+          />
 
           <label [for]="item.link">Link</label>
-          <input [(ngModel)]="item.link" placeholder="Link" type="url" [id]="item.link" />
+          <input
+            [(ngModel)]="item.link"
+            placeholder="Link"
+            type="url"
+            [id]="item.link"
+          />
         </fieldset>
         }
       </div>
       <div class="create-contact-item">
         <div>
           <label for="new-item-platform">Plataforma</label>
-          <input [(ngModel)]="newItemPlatform" placeholder="Plataforma" type="text" id='new-item-platform' />
+          <input
+            [(ngModel)]="newItemPlatform"
+            placeholder="Plataforma"
+            type="text"
+            id="new-item-platform"
+          />
 
           <label for="new-item-label">Tag ou nome:</label>
-          <input [(ngModel)]="newItemLabel" placeholder="Nome" type="text" id="new-item-label" />
+          <input
+            [(ngModel)]="newItemLabel"
+            placeholder="Nome"
+            type="text"
+            id="new-item-label"
+          />
 
           <label for="new-item-link">Link</label>
-          <input [(ngModel)]="newItemLink" placeholder="Link" type="url" id="new-item-link" />
-        </div><button [disabled]="isProcessing()"
-          (click)="createContactItem({label: newItemLabel(), link: newItemLink(), platform: newItemPlatform()})">Novo</button>
+          <input
+            [(ngModel)]="newItemLink"
+            placeholder="Link"
+            type="url"
+            id="new-item-link"
+          />
+        </div>
+        <button
+          [disabled]="isProcessing()"
+          (click)="
+            createContactItem({
+              label: newItemLabel(),
+              link: newItemLink(),
+              platform: newItemPlatform()
+            })
+          "
+          [class]="isProcessing() ? 'btn-loading' : 'btn'"
+        >
+        {{ isProcessing() ? "" : "Adicionar novo" }}
+        </button>
       </div>
     </article>
 
     }@else{
-    <button class="switch-mode" [disabled]="isProcessing()" (click)="editar()">Editar</button>
+    <button class="switch-mode" [disabled]="isProcessing()" (click)="editar()">
+      Editar
+    </button>
     <article class="profile-card">
       <h1>{{ profile()?.firstname }} {{ profile()?.lastname }}</h1>
       <p class="job-title">{{ profile()?.jobTitle }}</p>
       <p class="credential">{{ profile()?.credential }}</p>
 
       <div class="contact-info">
-        @for (i of contactInfo()?.items; track i.label) {
+        @for (i of contactInfo()?.items; track i.id) {
         <p>
           {{ i.platform }}: <a [href]="i.link" target="_blank">{{ i.label }}</a>
         </p>
         }
       </div>
-
     </article>
     }
   </article>
 
   <main class="main-content">
-    <app-curriculo-section [topic]="academicInfo()!" [createItem]="createAcademicItem" [deleteItem]="deleteAcademicItem"
-      [updateItem]="updateAcademicItem" />
-    <app-curriculo-section [topic]="experienceInfo()!" [deleteItem]="deleteExperienceItem"
-      [createItem]="createExperienceItem" [updateItem]="updateExperienceItem" />
-    <app-curriculo-section [topic]="teachingInfo()!" [createItem]="createTeachingItem" [deleteItem]="deleteTeachingItem"
-      [updateItem]="updateTeachingItem" />
+    <app-curriculo-section
+      [topic]="academicInfo()!"
+      [createItem]="createAcademicItem"
+      [deleteItem]="deleteAcademicItem"
+      [updateItem]="updateAcademicItem"
+    />
+    <app-curriculo-section
+      [topic]="experienceInfo()!"
+      [deleteItem]="deleteExperienceItem"
+      [createItem]="createExperienceItem"
+      [updateItem]="updateExperienceItem"
+    />
+    <app-curriculo-section
+      [topic]="teachingInfo()!"
+      [createItem]="createTeachingItem"
+      [deleteItem]="deleteTeachingItem"
+      [updateItem]="updateTeachingItem"
+    />
   </main>
 </section>
 }

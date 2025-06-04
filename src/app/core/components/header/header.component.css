@@ -15,10 +15,16 @@
     font-size: 1.1rem;
   }
 
-  .header__title {
+  .header__image {
     font-size: 1.5rem;
     margin: 0;
 
+    max-height: 80px;
+    aspect-ratio: 1/1;
+    img{
+      object-fit: cover;
+      max-width: 100%;
+    }
     a {
       text-decoration: none;
       color: var(--color-light);

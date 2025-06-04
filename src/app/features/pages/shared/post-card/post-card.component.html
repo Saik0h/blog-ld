@@ -1,14 +1,14 @@
- <article class="post-card">
-      <div class="post-image">
-        <img [src]="post.image" [alt]="post.title" />
-      </div>
-      <div class="post-info">
-        <h3>{{ post.title }}</h3>
-        <p class="snippet">{{ post.text | slice:0:150 }}...</p>
-        <div class="meta">
-          <span>By {{ post.author.firstname }} {{ post.author.lastname }}</span>
-          <span>· {{ post.createdAt | date }}</span>
-        </div>
-        <a [routerLink]="[`/${category}/`, post.id]" class="read-more">Read More →</a>
-      </div>
-    </article>
+<article class="post-card">
+  <div class="post-image">
+    <img [src]="post.image" [alt]="post.title" />
+  </div>
+  <div class="post-info">
+    <h3 class="post-title">{{ post.title }}</h3>
+    <p class="snippet">{{ post.text | slice:0:150 }}...</p>
+    <div class="meta">
+      <span class="author">By {{ post.author.firstname }} {{ post.author.lastname }}</span>
+      <span class="date">· {{ post.createdAt | date }}</span>
+    </div>
+    <a [routerLink]="[`/${category}/`, post.id]" class="read-more">Read More →</a>
+  </div>
+</article>

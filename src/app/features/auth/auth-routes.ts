@@ -5,6 +5,7 @@ import { loginGuard } from './login/login.guard';
 export const routes: Routes = [
   {
     path: '',
+    data: { animation: 'Auth' },
     loadComponent: async () => {
       return import('./layout.component').then((m) => m.LayoutComponent);
     },
@@ -17,12 +18,14 @@ export const routes: Routes = [
       {
         path: 'login',
         canActivate:[loginGuard],
+        data: { animation: 'AuthLoginPage' },
         loadComponent: () =>
           import('./login/login.component').then((m) => m.LoginComponent),
       },
       {
         path: 'registrar',
         canActivate:[authGuard],
+        data: { animation: 'AuthRegisterPage' },
         loadComponent: () =>
           import('./register/register.component').then(
             (m) => m.RegisterComponent

@@ -9,7 +9,7 @@ import { ButtonComponent } from '../shared/button.component';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  title = signal('Website Logo');
+  url = signal('/logo.png');
   btnText = 'Ver Currículo';
   btnGoTo = 'curriculo';
   headerLinks = signal([
