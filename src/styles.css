@@ -1,12 +1,20 @@
 :root {
-  --color-bg: hsl(0, 0%, 95%);
+  --color-dark: hsl(210, 50%, 20%);       /* professional navy-gray for text & contrast */
+  --color-bg: hsl(52, 100%, 95%);
   --color-dark: hsl(204, 86%, 6%);
-  --color-light: hsl(60, 100%, 97%);
-  --color-accent: hsl(35, 100%, 55%);
-  --color-secondary: hsl(45, 7%, 35%);
-  --color-primary: hsl(220, 85%, 55%);
+  --color-light: hsl(0, 0%, 98%);
+  --color-accent: hsl(35, 100%, 50%);
+  --color-primary: hsl(243, 77%, 59%);
+  --color-secondary: hsla(10, 93%, 73%, 0.651);
 }
 
+:root {
+  --color-bg: hsl(48, 100%, 97%);         /* soft warm background – playful and inviting */
+  --color-light: hsl(0, 0%, 100%);        /* pure white for cards, etc. */
+  --color-accent: hsl(36, 100%, 55%);     /* elegant golden-orange – stands out warmly */
+  --color-primary: hsl(248, 60%, 60%);    /* soft purple-blue – fun yet trustworthy */
+  --color-secondary: hsl(343, 75%, 65%);  /* vibrant coral pink – playful with taste */
+}
 * {
   padding: 0;
   margin: 0;
@@ -40,6 +48,7 @@ section {
   border-radius: 0.5em;
   transition: ease-in-out 0.2s;
   border: 1px solid transparent;
+
   &&:hover {
     cursor: pointer;
     transform: translateY(-1.5px);

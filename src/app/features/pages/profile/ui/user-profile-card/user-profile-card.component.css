@@ -1,88 +1,60 @@
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 250px;
-  background-color: #1c1c1c;
-  color: #fff;
-  overflow: hidden;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-  /* transform: translateX(); */
-  transition: transform 0.3s ease-in-out;
-  z-index: 1000;
-  padding: 1rem;
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  background-color: var(--color-bg);
+  color: var(--color-dark);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 400px;
+  margin: auto;
+  font-family: 'Segoe UI', sans-serif;
+}
 
-  &.open {
-    transform: translateX(0);
-  }
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent);
+  object-fit: cover;
+}
 
-  .toggle-sidebar-btn {
-    position: absolute;
-    top: 1rem;
-    right: -30px;
-    width: 30px;
-    height: 30px;
-    background-color: var(--color-accent);
-    border: none;
-    border-radius: 0 5px 5px 0;
-    color: #fff;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.info h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--color-dark);
+}
 
-    &:hover {
-      background-color: darken(var(--color-accent), 10%);
-    }
-  }
+.username {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: var(--color-primary);
+}
 
-  .profile-header {
-    text-align: center;
+.role {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--color-light);
+  color: var(--color-primary);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
 
-    figure {
-      margin: 0 auto 1rem auto;
+.logout {
+  margin-left: auto;
+  background: var(--color-accent);
+  color: var(--color-light);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
 
-      img,
-      i {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        object-fit: cover;
-        background-color: #fff;
-        color: #333;
-        font-size: 3rem;
-      }
-    }
-
-    .profile-name {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin: 0.5rem 0;
-    }
-
-    .username,
-    .role {
-      font-size: 0.9rem;
-      color: #ccc;
-    }
-  }
-
-  .profile-footer {
-    margin-top: 2rem;
-    text-align: center;
-
-    .logout-button {
-      background-color: var(--color-accent);
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-
-      &:hover {
-        background-color: darken(var(--color-accent), 10%);
-      }
-    }
-  }
+.logout:hover {
+  background: var(--color-secondary);
 }

@@ -1,29 +1,9 @@
-<aside [class]="open() ? 'sidebar open' : 'sidebar'">
-  <button (click)="open.set(!open())" class="toggle-sidebar-btn">
-    {{ open() ? "<" : ">" }}
-  </button>
-
-  <header class="profile-header">
-    <figure>
-      @if(user()!.profileImage){
-      <img
-        [src]="user()!.profileImage"
-        alt="Foto de perfil de {{ user()!.firstname }} {{ user()!.lastname }}"
-        class="profile-photo"
-      />
-      } @else{
-      <i class="bi bi-person-circle"></i>
-      }
-      <figcaption class="sr-only">
-        Foto de perfil de {{ user()!.firstname }} {{ user()!.lastname }}
-      </figcaption>
-    </figure>
-    <h2 class="profile-name">{{ user()!.firstname }} {{ user()!.lastname }}</h2>
+<aside class="profile">
+  <img [src]="user()!.profileImage" [alt]="user()!.firstname + ' ' + user()!.lastname" class="avatar" />
+  <div class="info">
+    <h2>{{ user()!.firstname }} {{ user()!.lastname }}</h2>
     <p class="username">{{ user()!.username }}</p>
-    <p class="role">{{ user()!.role }}</p>
-  </header>
-  <input type="file" (change)="uploadImage($event)" />
-  <footer class="profile-footer">
-    <button class="logout-button" (click)="logout()">Sair</button>
-  </footer>
+    <span class="role">{{ user()!.role }}</span>
+  </div>
+  <button class="logout" (click)="logout()" title="Sair">⎋</button>
 </aside>

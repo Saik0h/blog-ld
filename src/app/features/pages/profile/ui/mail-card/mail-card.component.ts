@@ -9,18 +9,10 @@ import { Mail } from '../../../../../core/utils/types';
   styleUrls: ['./mail-card.component.css'],
 })
 export class MailCardComponent {
-  @Input() mail: Mail = {
-    id: '',
-    subject: '',
-    message: '',
-    name: '',
-    email: '',
-    createdAt: '',
-    read: false,
-  };
+  @Input({required: true}) mail: Mail | null = null;
 
   @Input() redirect = (id: string) => {};
   redirects() {
-    this.redirect(this.mail.id);
+    this.redirect(this.mail!.id);
   }
 }

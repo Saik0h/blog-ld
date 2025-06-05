@@ -21,8 +21,18 @@ export class LoginComponent {
   };
 
   private authService: AuthService = inject(AuthService);
+  private router: Router = inject(Router);
 
   onSubmit() {
-    this.authService.login(this.loginData)
+    this.authService.login(this.loginData).subscribe({
+      error: (err) => throwError(() => err),
+      complete: () => {
+        this.router.navigate(['profile'])
+        this.loginData = {
+          username: '',
+          password: ''
+        }
+      }
+    })
   }
 }

@@ -1,0 +1,18 @@
+<section class="inbox-widget">
+    @if(isLoading()){
+    <app-loading />
+    } @else {
+    <h2>
+        Mensagens não lidas
+    </h2>
+    @if(mails()!== null){
+    <ul class="unread-mails">
+        @for (mail of mails(); track mail.id) {
+        <app-mail-card [mail]="mail" />
+        }
+    </ul>
+    } @else {
+    <app-resource-empty />
+    }
+    }
+</section>

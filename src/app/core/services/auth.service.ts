@@ -14,114 +14,47 @@ export class AuthService {
   private readonly router = inject(Router);
   public user = signal<User | null>(null);
 
-  register = (data: RegisterPayload): Message => {
+  register = (data: RegisterPayload): Observable<Message> => {
     const url = `${this.url}/register`;
-    try {
-      this.http
-        .post<Message>(url, data, {
-          withCredentials: true,
-        })
-        .subscribe({
-          next: () => {},
-          error: (err) => {
-            throwError(() => {
-              err;
-            });
-          },
-          complete: () => {
-            this.isLoggedIn.set(true);
-            this.router.navigate(['profile']);
-          },
-        });
-      return { message: 'Registro efetuado com sucesso' };
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  };
-
-  login = (data: LoginPayload): Message => {
-    const url = `${this.url}/login`;
-    try {
-      this.http
-        .post<Message>(url, data, {
-          withCredentials: true,
-        })
-        .subscribe({
-          next: () => {},
-          error: (err) => {
-            throwError(() => err);
-          },
-          complete: () => {
-            this.isLoggedIn.set(true);
-            this.router.navigate(['profile']);
-          },
-        });
-      return { message: 'Login efetuado com sucesso' };
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  };
-
-  getUser = (): Message => {
-    this.http
-      .get<User>(`${this.url}/user`, {
+    return this.http
+      .post<Message>(url, data, {
         withCredentials: true,
       })
-      .subscribe({
-        next: (res: User) => {
-          this.user.set(res);
-        },
-        error: (err) => {
-          this.isLoggedIn.set(false);
-          throwError(() => err);
-        },
-        complete: () => {
-          this.isLoggedIn.set(true);
-        },
-      });
-    return { message: `Usuário Logado ${this.user()?.firstname}` };
+  }
+
+  login = (data: LoginPayload): Observable<Message> => {
+    const url = `${this.url}/login`;
+    return this.http
+      .post<Message>(url, data, {
+        withCredentials: true,
+      })
+  }
+
+  status = (): Observable<boolean> => {
+    const url = `${this.url}/status`;
+    return this.http
+      .get<boolean>(url, {
+        withCredentials: true,
+      })
+  }
+
+  getUser = (): Observable<User> => {
+    const url = `${this.url}/user`
+    return this.http
+      .get<User>(url, {
+        withCredentials: true,
+      })
   };
 
-  refresh = (): Message => {
-    try {
-      this.http
-        .post<Message>(`${this.url}/refresh`, {}, { withCredentials: true })
-        .subscribe({
-          next: () => {
-            this.isLoggedIn.set(true);
-          },
-          error: (err) => {
-            this.isLoggedIn.set(false);
-            this.router.navigate(['login']);
-            throwError(() => err);
-          },
-        });
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-
-    return { message: 'Usuário autenticado!' };
+  refresh = (): Observable<Message> => {
+    const url = `${this.url}/refresh`
+    return this.http
+      .post<Message>(url, {}, { withCredentials: true })
   };
 
-  logout = (): Message => {
-    this.http
-      .post<Message>(`${this.url}/logout`, {}, { withCredentials: true })
-      .subscribe({
-        next: () => {
-          this.isLoggedIn.set(false);
-        },
-        error: (err) => {
-          this.isLoggedIn.set(false);
-          this.router.navigate(['/']);
-          throwError(() => err);
-        },
-        complete: () => {
-          this.router.navigate(['/']);
-        },
-      });
-    return { message: 'Usuário desconectado' };
+  logout = (): Observable<Message> => {
+    const url = `${this.url}/logout`
+    return this.http
+      .post<Message>(url, {}, { withCredentials: true })
   };
 }
