@@ -1,4 +1,4 @@
-import { Component, inject, model, signal } from '@angular/core';
+import { Component, inject, Input, input, model, signal } from '@angular/core';
 import { UserService } from '../../../../../core/services/user.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -16,6 +16,7 @@ export class PostFormComponent {
   private userService = inject(UserService);
   private router = inject(Router);
 
+  @Input() submitImage = (file: File): void => {};
   post = model<PostPayload>({
     category: 'BLOG',
     text: '',
@@ -34,6 +35,11 @@ export class PostFormComponent {
     });
     this.reference.set('');
   }
+
+  pushImageToCloud = (file: File) => {
+    this.submitImage(file);
+  };
+
   selectedImage: File | null = null;
 
   onFileChange(event: Event): void {
@@ -41,7 +47,7 @@ export class PostFormComponent {
 
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-
+      this.pushImageToCloud(file);
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview.set(reader.result as string);
@@ -60,6 +66,7 @@ export class PostFormComponent {
       };
     });
   }
+
   async onSubmit() {
     const payload = signal(this.post());
 

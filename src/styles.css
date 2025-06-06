@@ -9,12 +9,13 @@
 }
 
 :root {
-  --color-bg: hsl(48, 100%, 97%);         /* soft warm background – playful and inviting */
-  --color-light: hsl(0, 0%, 100%);        /* pure white for cards, etc. */
-  --color-accent: hsl(36, 100%, 55%);     /* elegant golden-orange – stands out warmly */
-  --color-primary: hsl(248, 60%, 60%);    /* soft purple-blue – fun yet trustworthy */
-  --color-secondary: hsl(343, 75%, 65%);  /* vibrant coral pink – playful with taste */
+  --color-bg: hsl(48, 100%, 97%);
+  --color-light: hsl(0, 0%, 100%);     
+  --color-accent: hsl(36, 100%, 55%);
+  --color-primary: hsl(248, 60%, 60%);   
+  --color-secondary: hsl(343, 75%, 65%);  
 }
+
 * {
   padding: 0;
   margin: 0;

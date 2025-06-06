@@ -2,10 +2,10 @@
   @if(isLoading()){
   <app-loading />
   } @else {
-  <app-user-profile-card [user]="user" [logout]="logout" />
+  <app-user-profile-card [user]="user" [logout]="logout"  />
   <app-inbox-widget />
   <aside>
-    <app-post-form />
+    <app-post-form [submitImage]="uploadImage" />
   </aside>
   }
 </main>

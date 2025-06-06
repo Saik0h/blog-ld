@@ -98,17 +98,30 @@ export class CurriculumService {
     return this.http.patch<Message>(`${this.url}/contact`, body);
   };
 
-  updateContactItem = (
-    data: { id: number, label: string, link: string, platform: string }
-  ): Observable<Message> => {
-    return this.http.patch<Message>(`${this.url}/contact/${data.id}`, data);
+  updateContactItem = (data: {
+    id: number;
+    label: string;
+    link: string;
+    platform: string;
+  }): Observable<Message> => {
+    return this.http.patch<Message>(`${this.url}/contact/${data.id}`, data, {
+      withCredentials: true,
+    });
   };
 
-  createContactItem = (data: {label: string, link: string, platform: string}): Observable<Message> => {
-    return this.http.post<Message>(`${this.url}/contact/item`, data);
+  createContactItem = (data: {
+    label: string;
+    link: string;
+    platform: string;
+  }): Observable<Message> => {
+    return this.http.post<Message>(`${this.url}/contact/item`, data, {
+      withCredentials: true,
+    });
   };
 
   deleteContactItem = (id: number): Observable<Message> => {
-    return this.http.delete<Message>(`${this.url}/contact/${id}`);
+    return this.http.delete<Message>(`${this.url}/contact/${id}`, {
+      withCredentials: true,
+    });
   };
 }

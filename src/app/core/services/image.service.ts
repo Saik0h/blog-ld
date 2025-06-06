@@ -3,7 +3,7 @@ import { User } from '../utils/types';
 import { SupabaseService } from './supabase.service';
 import { v7 as uuid } from 'uuid';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ImageService {
   private readonly supabase = inject(SupabaseService);
@@ -27,17 +27,19 @@ export class ImageService {
     }
   }
 
-  async uploadImage(e: any, user: User) {
-    let file = e.target.files[0];
+  async uploadImage(file: File) {
     const { data, error } = await this.supabase
       .getClient()
       .storage.from('images')
-      .upload(user.id + '/', uuid(), file);
+      .upload(`public/${file.name}`, file, {
+        cacheControl: '3600',
+        upsert: false,
+      });
 
-    if (data) {
-      this.getImages(user);
+    if (error) {
+      console.error('Error uploading:', error.message);
     } else {
-      console.log(error);
+      console.log('Upload successful:', data);
     }
   }
 }
