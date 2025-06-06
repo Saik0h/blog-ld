@@ -7,11 +7,27 @@ export type Curriculum = {
   lastname: string;
   credential: string;
   jobTitle: string;
-  contact_field: CurriculumContactInfo;
-  teaching_field: CurriculumTeachingInfo;
-  experiences_field: CurriculumExperienceInfo;
-  academic_field: CurriculumAcademicInfo;
+  fields: Field[]
+  contactInfo: ContactInfo[]
 };
+
+export type CurriculumCreatePayload = {
+  firstname: string,
+  lastname: string,
+  jobTitle: string,
+  credential: string,
+  profileImage: string;
+}
+
+export type CurriculumUpdatePayload = {
+  firstname?: string,
+  lastname?: string,
+  jobTitle?: string,
+  credential?: string,
+  profileImage?: string;
+}
+
+
 export type CurriculumPersonalData = {
   profileImage: string;
   firstname: string;
@@ -19,25 +35,33 @@ export type CurriculumPersonalData = {
   credential: string;
   jobTitle: string;
 };
-export type CurriculumContactInfo = {
-  title: string; items: {
-    id: number;
-    label: string;
-    link: string;
-    platform: string
-  }[]
+export type CreateContactInfoPayload = {
+  label: string;
+  link: string;
+  platform: string
+}
+
+export type ContactInfo = {
+  id: number;
+  label: string;
+  link: string;
+  platform: string
 };
-export type CurriculumAcademicInfo = { title: string; items: { id: number, description: string }[] };
-export type CurriculumExperienceInfo = { title: string; items: { id: number, description: string }[] };
-export type CurriculumTeachingInfo = { title: string; items: { id: number, description: string }[] };
-export type CurriculumDataUpdate = any;
-export type CurriculumBodyCreate = any;
+
+export type UpdateContactInfoPayload = {
+  id: number;
+  label?: string;
+  link?: string;
+  platform?: string
+};
+
 export type RegisterPayload = {
   firstname: string;
   lastname: string;
   username: string;
   password: string;
 };
+
 export type User = {
   id: string;
   profileImage: string;
@@ -99,6 +123,23 @@ export type PostPayload = {
   references?: string[];
   image?: string;
 };
+
+export type CreateFieldPayload = {
+  title: string;
+  items: string[];
+}
+
+export type Field = {
+  id: number;
+  title: string;
+  items: string[];
+}
+
+export type UpdateFieldPayload = {
+  id: number;
+  title: string;
+  items?: string[];
+}
 
 export type faq = {
   id: number

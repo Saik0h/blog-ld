@@ -1,9 +1,8 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, Input, input, model, signal } from '@angular/core';
 import {
-  CurriculumAcademicInfo,
-  CurriculumExperienceInfo,
-  CurriculumTeachingInfo,
+  Field,
+  UpdateFieldPayload,
 } from '../../../../../core/utils/types';
 import { FormsModule } from '@angular/forms';
 
@@ -14,31 +13,42 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './curriculo-section.component.css',
 })
 export class CurriculoSectionComponent {
-  isEditing = signal(false);
-  topic = input<
-    CurriculumAcademicInfo | CurriculumExperienceInfo | CurriculumTeachingInfo
-  >();
-  @Input() updateTitle = (data: { title: string }) => {};
-  @Input() updateItem = (id: number, data: { description: string }) => {};
-  @Input() createItem = (body: { description: string }) => {};
-  @Input() deleteItem = (id: number) => {};
-  newItem = model<string>('');
-  toggle = () => {
-    this.isEditing.set(!this.isEditing());
-  };
-  updateItemInput = model<string>();
-  updateField = (data: { title: string }) => {
-    this.updateField(data);
-    this.isEditing.set(false);
+  @Input() updateSection = (fieldData: UpdateFieldPayload) => { };
+  @Input() fieldInfo: Field = {
+    id: 0,
+    title: '',
+    items: [''],
   };
 
-  create = (body: { description: string }) => {
-    this.createItem(body);
-  };
-  delete = (id: number) => {
-    this.deleteItem(id);
-  };
-  update = (id: number, data: { description: string }) => {
-    this.updateItem(id, data);
+
+  readonly isEditing = signal(false);
+
+  editTitle(value: string) {
+    this.fieldInfo.title = value
+  }
+
+
+  pushNewItem = (input: HTMLInputElement) => {
+    const value = input.value
+    if (!value) return;
+    this.fieldInfo.items.push(value)
+    input.value = ''
+  }
+
+  editItem(index: number, newValue: string) {
+    if (!this.fieldInfo || !this.fieldInfo.items) return;
+
+    this.fieldInfo.items[index] = newValue;
+
+    console.log(this.fieldInfo.items);
+  }
+
+  deleteItem = (index: number) => {
+    this.fieldInfo.items.splice(index, 1)
+  }
+
+  save = (fieldData: UpdateFieldPayload) => {
+    this.updateSection(fieldData);
+    this.isEditing.set(false)
   };
 }

@@ -2,57 +2,41 @@
   <span class="title-wrapper">
     @if (isEditing()) {
     <form>
-      <input
-        class="title-input"
-        type="text"
-        [(ngModel)]="topic()!.title"
-        name="title"
-        placeholder="Enter title"
-      />
+      <input class="title-input" type="text" [value]="fieldInfo.title" name="title" placeholder="Enter title"
+        (input)="editTitle(titleInput.value)" #titleInput />
     </form>
-    <button
-      (click)="updateField({ title: topic()!.title })"
-      class="change-title-btn"
-    >
+    <button (click)="save(fieldInfo)" class="change-title-btn">
       <i class="bi bi-check-lg"></i>
     </button>
     } @else {
-    <h2>{{ topic()?.title | titlecase }}</h2>
-    <button (click)="toggle()">
+    <h2>{{ fieldInfo.title | titlecase }}</h2>
+    <button (click)="isEditing.set(true)">
       <i class="bi bi-pencil-square"></i>
     </button>
     }
   </span>
 
   <ul>
-    @for(item of topic()!.items; track item.id) {
-      @if(isEditing()){
-        <li>
-          <input type="text" [value]="item.description" [(ngModel)]="item.description" name="updateItemInput">
-          <button (click)="update(item.id, { description: item.description })">
-            <i class="bi bi-pencil-square"></i>
-          </button>
-          <button (click)="delete(item.id)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </li>
-      }@else {
-        <li>
-        {{ item.description }}
-      </li>
-      }
+    @for(item of fieldInfo.items; track $index) {
+    @if(isEditing()){
+    <li>
+      <input type="text" [value]="item" (input)="editItem($index, current.value)" [name]="$index" #current />
+      <button (click)="deleteItem($index)">
+        <i class="bi bi-dash-lg"></i>
+      </button>
+    </li>
+    }@else {
+    <li>
+      {{ item }}
+    </li>
+    }
     }
   </ul>
 
   @if (isEditing()) {
-  <form>
-    <input
-      class="item-input"
-      type="text"
-      [(ngModel)]="newItem"
-      name="newItem"
-    />
-    <button (click)="create({description: newItem()})">
+  <form (submit)="pushNewItem(newItem)">
+    <input class="item-input" type="text" name="newItem" #newItem />
+    <button>
       <i class="bi bi-plus-lg"></i>
     </button>
   </form>

@@ -1,42 +1,42 @@
 @if(isLoading()){
 <app-loading />
-}@else if(!isLoading() && profile()){
+}@else if(!isLoading() && curriculum()){
 <section class="curriculo">
   <article class="profile-card">
     <img
-      [src]="profile()?.profileImage"
-      [alt]="profile()?.firstname"
+      [src]="curriculum()!.profileImage"
+      [alt]="curriculum()!.firstname"
       class="profile-photo"
     />
     @if(editMode()){
-    <button (click)="editMode.set(false)" class="switch-mode">
+    <button (click)="toggle()" class="switch-mode">
       Modo de visualização
     </button>
     <article>
       <label for="profile-firstname">Firstname</label>
       <input
-        [(ngModel)]="profile()!.firstname!"
+        [(ngModel)]="curriculum()!.firstname!"
         id="profile-firstname"
         placeholder="Primeiro Nome"
         type="text"
       />
       <label for="profile-lastname">Lastname</label>
       <input
-        [(ngModel)]="profile()!.lastname!"
+        [(ngModel)]="curriculum()!.lastname!"
         id="profile-lastname"
         placeholder="Sobrenome"
         type="text"
       />
       <label for="profile-jobtitle">Profissão</label>
       <input
-        [(ngModel)]="profile()!.jobTitle!"
+        [(ngModel)]="curriculum()!.jobTitle!"
         id="profile-jobtitle"
         placeholder="Cargo"
         type="text"
       />
       <label for="profile-credential">Credencial</label>
       <input
-        [(ngModel)]="profile()!.credential!"
+        [(ngModel)]="curriculum()!.credential!"
         id="profile-credential"
         placeholder="Credencial"
         type="text"
@@ -50,7 +50,7 @@
         {{ isProcessing() ? "" : "Salvar" }}
       </button>
       <div class="contact-info">
-        @for(item of contactInfo()!.items; track item.id){
+        @for(item of curriculum()!.contactInfo; track item.id){
         <fieldset class="field">
           <legend>
             <button
@@ -137,16 +137,16 @@
     </article>
 
     }@else{
-    <button class="switch-mode" [disabled]="isProcessing()" (click)="editar()">
+    <button class="switch-mode" [disabled]="isProcessing()" (click)="toggle()">
       Editar
     </button>
     <article class="profile-card">
-      <h1>{{ profile()?.firstname }} {{ profile()?.lastname }}</h1>
-      <p class="job-title">{{ profile()?.jobTitle }}</p>
-      <p class="credential">{{ profile()?.credential }}</p>
+      <h1>{{curriculum()?.firstname }} {{curriculum()?.lastname }}</h1>
+      <p class="job-title">{{curriculum()?.jobTitle }}</p>
+      <p class="credential">{{curriculum()?.credential }}</p>
 
       <div class="contact-info">
-        @for (i of contactInfo()?.items; track i.id) {
+        @for (i of curriculum()!.contactInfo; track i.id) {
         <p>
           {{ i.platform }}: <a [href]="i.link" target="_blank">{{ i.label }}</a>
         </p>
@@ -157,24 +157,9 @@
   </article>
 
   <main class="main-content">
-    <app-curriculo-section
-      [topic]="academicInfo()!"
-      [createItem]="createAcademicItem"
-      [deleteItem]="deleteAcademicItem"
-      [updateItem]="updateAcademicItem"
-    />
-    <app-curriculo-section
-      [topic]="experienceInfo()!"
-      [deleteItem]="deleteExperienceItem"
-      [createItem]="createExperienceItem"
-      [updateItem]="updateExperienceItem"
-    />
-    <app-curriculo-section
-      [topic]="teachingInfo()!"
-      [createItem]="createTeachingItem"
-      [deleteItem]="deleteTeachingItem"
-      [updateItem]="updateTeachingItem"
-    />
+    @for (field of curriculum()!.fields; track field.id) {
+      <app-curriculo-section [fieldInfo]="field" [updateSection]="updateField"/>
+    }
   </main>
 </section>
 }

@@ -1,12 +1,12 @@
 import { Component, inject, model, signal } from '@angular/core';
 import { CurriculumService } from '../../../core/services/curriculum.service';
 import {
+  CreateContactInfoPayload,
+  CreateFieldPayload,
   Curriculum,
-  CurriculumAcademicInfo,
-  CurriculumContactInfo,
-  CurriculumExperienceInfo,
-  CurriculumPersonalData,
-  CurriculumTeachingInfo,
+  CurriculumUpdatePayload,
+  UpdateContactInfoPayload,
+  UpdateFieldPayload,
 } from '../../../core/utils/types';
 import { throwError } from 'rxjs';
 import { LoadingComponent } from '../shared/loading/loading.component';
@@ -24,15 +24,9 @@ export class CurriculoComponent {
   public readonly isLoading = signal(false);
   public readonly isProcessing = signal(false);
 
-  public readonly error = signal(false);
   public readonly editMode = signal(false);
-  public readonly profile = signal<CurriculumPersonalData | null>(null);
-  public readonly contactInfo = signal<CurriculumContactInfo | null>(null);
-  public readonly academicInfo = signal<CurriculumAcademicInfo | null>(null);
-  public readonly teachingInfo = signal<CurriculumTeachingInfo | null>(null);
-  public readonly experienceInfo = signal<CurriculumExperienceInfo | null>(
-    null
-  );
+  public readonly curriculum = signal<Curriculum | null>(null);
+
   newItemLabel = model('');
   newItemLink = model('');
   newItemPlatform = model('');
@@ -41,20 +35,9 @@ export class CurriculoComponent {
     this.isLoading.set(true);
     this.server.getCurriculum().subscribe({
       next: (res: Curriculum) => {
-        this.profile.set({
-          firstname: res.firstname,
-          lastname: res.lastname,
-          profileImage: res.profileImage,
-          credential: res.credential,
-          jobTitle: res.jobTitle,
-        });
-        this.academicInfo.set(res.academic_field);
-        this.contactInfo.set(res.contact_field);
-        this.experienceInfo.set(res.experiences_field);
-        this.teachingInfo.set(res.teaching_field);
+        this.curriculum.set(res);
       },
       error: (err) => {
-        this.error.set(true);
         this.isLoading.set(false);
         throwError(() => err);
       },
@@ -66,13 +49,25 @@ export class CurriculoComponent {
     this.loadCurriculum();
   }
 
-  editar() {
+  toggle() {
     this.editMode.set(!this.editMode());
   }
 
   UpdateProfileInfo() {
     this.isProcessing.set(true);
-    this.server.updateCurriculum(this.profile()).subscribe({
+
+    if (this.curriculum === null) {
+      this.isProcessing.set(false)
+      return
+    };
+
+    const data: CurriculumUpdatePayload = {
+      ...this.curriculum()! as CurriculumUpdatePayload
+    }
+
+    if (!data) return;
+
+    this.server.updateCurriculum(data).subscribe({
       error: (err) => {
         throwError(() => err);
       },
@@ -83,10 +78,9 @@ export class CurriculoComponent {
     });
   }
 
-  deleteAcademicItem = (id: number) => {
+  createContactItem = (body: CreateContactInfoPayload) => {
     this.isProcessing.set(true);
-    this.server.deleteAcademicItem(id).subscribe({
-      next: (res) => {},
+    this.server.createContactInfo(body).subscribe({
       error: (err) => {
         this.isProcessing.set(false);
         throwError(() => err);
@@ -97,108 +91,9 @@ export class CurriculoComponent {
     });
   };
 
-  createAcademicItem = (body: { description: string }) => {
+  updateContactItem = (item: UpdateContactInfoPayload) => {
     this.isProcessing.set(true);
-    this.server.createAcademicItem(body).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
-  };
-
-  updateAcademicItem = (id: number, body: { description: string }) => {
-    this.isProcessing.set(true);
-    this.server.updateAcademicItem(id, body).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
-  };
-
-  deleteExperienceItem = (id: number) => {
-    this.isProcessing.set(true);
-    this.server.deleteExperiencesItem(id).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
-  };
-
-  createExperienceItem = (body: { description: string }) => {
-    this.isProcessing.set(true);
-    this.server.createExperiencesItem(body).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
-  };
-
-  updateExperienceItem = (id: number, body: { description: string }) => {
-    this.isProcessing.set(true);
-    this.server.updateExperiencesItem(id, body).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
-  };
-
-  deleteTeachingItem = (id: number) => {
-    this.isProcessing.set(true);
-    this.server.deleteTeachingItem(id).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
-  };
-
-  createTeachingItem = (body: { description: string }) => {
-    this.isProcessing.set(true);
-    this.server.createTeachingItem(body).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
-  };
-
-  updateTeachingItem = (id: number, body: { description: string }) => {
-    this.isProcessing.set(true);
-    this.server.updateTeachingItem(id, body).subscribe({
-      next: (res) => {},
+    this.server.updateContactInfo(item).subscribe({
       error: (err) => {
         this.isProcessing.set(false);
         throwError(() => err);
@@ -211,10 +106,7 @@ export class CurriculoComponent {
 
   deleteContactItem = (id: number) => {
     this.isProcessing.set(true);
-    this.server.deleteContactItem(id).subscribe({
-      next: (res) => {
-        this.loadCurriculum();
-      },
+    this.server.deleteContactInfo(id).subscribe({
       error: (err) => {
         this.isProcessing.set(false);
         throwError(() => err);
@@ -225,14 +117,9 @@ export class CurriculoComponent {
     });
   };
 
-  createContactItem = (body: {
-    label: string;
-    link: string;
-    platform: string;
-  }) => {
+  createField = (body: CreateFieldPayload) => {
     this.isProcessing.set(true);
-    this.server.createContactItem(body).subscribe({
-      next: (res) => {},
+    this.server.createField(body).subscribe({
       error: (err) => {
         this.isProcessing.set(false);
         throwError(() => err);
@@ -243,15 +130,22 @@ export class CurriculoComponent {
     });
   };
 
-  updateContactItem = (item: {
-    id: number;
-    label: string;
-    link: string;
-    platform: string;
-  }) => {
+  updateField = (item: UpdateFieldPayload) => {
     this.isProcessing.set(true);
-    this.server.updateContactItem(item).subscribe({
-      next: (res) => {},
+    this.server.updateField(item).subscribe({
+      error: (err) => {
+        this.isProcessing.set(false);
+        throwError(() => err);
+      },
+      complete: () => {
+        this.isProcessing.set(false);
+      },
+    });
+  };
+
+  deleteField = (id: number) => {
+    this.isProcessing.set(true);
+    this.server.deleteField(id).subscribe({
       error: (err) => {
         this.isProcessing.set(false);
         throwError(() => err);
