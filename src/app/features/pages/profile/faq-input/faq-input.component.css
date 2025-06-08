@@ -1,0 +1,149 @@
+section {
+  background: var(--color-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--color-dark);
+  gap: 1.5rem;
+  margin-block-end: 1.5rem;
+}
+
+/* Botões toggle */
+.toggle-btn,
+.faq-toggle-btn {
+  background: var(--color-accent);
+  color: var(--color-light);
+  border: none;
+  padding: 0.75rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.toggle-btn:hover,
+.faq-toggle-btn:hover {
+  background: #ff7f5f;
+}
+
+/* Botão de fechar (X) */
+.faq-trash-btn,
+.faq-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-dark);
+  font-size: 1.5rem;
+  align-self: flex-end;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.faq-close-btn:hover {
+  color: var(--color-accent);
+}
+
+/* Formulário */
+form {
+  background: var(--color-light);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Form controls */
+.form-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-control label {
+  font-weight: 600;
+  color: var(--color-dark);
+  font-size: 1rem;
+}
+
+.form-control input[type="text"] {
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-bg);
+  background: #fff;
+  color: var(--color-dark);
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.form-control input[type="text"]:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+/* Botão submit */
+.submit-btn {
+  background: var(--color-accent);
+  color: var(--color-light);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  align-self: flex-start;
+}
+
+.submit-btn:hover {
+  background: var(--color-accent-hover);
+}
+
+/* Lista de FAQs */
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+li {
+  background: #fff;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+li h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--color-dark);
+}
+
+li p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-secondary);
+}
+
+/* Transição de abertura/fechamento */
+.form-open {
+  max-height: 1000px; /* ajustável conforme necessário */
+  opacity: 1;
+  overflow: visible;
+  transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.form-closed {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}

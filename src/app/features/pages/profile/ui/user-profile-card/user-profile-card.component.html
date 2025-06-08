@@ -1,5 +1,23 @@
 <aside class="profile">
-  <img [src]="user()!.profileImage" [alt]="user()!.firstname + ' ' + user()!.lastname" class="avatar" />
+  <div class="image-wrapper">
+    <label for="profile-photo-input">
+      <img
+        [src]="previewUrl() || user()!.profileImage"
+        [alt]="user()!.firstname + ' ' + user()!.lastname"
+        class="avatar"
+      />
+      <input
+        type="file"
+        id="profile-photo-input"
+        hidden
+        #input
+        (change)="onProfileImageChange($event)"
+      />
+    </label>
+    @if(isEditing()){
+    <button (click)="uploadProfileImage(input)">salvar</button>
+    }
+  </div>
   <div class="info">
     <h2>{{ user()!.firstname }} {{ user()!.lastname }}</h2>
     <p class="username">{{ user()!.username }}</p>

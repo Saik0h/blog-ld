@@ -9,12 +9,14 @@ import { ButtonComponent } from '../shared/button.component';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  url = signal('/logo.png');
+  url = 'logo.webp';
   btnText = 'Ver Currículo';
   btnGoTo = 'curriculo';
   headerLinks = signal([
     { label: 'Artigos', path: '/artigos' },
     { label: 'Blog', path: '/blogs' },
     { label: 'Contato', path: '/contato' },
+    { label: 'Materiais Gratuitos', path: '/materiais' },
+    { label: 'Cursos', path: '/cursos' },
   ]);
 }

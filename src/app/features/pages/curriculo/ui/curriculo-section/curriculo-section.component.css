@@ -22,6 +22,24 @@
   height: fit-content;
   width: fit-content;
 }
+.item-input,
+.item-update {
+  width: 100%;
+  margin-inline-end: 0.2em;
+  border: 1px solid var(--color-accent);
+  border-radius: 0.5em;
+  padding: 0.3em;
+  resize: vertical;
+  font-size: 1.1rem;
+}
+
+.item-input{
+  margin-left: 1.2rem;
+}
+
+.add-new-item{
+  display: flex;
+}
 
 ul {
   list-style: none;

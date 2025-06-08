@@ -58,3 +58,20 @@
 .logout:hover {
   background: var(--color-secondary);
 }
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  transition: 0.3s;
+}
+.image-wrapper:hover .avatar {
+  border-color: #666;
+}

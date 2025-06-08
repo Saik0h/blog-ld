@@ -5,7 +5,8 @@
   <app-user-profile-card [user]="user" [logout]="logout"  />
   <app-inbox-widget />
   <aside>
-    <app-post-form [submitImage]="uploadImage" />
+    <app-faq-input [faqs]="faqs" [deleteFaq]="deleteFaq" [postNewFaq]="createFaq"/>
+    <app-post-form />
   </aside>
   }
 </main>

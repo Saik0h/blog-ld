@@ -4,6 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Post, PostPayload } from '../../../../../core/utils/types';
 import { Router } from '@angular/router';
+import { ImageService } from '../../../../../core/services/image.service';
 
 @Component({
   selector: 'app-post-form',
@@ -14,16 +15,17 @@ import { Router } from '@angular/router';
 })
 export class PostFormComponent {
   private userService = inject(UserService);
-  private router = inject(Router);
+  private imageService = inject(ImageService);
+  image = signal<File | null>(null);
 
-  @Input() submitImage = (file: File): void => {};
+  private router = inject(Router);
   post = model<PostPayload>({
     category: 'BLOG',
     text: '',
     title: '',
-    image: '',
     references: [],
   });
+  imageUrl = signal<string>('');
   reference = model<string>('');
   imagePreview = signal<string | null>(null);
   pushReference() {
@@ -36,10 +38,6 @@ export class PostFormComponent {
     this.reference.set('');
   }
 
-  pushImageToCloud = (file: File) => {
-    this.submitImage(file);
-  };
-
   selectedImage: File | null = null;
 
   onFileChange(event: Event): void {
@@ -47,7 +45,7 @@ export class PostFormComponent {
 
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      this.pushImageToCloud(file);
+      this.image.set(file);
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview.set(reader.result as string);
@@ -67,13 +65,25 @@ export class PostFormComponent {
     });
   }
 
-  async onSubmit() {
-    const payload = signal(this.post());
+  onSubmit() {
+    this.imageService.uploadImage(this.image()!, 'laisdonida').subscribe({
+      next: (res) => {
+        this.imageUrl.set(res.url);
 
-    const urlToGo = this.post().category === 'BLOG' ? `/blogs` : `/artigos`;
-    this.userService.post(payload()).subscribe({
-      next: (res: Post) => this.router.navigate([`${urlToGo}/${res.id}`]),
-      error: (err) => console.error('Erro ao criar post:', err),
+        const payload = {
+          ...this.post(),
+          image: res.url,
+        };
+
+        const urlToGo = this.post().category === 'BLOG' ? `/blogs` : `/artigos`;
+        this.userService.post(payload).subscribe({
+          next: (res: Post) => this.router.navigate([`${urlToGo}/${res.id}`]),
+          error: (err) => console.error('Erro ao criar post:', err),
+        });
+      },
+      error: (err) => {
+        console.error('Erro ao fazer upload da imagem:', err);
+      },
     });
   }
 }

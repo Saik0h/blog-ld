@@ -1,45 +1,53 @@
-import { inject, Injectable } from '@angular/core';
-import { User } from '../utils/types';
-import { SupabaseService } from './supabase.service';
-import { v7 as uuid } from 'uuid';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
 export class ImageService {
-  private readonly supabase = inject(SupabaseService);
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = 'http://localhost:3000/api/images'; // Adjust based on your NestJS API endpoint
 
-  async getImages(user: User) {
-    const { data, error } = await this.supabase
-      .getClient()
-      .storage.from('images')
-      .list(user.id + '/', {
-        limit: 100,
-        offset: 0,
-        sortBy: { column: 'name', order: 'asc' },
-      });
+  /**
+   * Uploads an image file to the backend (NestJS).
+   * @param file The image file to upload.
+   * @param folder The folder/category to store the image.
+   */
+  uploadImage(file: File, folder: string): Observable<{ url: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('folder', folder);
 
-    if (data !== null) {
-      console.log(data);
-      return data;
-    } else {
-      console.log(error);
-      return;
-    }
+    return this.http.post<{ url: string }>(`${this.baseUrl}/upload`, formData, {
+      withCredentials: true,
+    });
   }
 
-  async uploadImage(file: File) {
-    const { data, error } = await this.supabase
-      .getClient()
-      .storage.from('images')
-      .upload(`public/${file.name}`, file, {
-        cacheControl: '3600',
-        upsert: false,
-      });
+  /**
+   * Gets a public URL for an image stored on Supabase or backend.
+   * @param imagePath The path to the image in storage.
+   */
+  getImageUrl(imagePath: string): string {
+    const supabaseUrl =
+      'https://your-supabase-url.storage/v1/object/public/images/';
+    return `${supabaseUrl}${imagePath}`;
+  }
 
-    if (error) {
-      console.error('Error uploading:', error.message);
-    } else {
-      console.log('Upload successful:', data);
-    }
+  /**
+   * Deletes an image from the backend (or triggers deletion on Supabase).
+   * @param imagePath The image path to delete.
+   */
+  deleteImage(imagePath: string): Observable<void> {
+    return this.http.delete<void>(
+      `${this.baseUrl}/delete?path=${encodeURIComponent(imagePath)}`
+    );
+  }
+
+  /**
+   * Fetches all images (optional, depending on your use case).
+   */
+  getAllImages(): Observable<{ id: string; url: string }[]> {
+    return this.http.get<{ id: string; url: string }[]>(`${this.baseUrl}/all`);
   }
 }

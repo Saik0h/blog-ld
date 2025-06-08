@@ -19,11 +19,11 @@ export class FaqService {
     return this.http.post<Message>(this.url, data, { withCredentials: true });
   };
 
-  getOneFaq = (id: string): Observable<faq> => {
+  getOneFaq = (id: number): Observable<faq> => {
     return this.http.get<faq>(`${this.url}/${id}`);
   };
 
-  deleteFaq = (id: string): Observable<Message> => {
+  deleteFaq = (id: number): Observable<Message> => {
     return this.http.delete<Message>(`${this.url}/${id}`, {
       withCredentials: true,
     });

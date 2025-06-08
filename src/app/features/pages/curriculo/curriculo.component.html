@@ -3,16 +3,34 @@
 }@else if(!isLoading() && curriculum()){
 <section class="curriculo">
   <article class="profile-card">
-    <img
-      [src]="curriculum()!.profileImage"
-      [alt]="curriculum()!.firstname"
-      class="profile-photo"
-    />
     @if(editMode()){
-    <button (click)="toggle()" class="switch-mode">
-      Modo de visualização
-    </button>
+    <button (click)="toggle()" class="switch-mode">Modo de edição</button>
     <article>
+      <label for="profile-photo-img" class="profile-upload-label">
+        <input
+          id="profile-photo-img"
+          type="file"
+          accept="image/*"
+          (change)="onImageSelected($event)"
+          hidden
+        />
+        <div class="profile-photo-wrapper">
+          @if(imagePreview){
+          <img
+            [src]="imagePreview"
+            alt="Profile Preview"
+            class="profile-photo"
+          />
+          } @else if(curriculum()!.profileImage) {
+          <img
+            [src]="curriculum()!.profileImage"
+            [alt]="curriculum()!.profileImage"
+          />
+          }@else {
+          <i class="bi bi-person"></i>
+          }
+        </div>
+      </label>
       <label for="profile-firstname">Firstname</label>
       <input
         [(ngModel)]="curriculum()!.firstname!"
@@ -43,7 +61,7 @@
       />
 
       <button
-        (click)="UpdateProfileInfo()"
+        (click)="save()"
         [disabled]="isProcessing()"
         [class]="isProcessing() ? 'btn-loading' : 'btn'"
       >
@@ -131,19 +149,26 @@
           "
           [class]="isProcessing() ? 'btn-loading' : 'btn'"
         >
-        {{ isProcessing() ? "" : "Adicionar novo" }}
+          {{ isProcessing() ? "" : "Adicionar novo" }}
         </button>
       </div>
     </article>
 
-    }@else{
+    }@else{ @if(userHasPermission()){
     <button class="switch-mode" [disabled]="isProcessing()" (click)="toggle()">
-      Editar
+      Modo de visualização
     </button>
+    }
     <article class="profile-card">
-      <h1>{{curriculum()?.firstname }} {{curriculum()?.lastname }}</h1>
-      <p class="job-title">{{curriculum()?.jobTitle }}</p>
-      <p class="credential">{{curriculum()?.credential }}</p>
+      <div class="profile-photo-wrapper">
+        <img
+          [src]="curriculum()!.profileImage"
+          [alt]="curriculum()!.profileImage"
+        />
+      </div>
+      <h1>{{ curriculum()?.firstname }} {{ curriculum()?.lastname }}</h1>
+      <p class="job-title">{{ curriculum()?.jobTitle }}</p>
+      <p class="credential">{{ curriculum()?.credential }}</p>
 
       <div class="contact-info">
         @for (i of curriculum()!.contactInfo; track i.id) {
@@ -158,7 +183,56 @@
 
   <main class="main-content">
     @for (field of curriculum()!.fields; track field.id) {
-      <app-curriculo-section [fieldInfo]="field" [updateSection]="updateField"/>
+    <app-curriculo-section
+      [fieldInfo]="field"
+      [updateSection]="updateField"
+      [deleteField]="deleteField"
+      [userHasPermission]="userHasPermission"
+      [globalEdit]="editMode"
+    />
+    } @if(editMode()){
+    <section class="editMode createNewFieldControl">
+      <div class="editMode createNewFieldTitle">
+        <label for="new-item-title">Título</label>
+        <input type="editMode newFieldItemTitle" id="new-item-title" #title />
+      </div>
+
+      <ul class="editMode newItemsCreated">
+        @for (item of newFielditemsArray; track $index) {
+        <li>
+          <label style="font-size: 1rem" [for]="'item' + ($index + 1)">{{
+            "item " + ($index + 1)
+          }}</label>
+
+          <div class="textarea-wrapper">
+            <textarea
+              type="text"
+              [id]="'item' + ($index + 1)"
+              [value]="item"
+              #newFieldItem
+              (input)="newFielditemsArray[$index] = newFieldItem.value"
+            ></textarea>
+            <button
+              class="pushItemButton"
+              (click)="newFielditemsArray.splice($index, 1)"
+            >
+              <i class="bi bi-dash-lg"></i>
+            </button>
+          </div>
+        </li>
+        }
+      </ul>
+      <form class="newFieldForm" (submit)="createNewField(title, item)">
+        <label for="newFieldNewItem">descrição</label>
+        <div>
+          <textarea id="newFieldNewItem" type="text" #item></textarea>
+          <button type="button" (click)="addItemToArray(item)">
+            <i class="bi bi-plus-lg"></i>
+          </button>
+        </div>
+        <button class="new_field_button">Adicionar novo campo</button>
+      </form>
+    </section>
     }
   </main>
 </section>

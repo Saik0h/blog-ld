@@ -2,15 +2,17 @@
   max-width: 960px;
   margin: 2rem auto;
   background: var(--color-light);
-  display: flex;
-  gap: 2rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   padding: 2rem;
+  display: flex;
   flex-wrap: wrap;
+  gap: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--color-secondary);
 }
 
+/* 📇 Profile Card */
 .profile-card {
   background: var(--color-bg);
   border-radius: 16px;
@@ -19,143 +21,50 @@
   max-width: 420px;
   width: 100%;
   margin: 0 auto;
-  font-family: "Segoe UI", sans-serif;
-  color: var(--color-secondary);
   transition: all 0.3s ease-in-out;
   position: relative;
-}
-
-.profile-card .button-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  text-align: left;
 }
 
 .profile-photo {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid var(--color-accent);
-  margin: 0 auto 1rem;
   display: block;
-}
-
-.profile-card h1 {
-  font-size: 1.5rem;
-  text-align: center;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-.profile-card .job-title,
-.profile-card .credential {
-  text-align: center;
-  color: var(--color-secondary);
-  font-size: 0.95rem;
-  margin-bottom: 0.25rem;
-}
-
-.contact-info {
-  margin-block: 1.5rem;
-  max-height: 40ch;
-  overflow-y: auto;
-}
-
-.contact-info p {
-  font-size: 0.95rem;
-  margin: 0.25rem 0;
-}
-
-.contact-info a {
-  color: var(--color-accent);
-  text-decoration: none;
-}
-
-input[type="text"],
-input[type="url"] {
-  width: 100%;
-  padding: 0.6rem;
-  border-radius: 8px;
-  border: 1px solid var(--color-light);
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
-  transition: border 0.2s;
-}
-
-input:focus {
-  border-color: var(--color-accent);
-  outline: none;
-}
-
-.profile-card button:not(.switch-mode, .btn-loading) {
-  background: var(--color-accent);
-  color: var(--color-light);
-  border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-right: 0.5rem;
-}
-
-.profile-card button:hover {
-  background: var(--color-accent);
-}
-
-.contact-info button:disabled,
-.create-contact-item button:disabled {
-  background: #ff9f2f;
-  cursor: not-allowed;
-}
-
-.profile-card .contact-info button {
-  background: transparent;
-  color: var(--color-accent);
-  border: none;
-  padding: 0.3rem 0.5rem;
-  cursor: pointer;
-  font-size: 0.85rem;
-  margin-top: -0.5rem;
-}
-
-.profile-card .contact-info button:hover {
-  text-decoration: underline;
-}
-
-.profile-card .contact-info .field {
-  border: 1px solid var(--color-accent);
-  padding-inline: 0.75em;
-  border-radius: 3px;
-}
-
-@media (max-width: 480px) {
-  .profile-card {
-    padding: 1rem;
-  }
-}
-
-.profile-photo {
   width: 140px;
   height: 140px;
-  border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 1rem;
+  border-radius: 50%;
   border: 4px solid var(--color-accent);
+  margin-inline: auto;
+  margin-bottom: 1rem;
 }
 
 .profile-card h1 {
-  margin: 0.5rem 0 0.25rem;
   font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.25rem;
   color: var(--color-dark);
+}
+
+.profile-card p, .profile-card h1 {
+text-align: center;
 }
 
 .job-title {
   font-weight: 600;
   color: var(--color-secondary);
   margin-bottom: 1rem;
+}
+
+.credential {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+/* 📝 Contact Info */
+.contact-info {
+  margin-block: 1.5rem;
+  max-height: 40ch;
+  overflow-y: auto;
+  text-align: left;
 }
 
 .contact-info p {
@@ -174,39 +83,73 @@ input:focus {
   text-decoration: underline;
 }
 
-.main-content {
-  flex: 1;
-  color: var(--color-secondary);
+/* 📎 Form Inputs */
+input[type="text"],
+input[type="url"] {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-light);
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  transition: border 0.2s;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-  .curriculo {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .profile-card {
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .main-content {
-    width: 100%;
-  }
+input:focus {
+  border-color: var(--color-accent);
+  outline: none;
 }
 
+/* 🛠️ Buttons */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.2s;
+}
+
+button:not(.switch-mode, .btn-loading) {
+  background: var(--color-accent);
+  color: var(--color-light);
+  padding: 0.6rem 1rem;
+  margin-top: 0.5rem;
+}
+
+button:not(.switch-mode, .btn-loading):hover {
+  background: var(--color-accent);
+  filter: brightness(1.1);
+}
+
+.contact-info button,
+.create-contact-item button {
+  background: transparent;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.contact-info button:disabled,
+.create-contact-item button:disabled {
+  background: #ff9f2f;
+  cursor: not-allowed;
+}
+
+.contact-info button:hover {
+  text-decoration: underline;
+}
+
+/* 🟠 Switch Mode */
 .switch-mode {
   position: absolute;
   top: 10px;
   right: 10px;
-  padding: 0.1rem;
+  padding: 0.3rem 0.8rem;
   background-color: var(--color-dark);
-  border: 2px solid var(--color-dark);
   color: var(--color-light);
+  border: 2px solid var(--color-dark);
   border-radius: 1em;
+  font-size: 0.85rem;
 }
 
 .switch-mode:hover {
@@ -215,35 +158,188 @@ input:focus {
   border-color: var(--color-accent);
   transform: translateY(-1px);
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
-  cursor: pointer;
 }
 
+/* 🌀 Loading Spinner */
 .btn-loading {
   position: relative;
   background-color: transparent;
-  border:2px solid #ff9f2f;
+  border: 2px solid #ff9f2f;
   border-radius: 5px;
-  content: "";
   width: 65px;
   height: 35px;
 }
+
 .btn-loading::after {
+  content: "";
   position: absolute;
   top: calc(50% - 7.5px);
   left: calc(50% - 7.25px);
-  display: block;
-  min-width: 10px;
-  min-height:10px;
+  width: 15px;
+  height: 15px;
   border: 3px solid rgba(0, 0, 0, 0.1);
   border-top-color: var(--color-accent);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  content: "";
-  z-index: 1000;
 }
 
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* 📦 Fieldset & Field Items */
+.field {
+  border: 1px solid var(--color-accent);
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* 🗂️ Main Content */
+.main-content {
+  flex: 1;
+  width: 100%;
+  color: var(--color-secondary);
+}
+
+.main-content input[type="text"] {
+  margin-bottom: 0.5rem;
+}
+
+/* 📱 Responsividade */
+@media (max-width: 768px) {
+  .curriculo {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-card {
+    width: 100%;
+    text-align: center;
+  }
+
+  .main-content {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    padding: 1rem;
+  }
+}
+
+.editMode {
+  font-size: 1.3rem;
+  input,
+  textarea {
+    font-size: 1.1rem;
+    border: 1px solid var(--color-accent);
+    border-radius: 5px;
+    padding: 0.2em;
+    width: 100%;
+  }
+  textarea {
+    resize: vertical;
+  }
+}
+
+.editMode.createNewFieldControl {
+  border: 1px solid var(--color-accent);
+  padding: 1em;
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: first baseline;
+  gap: 0.25rem;
+  width: clamp(500px, 700px, 80vw);
+  margin-inline: auto;
+}
+
+.editMode.createNewFieldTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.editMode.newItemsCreated {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  gap: 2px;
+  width: 100%;
+}
+
+.editMode.newItemsCreated li {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  gap: 0.15em;
+}
+
+.editMode.newItemsCreated .textarea-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.15em;
+}
+
+.editMode button:not(.new_field_button) {
+  padding: 0.1rem;
+  border-radius: 0.2em;
+  background-color: transparent;
+  color: var(--color-dark);
+}
+
+.editMode .newFieldForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.editMode .newFieldForm div {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.editMode .newFieldForm .new_field_button {
+  align-self: center;
+  width: fit-content;
+}
+
+.profile-upload-label {
+  display: block;
+  cursor: pointer;
+}
+
+.profile-photo-wrapper {
+  display: block;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #ddd;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
+  img{
+    object-fit: cover;
+    width: 100%;
+  }
+}
+
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bi-person {
+  font-size: 3rem;
+  color: #666;
 }

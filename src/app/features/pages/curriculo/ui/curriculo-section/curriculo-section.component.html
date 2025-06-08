@@ -2,25 +2,44 @@
   <span class="title-wrapper">
     @if (isEditing()) {
     <form>
-      <input class="title-input" type="text" [value]="fieldInfo.title" name="title" placeholder="Enter title"
-        (input)="editTitle(titleInput.value)" #titleInput />
+      <input
+        class="title-input"
+        type="text"
+        [value]="fieldInfo.title"
+        name="title"
+        placeholder="Enter title"
+        (input)="editTitle(titleInput.value)"
+        #titleInput
+      />
     </form>
     <button (click)="save(fieldInfo)" class="change-title-btn">
       <i class="bi bi-check-lg"></i>
     </button>
     } @else {
     <h2>{{ fieldInfo.title | titlecase }}</h2>
-    <button (click)="isEditing.set(true)">
-      <i class="bi bi-pencil-square"></i>
-    </button>
-    }
+    @if(userIsAdmin() && globalEdit()){
+    <span>
+      <button (click)="deleteThis(fieldInfo.id)">
+        <i class="bi bi-trash"></i>
+      </button>
+      <button (click)="isEditing.set(true)">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+    </span>
+    } }
   </span>
 
   <ul>
-    @for(item of fieldInfo.items; track $index) {
-    @if(isEditing()){
+    @for(item of fieldInfo.items; track $index) { @if(isEditing()){
     <li>
-      <input type="text" [value]="item" (input)="editItem($index, current.value)" [name]="$index" #current />
+      <textarea
+        type="text"
+        [value]="item"
+        (input)="editItem($index, current.value)"
+        [name]="$index"
+        class="item-update"
+        #current
+      ></textarea>
       <button (click)="deleteItem($index)">
         <i class="bi bi-dash-lg"></i>
       </button>
@@ -29,13 +48,12 @@
     <li>
       {{ item }}
     </li>
-    }
-    }
+    } }
   </ul>
 
   @if (isEditing()) {
-  <form (submit)="pushNewItem(newItem)">
-    <input class="item-input" type="text" name="newItem" #newItem />
+  <form class="add-new-item" (submit)="pushNewItem(newItem)">
+    <textarea class="item-input" type="text" name="newItem" #newItem ></textarea>
     <button>
       <i class="bi bi-plus-lg"></i>
     </button>

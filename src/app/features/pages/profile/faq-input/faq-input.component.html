@@ -1,0 +1,65 @@
+<section>
+    <h2 style="margin-bottom: 0.5rem;">
+        Perguntas e respostas
+    </h2>
+  @if(!isFormOpen()){
+  <button class="faq-toggle-btn" (click)="isFormOpen.set(!isFormOpen())">
+   <span>
+       Responder algumas perguntas?
+   </span>
+   <span> <i class="bi bi-caret-down"></i></span>
+  </button>
+  } @else {
+  <form
+    (submit)="postFaq($event)"
+    [class]="isFormOpen() ? 'form-open' : 'form-closed'"
+  >
+    <button
+      type="button"
+      class="faq-close-btn"
+      (click)="isFormOpen.set(!isFormOpen())"
+    >
+      <i class="bi bi-x"></i>
+    </button>
+    <div class="form-control">
+      <label for="question-faq">Pergunta</label>
+      <input
+        id="question-faq"
+        type="text"
+        #question
+        (input)="newFaq.question = question.value"
+      />
+    </div>
+    <div class="form-control">
+      <label for="response-faq">Resposta</label>
+      <input
+        id="response-faq"
+        type="text"
+        #response
+        (input)="newFaq.answer = response.value"
+      />
+    </div>
+    <button class="submit-btn">enviar</button>
+  </form>
+  } @if(!isListOpen()){
+  <button class="faq-toggle-btn" (click)="isListOpen.set(!isListOpen())">
+    <span>
+        Veja as Questões já respondidas
+    </span>
+    <span><i class="bi bi-caret-down"></i></span>
+  </button>
+  } @else {
+  <button class="faq-close-btn" (click)="isListOpen.set(!isListOpen())">
+    <i class="bi bi-x"></i>
+  </button>
+  <ul [class]="isListOpen() ? 'form-open' : 'form-closed'">
+    @for (faq of faqs(); track faq.id) {
+    <li>
+      <h4>{{ faq.question }}</h4>
+      <p>{{ faq.answer }}</p>
+      <button class="faq-trash-btn" (click)="deleteFaq(faq.id)"><i class="bi bi-trash"></i></button>
+    </li>
+    }
+  </ul>
+  }
+</section>

@@ -23,6 +23,15 @@ export class UserService {
     );
   };
 
+  updateProfilePhoto = (id: number, pfpUrl: string) => {
+    const url = `${this.url}/users/${id}`;
+    return this.http.patch(
+      url,
+      { profileImage: pfpUrl },
+      { withCredentials: true }
+    );
+  };
+
   post = (body: PostPayload): Observable<Post> => {
     return this.http.post<Post>(`${this.url}/posts`, body, {
       withCredentials: true,
