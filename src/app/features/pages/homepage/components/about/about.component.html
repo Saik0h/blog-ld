@@ -1,9 +1,7 @@
-<section class="about">
+<section class="about" aria-labelledby="about-title">
   <div class="about__content">
-    <h1 class="about__title">{{ title() }}</h1>
-    <p class="about__description">
-      {{ description() }}
-    </p>
+    <h2 id="about-title" class="about__title">{{ title() }}</h2>
+    <p class="about__description">{{ description() }}</p>
   </div>
 
   <div class="about__img-wrapper">

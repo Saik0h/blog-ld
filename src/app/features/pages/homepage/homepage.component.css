@@ -1,8 +1,8 @@
-.homepage{
-    display: flex;
-    flex-direction: column;
-    gap: 5rem;
-   :nth-child(2){
-        border-top: 1px solid red ;
-    }
+.homepage {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  gap: 3rem;
+  max-width: 1600px;
+  margin-inline: auto;
 }

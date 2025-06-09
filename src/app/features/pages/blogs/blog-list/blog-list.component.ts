@@ -15,46 +15,7 @@ import { BlogCardComponent } from '../ui/blog-card/blog-card.component';
     BlogCardComponent
   ],
   templateUrl: './blog-list.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-        padding: 2rem;
-        background-color: var(--color-light, hsl(60, 100%, 97%));
-      }
-
-      /* Título */
-      h3 {
-        font-size: 2rem;
-        color: var(--color-dark, hsl(204, 86%, 6%));
-        margin-bottom: 1rem;
-        text-align: center;
-        border-bottom: 2px solid var(--color-accent, hsl(35, 100%, 55%));
-        padding-bottom: 0.5rem;
-      }
-
-      /* Grid para artigos */
-      section {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-      }
-
-      /* Estilo adicional para o card, caso precise (opcional) */
-      app-post-card {
-        display: block;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s, box-shadow 0.3s;
-        background-color: white;
-      }
-
-      app-post-card:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-      }
-    `,
-  ],
+  styleUrl: './blog-list.component.css',
 })
 export class BlogListComponent {
   isLoading = signal(false);
@@ -76,4 +37,98 @@ export class BlogListComponent {
       complete: () => this.isLoading.set(false),
     });
   }
+
+  blogsTeste: Blog[] = [
+  {
+    "author": {
+      "firstname": "Lucas",
+      "lastname": "Silva",
+      "profileImage": "https://randomuser.me/api/portraits/men/1.jpg"
+    },
+    "authorId": "1",
+    "title": "Guia Completo de JavaScript",
+    "updatedAt": "09/06/2025",
+    "createdAt": "09/06/2025",
+    "id": "1",
+    "image": "https://placehold.co/600x400",
+    "tags": [
+      { "id": 1, "name": "JavaScript" },
+      { "id": 2, "name": "Web" }
+    ],
+    "text": "Um guia completo para iniciantes e desenvolvedores avançados que desejam dominar o JavaScript."
+  },
+  {
+    "author": {
+      "firstname": "Maria",
+      "lastname": "Souza",
+      "profileImage": "https://randomuser.me/api/portraits/women/2.jpg"
+    },
+    "authorId": "2",
+    "title": "CSS Moderno: Flexbox e Grid",
+    "updatedAt": "09/06/2025",
+    "createdAt": "09/06/2025",
+    "id": "2",
+    "image": "https://placehold.co/600x400",
+    "tags": [
+      { "id": 1, "name": "CSS" },
+      { "id": 3, "name": "Design" }
+    ],
+    "text": "Como criar layouts responsivos e bonitos usando Flexbox e Grid."
+  },
+  {
+    "author": {
+      "firstname": "João",
+      "lastname": "Pereira",
+      "profileImage": "https://randomuser.me/api/portraits/men/3.jpg"
+    },
+    "authorId": "3",
+    "title": "Introdução ao TypeScript",
+    "updatedAt": "09/06/2025",
+    "createdAt": "09/06/2025",
+    "id": "3",
+    "image": "https://placehold.co/600x400",
+    "tags": [
+      { "id": 1, "name": "TypeScript" },
+      { "id": 2, "name": "Desenvolvimento" }
+    ],
+    "text": "Aprenda a tipar seu JavaScript e ganhar produtividade com TypeScript."
+  },
+  {
+    "author": {
+      "firstname": "Ana",
+      "lastname": "Costa",
+      "profileImage": "https://randomuser.me/api/portraits/women/4.jpg"
+    },
+    "authorId": "4",
+    "title": "Dicas de Produtividade para Desenvolvedores",
+    "updatedAt": "09/06/2025",
+    "createdAt": "09/06/2025",
+    "id": "4",
+    "image": "https://placehold.co/600x400",
+    "tags": [
+      { "id": 4, "name": "Produtividade" },
+      { "id": 2, "name": "Desenvolvimento" }
+    ],
+    "text": "Descubra como se organizar melhor e produzir mais no dia a dia como dev."
+  },
+  {
+    "author": {
+      "firstname": "Pedro",
+      "lastname": "Almeida",
+      "profileImage": "https://randomuser.me/api/portraits/men/5.jpg"
+    },
+    "authorId": "5",
+    "title": "Introdução ao Angular 16",
+    "updatedAt": "09/06/2025",
+    "createdAt": "09/06/2025",
+    "id": "5",
+    "image": "https://placehold.co/600x400",
+    "tags": [
+      { "id": 5, "name": "Angular" },
+      { "id": 2, "name": "Desenvolvimento" }
+    ],
+    "text": "Guia prático para começar com Angular 16 e construir aplicações modernas."
+  }
+]
+
 }

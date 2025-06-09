@@ -1,23 +1,15 @@
 <footer class="footer">
-  <nav class="footer-nav">
+  <nav class="footer-nav" aria-label="Redes sociais">
     <ul class="footer-nav__socials">
       @for(item of socialsNavLinks(); track item.label) {
       <li class="footer-nav__socials-item">
-        <a href="">
-          <span><i [className]="item.icon"></i> </span>
+        <a href="{{ item.url }}" ariaLabel="Link para {{ item.label }}">
+          <i [className]="item.icon" aria-hidden="true"></i>
           <span>{{ item.label }}</span>
         </a>
       </li>
       }
     </ul>
-    <ul class="footer-nav__internal">
-      @for(item of internalNavLinks(); track item.label) {
-      <li [routerLink]="item.url" class="footer-nav__internal-item">
-        <span style="display: block"><i [class]="item.icon"></i></span>
-        <span>{{ item.label }}</span>
-      </li>
-      }
-    </ul>
   </nav>
-  <div>&copy; {{ currentYear() }} {{ developedBy() }}</div>
+  <div class="footer-copy">&copy; {{ currentYear() }} {{ developedBy() }}</div>
 </footer>

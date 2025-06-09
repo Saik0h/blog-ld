@@ -1,23 +1,25 @@
-<section class="faq">
-  <h2 class="faq-title">Perguntas Frequentes</h2>
+<section class="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="faq-title">Perguntas Frequentes</h2>
+
   @if (isLoading()) {
-    <app-loading/>
+  <app-loading />
   } @else {
-    <ul class="faq-list">
-      @for(item of faqs(); track item.question){
-          <li class="faq-item" [class.open]="item.open">
-            <button class="faq-question" (click)="toggle(item)">
-              {{ item.question }}
-              <span class="icon">{{ item.open ? '-' : '+' }}</span>
-            </button>
-            @if(item.open){
-                <div class="faq-answer">
-                  <p>{{ item.answer }}</p>
-                </div>
-            }
-          </li>
-      }
-    </ul>
+  <dl class="faq-list">
+    @for(item of faqs(); track item.question){
+    <div class="faq-item" [class.open]="item.open">
+      <dt>
+        <button class="faq-question" (click)="toggle(item)" [ariaExpanded]="item.open">
+          {{ item.question }}
+          <span class="icon">{{ item.open ? '-' : '+' }}</span>
+        </button>
+      </dt>
+      <dd class="faq-answer-wrapper" [class.open]="item.open">
+        <div class="faq-answer">
+          <p>{{ item.answer }}</p>
+        </div>
+      </dd>
+    </div>
+    }
+  </dl>
   }
 </section>
-

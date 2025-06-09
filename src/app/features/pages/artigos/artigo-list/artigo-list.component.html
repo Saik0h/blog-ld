@@ -3,11 +3,11 @@
 <app-loading />
 } @if(error()){
 <app-recurso-temporariamente-indisponivel/>
-}@else if (!isLoading() && artigos() && artigos().length === 0) {
+}@else if (!isLoading() && artigoTest && artigoTest.length === 0) {
 <app-resource-empty />
 } @else{
 <section>
-  @for (artigo of artigos(); track artigo.id){
+  @for (artigo of artigoTest; track artigo.id){
 <app-artigo-card [artigo]="artigo" />  }
 </section>
 }

@@ -1,6 +1,6 @@
 <article class="course-card">
   <figure class="course-card__image">
-    <img [src]="course!.image" [alt]="'Imagem do curso: ' + course!.title" />
+    <img [src]="course!.image? course!.image : 'placeholder.webp'" [alt]="'Imagem do curso: ' + course!.title" />
   </figure>
   <section class="course-card__info">
     <h2 class="course-card__title">{{ course!.title }}</h2>

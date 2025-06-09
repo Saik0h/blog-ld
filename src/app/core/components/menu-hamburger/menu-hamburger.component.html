@@ -1,0 +1,18 @@
+<!-- hamburger-menu.component.html -->
+<nav class="hamburger-menu" aria-label="Menu de navegação">
+    <button class="hamburger-button" ariaExpanded="{{menuOpen}}" aria-controls="menu-list" aria-label="Alternar menu"
+        (click)="toggleMenu()">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <ul id="menu-list" class="menu-list" [class.open]="menuOpen" role="menu">
+        @for (link of links; track $index) {
+        <li role="none">
+            <a role="menuitem" [routerLink]="link.path" (click)="toggleMenu()" tabindex="{{ menuOpen ? 0 : -1 }}">{{
+                link.label }}</a>
+        </li>
+        }
+    </ul>
+</nav>

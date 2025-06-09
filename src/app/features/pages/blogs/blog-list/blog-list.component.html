@@ -7,7 +7,7 @@
 <app-resource-empty />
 } @else{
 <section>
-  @for (blog of blogs(); track blog.id){
+  @for (blog of blogsTeste; track blog.id){
   <app-blog-card [blog]="blog" />
   }
 </section>

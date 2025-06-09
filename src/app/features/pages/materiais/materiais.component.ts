@@ -10,43 +10,7 @@ import { MaterialCardComponent } from './ui/material-card/material-card.componen
   selector: 'app-materiais',
   imports: [RecursoTemporariamenteIndisponivelComponent, LoadingComponent, ResourceEmptyComponent, MaterialCardComponent],
   templateUrl: './materiais.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-        padding: 2rem;
-        background-color: var(--color-light, hsl(60, 100%, 97%));
-      }
-
-      h3 {
-        font-size: 2rem;
-        color: var(--color-dark, hsl(204, 86%, 6%));
-        margin-bottom: 1rem;
-        text-align: center;
-        border-bottom: 2px solid var(--color-accent, hsl(35, 100%, 55%));
-        padding-bottom: 0.5rem;
-      }
-
-      section {
-        display: grid;
-        grid-template-columns: repeat(1fr, minmax(280px, 1fr));
-        gap: 1.5rem;
-      }
-
-      app-post-card {
-        display: block;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s, box-shadow 0.3s;
-        background-color: white;
-      }
-
-      app-post-card:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-      }
-    `,
-  ],
+  styleUrl:'./materiais.component.css',
 })
 export class MateriaisComponent {
 isLoading = signal(false);
@@ -69,4 +33,159 @@ isLoading = signal(false);
       complete: () => this.isLoading.set(false),
     });
   }
+
+  materialsTeste =[
+  {
+    "authorId": "1",
+    "author": {
+      "firstname": "Lucas",
+      "lastname": "Silva",
+      "profileImage": "https://randomuser.me/api/portraits/men/1.jpg"
+    },
+    "id": "1",
+    "title": "Documentação do Projeto Angular",
+    "image": "https://placehold.co/600x400",
+    "file": "https://example.com/files/angular-doc.pdf",
+    "tags": [
+      { "id": 1, "name": "Angular" },
+      { "id": 2, "name": "Documentação" }
+    ],
+    "description": "Documentação completa do projeto Angular para desenvolvedores.",
+    "createdAt": "09/06/2025",
+    "updatedAt": "09/06/2025"
+  },
+  {
+    "authorId": "2",
+    "author": {
+      "firstname": "Maria",
+      "lastname": "Souza",
+      "profileImage": "https://randomuser.me/api/portraits/women/2.jpg"
+    },
+    "id": "2",
+    "title": "Checklist de Deploy",
+    "image": "https://placehold.co/600x400",
+    "file": "https://example.com/files/deploy-checklist.pdf",
+    "tags": [
+      { "id": 3, "name": "DevOps" },
+      { "id": 4, "name": "Checklist" }
+    ],
+    "description": "Checklist para garantir o sucesso no deploy de aplicações web.",
+    "createdAt": "09/06/2025",
+    "updatedAt": "09/06/2025"
+  },
+  {
+    "authorId": "3",
+    "author": {
+      "firstname": "João",
+      "lastname": "Pereira",
+      "profileImage": "https://randomuser.me/api/portraits/men/3.jpg"
+    },
+    "id": "3",
+    "title": "Apresentação sobre TypeScript",
+    "image": "https://placehold.co/600x400",
+    "file": "https://example.com/files/typescript-presentation.pptx",
+    "tags": [
+      { "id": 5, "name": "TypeScript" },
+      { "id": 6, "name": "Slides" }
+    ],
+    "description": "Slides explicativos sobre os conceitos fundamentais do TypeScript.",
+    "createdAt": "09/06/2025",
+    "updatedAt": "09/06/2025"
+  },
+  {
+    "authorId": "4",
+    "author": {
+      "firstname": "Ana",
+      "lastname": "Costa",
+      "profileImage": "https://randomuser.me/api/portraits/women/4.jpg"
+    },
+    "id": "4",
+    "title": "Guia de Boas Práticas em CSS",
+    "image": "https://placehold.co/600x400",
+    "file": "https://example.com/files/css-best-practices.pdf",
+    "tags": [
+      { "id": 7, "name": "CSS" },
+      { "id": 8, "name": "Boas Práticas" }
+    ],
+    "description": "Um guia completo com boas práticas de organização e estilo em CSS.",
+    "createdAt": "09/06/2025",
+    "updatedAt": "09/06/2025"
+  },
+  {
+    "authorId": "5",
+    "author": {
+      "firstname": "Pedro",
+      "lastname": "Almeida",
+      "profileImage": "https://randomuser.me/api/portraits/men/5.jpg"
+    },
+    "id": "5",
+    "title": "Manual de Configuração de Banco de Dados",
+    "image": "https://placehold.co/600x400",
+    "file": "https://example.com/files/db-config-guide.pdf",
+    "tags": [
+      { "id": 9, "name": "Banco de Dados" },
+      { "id": 10, "name": "Configuração" }
+    ],
+    "description": "Manual prático para configurar e gerenciar bancos de dados relacionais.",
+    "createdAt": "09/06/2025",
+    "updatedAt": "09/06/2025"
+  },
+  {
+    "authorId": "6",
+    "author": {
+      "firstname": "Fernanda",
+      "lastname": "Mendes",
+      "profileImage": "https://randomuser.me/api/portraits/women/6.jpg"
+    },
+    "id": "6",
+    "title": "Planejamento de Sprint Ágil",
+    "image": "https://placehold.co/600x400",
+    "file": "https://example.com/files/agile-sprint-planning.xlsx",
+    "tags": [
+      { "id": 11, "name": "Agile" },
+      { "id": 12, "name": "Planejamento" }
+    ],
+    "description": "Template de planejamento de sprints ágeis para equipes de desenvolvimento.",
+    "createdAt": "09/06/2025",
+    "updatedAt": "09/06/2025"
+  },
+  {
+    "authorId": "7",
+    "author": {
+      "firstname": "Carlos",
+      "lastname": "Ferreira",
+      "profileImage": "https://randomuser.me/api/portraits/men/7.jpg"
+    },
+    "id": "7",
+    "title": "Apresentação de Projeto Front-End",
+    "image": "https://placehold.co/600x400",
+    "file": "https://example.com/files/frontend-presentation.pptx",
+    "tags": [
+      { "id": 13, "name": "Front-End" },
+      { "id": 6, "name": "Slides" }
+    ],
+    "description": "Apresentação para demonstrar as principais features do projeto front-end.",
+    "createdAt": "09/06/2025",
+    "updatedAt": "09/06/2025"
+  },
+  {
+    "authorId": "8",
+    "author": {
+      "firstname": "Beatriz",
+      "lastname": "Oliveira",
+      "profileImage": "https://randomuser.me/api/portraits/women/8.jpg"
+    },
+    "id": "8",
+    "title": "Ebook de Introdução ao React",
+    "image": "https://placehold.co/600x400",
+    "file": "https://example.com/files/react-intro-ebook.pdf",
+    "tags": [
+      { "id": 14, "name": "React" },
+      { "id": 15, "name": "Ebook" }
+    ],
+    "description": "Ebook para iniciantes que desejam aprender os conceitos básicos do React.",
+    "createdAt": "09/06/2025",
+    "updatedAt": "09/06/2025"
+  }
+]
 }

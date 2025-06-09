@@ -1,19 +1,26 @@
 <header class="header">
-  <nav class="header__nav">
-    <div class="header__image">
-        <img [routerLink]="'/'" [src]="url" [alt]="url"  />
+  <nav class="header__nav" aria-label="Main navigation">
+    <a class="header__logo" [routerLink]="'/'" aria-label="Home">
+      <img [src]="url" [alt]="'Logo da empresa'" />
+    </a>
+
+    <div class="header__actions">
+      <ul class="header__link-list">
+        @for (l of headerLinks(); track $index) {
+          <li class="header__link-item">
+            <a [routerLink]="l.path" class="header__link">{{ l.label }}</a>
+          </li>
+        }
+      </ul>
+
+      <div class="header__cta">
+        <app-button [text]="btnText" [goTo]="btnGoTo"></app-button>
+      </div>
     </div>
 
-    <ul class="header__link-list">
-      @for (l of headerLinks(); track $index) {
-        <li class="header__link-item">
-          <a [routerLink]="l.path" class="header__link">{{l.label}}</a>
-        </li>
-      }
-    </ul>
-
-    <div class="header__cta">
-      <app-button [text]="btnText" [goTo]="btnGoTo" />
-    </div>
+    <app-hamburger-menu
+      [links]="headerLinks()"
+      class="header__hamburger"
+    ></app-hamburger-menu>
   </nav>
 </header>

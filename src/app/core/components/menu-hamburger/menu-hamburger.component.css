@@ -1,0 +1,89 @@
+/* hamburger-menu.component.css */
+.hamburger-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.hamburger-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+
+.hamburger-button:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.bar {
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-light);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger-button[aria-expanded="true"] .bar:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger-button[aria-expanded="true"] .bar:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-button[aria-expanded="true"] .bar:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.menu-list {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--color-dark);
+  border-radius: 6px;
+  list-style: none;
+  padding: 1rem;
+  margin: 0;
+  width: 180px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 9;
+}
+
+.menu-list.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.menu-list li {
+  margin-bottom: 0.75rem;
+}
+
+.menu-list li:last-child {
+  margin-bottom: 0;
+}
+
+.menu-list a {
+  color: var(--color-light);
+  text-decoration: none;
+  font-weight: 600;
+  display: block;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.menu-list a:hover,
+.menu-list a:focus {
+  background-color: var(--color-accent);
+  outline: none;
+}
