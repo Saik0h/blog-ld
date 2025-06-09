@@ -1,0 +1,33 @@
+<article class="blog-card">
+  <figure class="blog-card__image">
+    <img [src]="blog!.image" [alt]="'Imagem do blog: ' + blog!.title" />
+  </figure>
+  <div class="blog-card__content">
+    <header class="blog-card__header">
+      <h2 class="blog-card__title">{{ blog!.title }}</h2>
+    </header>
+    <section class="blog-card__tags">
+      @for (tag of blog!.tags; track tag.id) {
+      <span class="blog-card__tag"> #{{ tag.name }} </span>
+      }
+    </section>
+    <section class="blog-card__excerpt">
+      {{ blog!.text }}
+    </section>
+    <footer class="blog-card__footer">
+      <div class="blog-card__author">
+        <img
+          [src]="blog!.author.profileImage"
+          [alt]="'Avatar de ' + blog!.author.firstname"
+          class="blog-card__author-avatar"
+        />
+        <span class="blog-card__author-name"
+          >{{ blog!.author.firstname }} {{ blog!.author.lastname }}</span
+        >
+      </div>
+      <time class="blog-card__date" [attr.dateTime]="blog!.createdAt">
+        {{ blog!.createdAt | date : "shortDate" }}
+      </time>
+    </footer>
+  </div>
+</article>

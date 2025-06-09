@@ -1,7 +1,7 @@
 import { DatePipe, SlicePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Post } from '../../../../core/utils/types';
+import { Artigo } from '../../../../core/utils/types';
 
 @Component({
   selector: 'app-post-card',
@@ -11,7 +11,7 @@ import { Post } from '../../../../core/utils/types';
 })
 export class PostCardComponent {
   @Input({ required: true }) category: string = '';
-  @Input({ required: true }) post: Post = {
+  @Input({ required: true }) article: Artigo = {
     id: '',
     authorId: '',
     author: {
@@ -19,6 +19,7 @@ export class PostCardComponent {
       lastname: '',
       profileImage: '',
     },
+    tags: [],
     title: '',
     image: '',
     text: '',

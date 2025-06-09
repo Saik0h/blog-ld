@@ -1,14 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { Artigo } from '../../../../core/utils/types';
-import { PostCardComponent } from '../../shared/post-card/post-card.component';
-import { PostService } from '../../../../core/services/post.service';
 import { LoadingComponent } from '../../shared/loading/loading.component';
-import { PageNotFoundComponent } from '../../shared/page-not-found/page-not-found.component';
 import { ResourceEmptyComponent } from '../../shared/resource-empty/resource-empty.component';
+import { ArtigoService } from '../../../../core/services/artigo.service';
+import { RecursoTemporariamenteIndisponivelComponent } from '../../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
+import { ArtigoCardComponent } from './ui/artigo-card/artigo-card.component';
 
 @Component({
   selector: 'app-artigo-list',
-  imports: [PostCardComponent, PageNotFoundComponent, ResourceEmptyComponent, LoadingComponent],
+  imports: [RecursoTemporariamenteIndisponivelComponent, ResourceEmptyComponent, LoadingComponent, ArtigoCardComponent],
   templateUrl: './artigo-list.component.html',
   styles: [
     `
@@ -54,11 +54,11 @@ export class ArtigoListComponent {
   title = signal('Artigos')
   artigos = signal<Artigo[]>([]);
 
-  private server = inject(PostService);
+  private server = inject(ArtigoService);
 
   constructor() {
     this.isLoading.set(true);
-    this.server.getArtigos().subscribe({
+    this.server.getAll().subscribe({
       next: (artigos) => {
         this.artigos.set([...(artigos as Artigo[])]);
       },

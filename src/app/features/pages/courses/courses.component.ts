@@ -1,21 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
-import { Blog } from '../../../../core/utils/types';
-import { LoadingComponent } from '../../shared/loading/loading.component';
-import { ResourceEmptyComponent } from '../../shared/resource-empty/resource-empty.component';
-import { BlogService } from '../../../../core/services/blog.service';
-import { RecursoTemporariamenteIndisponivelComponent } from '../../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
-import { BlogCardComponent } from '../ui/blog-card/blog-card.component';
+import { RecursoTemporariamenteIndisponivelComponent } from '../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
+import { Course } from '../../../core/utils/types';
+import { CourseService } from '../../../core/services/curso.service';
+import { LoadingComponent } from '../shared/loading/loading.component';
+import { ResourceEmptyComponent } from '../shared/resource-empty/resource-empty.component';
+import { CourseCardComponent } from './ui/course-card/course-card.component';
 
 @Component({
-  selector: 'app-blog-list',
-  imports: [
-    LoadingComponent,
-    ResourceEmptyComponent,
-    RecursoTemporariamenteIndisponivelComponent,
-    BlogCardComponent
-  ],
-  templateUrl: './blog-list.component.html',
-  styles: [
+  selector: 'app-courses',
+  imports: [RecursoTemporariamenteIndisponivelComponent, LoadingComponent, ResourceEmptyComponent, CourseCardComponent],
+  templateUrl: './courses.component.html',
+   styles: [
     `
       :host {
         display: block;
@@ -56,22 +51,22 @@ import { BlogCardComponent } from '../ui/blog-card/blog-card.component';
     `,
   ],
 })
-export class BlogListComponent {
+export class CoursesComponent {
   isLoading = signal(false);
-  blogs = signal<Blog[] | null>([]);
+  courses = signal<Course[]>([]);
   error = signal(false);
-  private server = inject(BlogService);
+  private server = inject(CourseService);
 
-  title = signal('Blogs');
+  title = signal('Cursos')
   constructor() {
     this.isLoading.set(true);
     this.server.getAll().subscribe({
-      next: (blogs: Blog[]) => {
-        this.blogs.set(blogs);
+      next: (courses) => {
+        this.courses.set(courses);
       },
       error: () => {
         this.error.set(true);
-        this.isLoading.set(false);
+        this.isLoading.set(false)
       },
       complete: () => this.isLoading.set(false),
     });

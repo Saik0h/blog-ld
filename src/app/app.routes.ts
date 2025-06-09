@@ -55,6 +55,24 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'materiais',
+        data: { animation: 'MaterialsPage' },
+        loadComponent: async () => {
+          return import('./features/pages/materiais/materiais.component').then(
+            (m) => m.MateriaisComponent
+          );
+        },
+      },
+      {
+        path: 'cursos',
+        data: { animation: 'CoursesPage' },
+        loadComponent: async () => {
+          return import('./features/pages/courses/courses.component').then(
+            (m) => m.CoursesComponent
+          );
+        },
+      },
+      {
         path: '',
         data: { animation: 'HomePage' },
         loadComponent: async () => {

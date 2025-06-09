@@ -1,5 +1,8 @@
 .homepage{
     display: flex;
     flex-direction: column;
-    gap: 10vh;
+    gap: 5rem;
+   :nth-child(2){
+        border-top: 1px solid red ;
+    }
 }

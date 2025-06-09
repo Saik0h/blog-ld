@@ -2,13 +2,13 @@
 @if(isLoading()){
 <app-loading />
 } @if(error()){
-<app-page-not-found />
-}@else if (!isLoading() && blogs() && blogs().length === 0) {
-<app-resource-empty/>
+<app-recurso-temporariamente-indisponivel></app-recurso-temporariamente-indisponivel>
+}@else if (!isLoading() && blogs() && blogs()!.length === 0) {
+<app-resource-empty />
 } @else{
 <section>
   @for (blog of blogs(); track blog.id){
-  <app-post-card category="blogs" [post]="blog" />
+  <app-blog-card [blog]="blog" />
   }
 </section>
 }

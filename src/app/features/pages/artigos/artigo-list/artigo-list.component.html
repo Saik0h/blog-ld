@@ -2,13 +2,12 @@
 @if(isLoading()){
 <app-loading />
 } @if(error()){
-<app-page-not-found />
+<app-recurso-temporariamente-indisponivel/>
 }@else if (!isLoading() && artigos() && artigos().length === 0) {
 <app-resource-empty />
 } @else{
 <section>
   @for (artigo of artigos(); track artigo.id){
-  <app-post-card category="artigos" [post]="artigo"></app-post-card>
-  }
+<app-artigo-card [artigo]="artigo" />  }
 </section>
 }

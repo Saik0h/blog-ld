@@ -1,0 +1,85 @@
+.artigo-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 400px;
+}
+
+.artigo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.artigo-card__image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.artigo-card__content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.artigo-card__title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.artigo-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.artigo-card__tag {
+  background-color: #ffe4b2;
+  color: #a45f00;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.artigo-card__excerpt {
+  font-size: 0.9rem;
+  color: #555;
+  max-height: 3.6em; /* ~3 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artigo-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 8px;
+}
+
+.artigo-card__author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.artigo-card__author-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.artigo-card__author-name {
+  font-weight: 500;
+}
+
+.artigo-card__date {
+  white-space: nowrap;
+}

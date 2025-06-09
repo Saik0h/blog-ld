@@ -1,14 +1,14 @@
 <article class="post-card">
   <div class="post-image">
-    <img [src]="post.image" [alt]="post.title" />
+    <img [src]="article.image" [alt]="article.title" />
   </div>
   <div class="post-info">
-    <h3 class="post-title">{{ post.title }}</h3>
-    <p class="snippet">{{ post.text | slice:0:150 }}...</p>
+    <h3 class="post-title">{{ article.title }}</h3>
+    <p class="snippet">{{ article.text | slice:0:150 }}...</p>
     <div class="meta">
-      <span class="author">By {{ post.author.firstname }} {{ post.author.lastname }}</span>
-      <span class="date">· {{ post.createdAt | date }}</span>
+      <span class="author">By {{ article.author.firstname }} {{ article.author.lastname }}</span>
+      <span class="date">· {{ article.createdAt | date }}</span>
     </div>
-    <a [routerLink]="[`/${category}/`, post.id]" class="read-more">Read More →</a>
+    <a [routerLink]="[`/articles/`, article.id]" class="read-more">Read More →</a>
   </div>
 </article>

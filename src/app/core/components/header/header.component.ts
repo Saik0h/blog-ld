@@ -15,8 +15,8 @@ export class HeaderComponent {
   headerLinks = signal([
     { label: 'Artigos', path: '/artigos' },
     { label: 'Blog', path: '/blogs' },
-    { label: 'Contato', path: '/contato' },
     { label: 'Materiais Gratuitos', path: '/materiais' },
     { label: 'Cursos', path: '/cursos' },
+    { label: 'Contato', path: '/contato' },
   ]);
 }

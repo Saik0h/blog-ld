@@ -1,20 +1,15 @@
 import { Component, inject, signal } from '@angular/core';
-import { Blog } from '../../../../core/utils/types';
-import { LoadingComponent } from '../../shared/loading/loading.component';
-import { ResourceEmptyComponent } from '../../shared/resource-empty/resource-empty.component';
-import { BlogService } from '../../../../core/services/blog.service';
-import { RecursoTemporariamenteIndisponivelComponent } from '../../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
-import { BlogCardComponent } from '../ui/blog-card/blog-card.component';
+import { RecursoTemporariamenteIndisponivelComponent } from '../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
+import { Material } from '../../../core/utils/types';
+import { MaterialService } from '../../../core/services/material.service';
+import { LoadingComponent } from '../shared/loading/loading.component';
+import { ResourceEmptyComponent } from '../shared/resource-empty/resource-empty.component';
+import { MaterialCardComponent } from './ui/material-card/material-card.component';
 
 @Component({
-  selector: 'app-blog-list',
-  imports: [
-    LoadingComponent,
-    ResourceEmptyComponent,
-    RecursoTemporariamenteIndisponivelComponent,
-    BlogCardComponent
-  ],
-  templateUrl: './blog-list.component.html',
+  selector: 'app-materiais',
+  imports: [RecursoTemporariamenteIndisponivelComponent, LoadingComponent, ResourceEmptyComponent, MaterialCardComponent],
+  templateUrl: './materiais.component.html',
   styles: [
     `
       :host {
@@ -23,7 +18,6 @@ import { BlogCardComponent } from '../ui/blog-card/blog-card.component';
         background-color: var(--color-light, hsl(60, 100%, 97%));
       }
 
-      /* Título */
       h3 {
         font-size: 2rem;
         color: var(--color-dark, hsl(204, 86%, 6%));
@@ -33,14 +27,12 @@ import { BlogCardComponent } from '../ui/blog-card/blog-card.component';
         padding-bottom: 0.5rem;
       }
 
-      /* Grid para artigos */
       section {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(1fr, minmax(280px, 1fr));
         gap: 1.5rem;
       }
 
-      /* Estilo adicional para o card, caso precise (opcional) */
       app-post-card {
         display: block;
         border-radius: 8px;
@@ -56,18 +48,19 @@ import { BlogCardComponent } from '../ui/blog-card/blog-card.component';
     `,
   ],
 })
-export class BlogListComponent {
-  isLoading = signal(false);
-  blogs = signal<Blog[] | null>([]);
+export class MateriaisComponent {
+isLoading = signal(false);
   error = signal(false);
-  private server = inject(BlogService);
+  title = signal('Materiais Gratuitos')
+  materials = signal<Material[]>([]);
 
-  title = signal('Blogs');
+  private server = inject(MaterialService);
+
   constructor() {
     this.isLoading.set(true);
     this.server.getAll().subscribe({
-      next: (blogs: Blog[]) => {
-        this.blogs.set(blogs);
+      next: (materiais) => {
+        this.materials.set(materiais);
       },
       error: () => {
         this.error.set(true);

@@ -1,11 +1,11 @@
-import { Component, inject, Input, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Post } from '../../../../core/utils/types';
 import { DatePipe, TitleCasePipe } from '@angular/common';
-import { PostService } from '../../../../core/services/post.service';
 import { throwError } from 'rxjs';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { PageNotFoundComponent } from '../../shared/page-not-found/page-not-found.component';
+import { Artigo, Blog } from '../../../../core/utils/types';
+import { ArtigoService } from '../../../../core/services/artigo.service';
 
 @Component({
   selector: 'app-artigo-detail',
@@ -15,31 +15,17 @@ import { PageNotFoundComponent } from '../../shared/page-not-found/page-not-foun
 })
 export class ArtigoDetailComponent {
   private route = inject(ActivatedRoute);
-  private server = inject(PostService);
+  private server = inject(ArtigoService);
   isLoading = signal(false);
   error = signal(false);
-  artigo = signal<Post>({
-    id: '',
-    authorId: '',
-    author: {
-      firstname: '',
-      lastname: '',
-      profileImage: '',
-    },
-    title: '',
-    image: '',
-    text: '',
-    references: [],
-    createdAt: '',
-    updatedAt: '',
-  });
+  artigo = signal<Artigo | null>(null);
   constructor() {
     this.isLoading.set(true);
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.server.getOneArtigo(id).subscribe({
-        next: (post) => {
-          this.artigo.set(post);
+      this.server.getOne(+id).subscribe({
+        next: (artigo) => {
+          this.artigo.set(artigo);
         },
         error: (err) => {
           this.error.set(true);

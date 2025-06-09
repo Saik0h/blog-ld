@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Message, Post, PostPayload, User } from '../utils/types';
+import { Message, PostPayload, User } from '../utils/types';
 @Injectable({
   providedIn: 'root',
 })
@@ -32,9 +32,5 @@ export class UserService {
     );
   };
 
-  post = (body: PostPayload): Observable<Post> => {
-    return this.http.post<Post>(`${this.url}/posts`, body, {
-      withCredentials: true,
-    });
-  };
+ 
 }

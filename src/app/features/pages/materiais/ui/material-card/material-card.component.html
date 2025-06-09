@@ -1,0 +1,25 @@
+<article class="material-card">
+  <figure class="material-card__image">
+    <img
+      [src]="material!.image"
+      [alt]="'Capa do material: ' + material!.title"
+    />
+  </figure>
+  <section class="material-card__info">
+    <h2 class="material-card__title">{{ material!.title }}</h2>
+    <p class="material-card__author">
+      Por {{ material!.author!.firstname }} {{ material!.author!.lastname }}
+    </p>
+    <p class="material-card__description">
+      {{ material!.description }}
+    </p>
+    <a
+      [href]="material!.file"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="material-card__link"
+    >
+      📄 Baixar PDF
+    </a>
+  </section>
+</article>
