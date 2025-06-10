@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CourseService {
   private http = inject(HttpClient);
-  private readonly url = 'http://localhost:3000/api/courses';
+  private readonly url = 'https://laisdonida-be.onrender.com/api/courses';
 
   getAll = (): Observable<Course[]> => {
     const url = `${this.url}`;

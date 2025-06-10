@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class BlogService {
   private http = inject(HttpClient);
-  private readonly url = 'http://localhost:3000/api/blogs';
+  private readonly url = 'https://laisdonida-be.onrender.com/api/blogs';
 
   getAll = (): Observable<Blog[]> => {
     const url = `${this.url}`;

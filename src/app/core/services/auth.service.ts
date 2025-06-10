@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly url = 'http://localhost:3000/api/auth';
+  private readonly url = 'https://laisdonida-be.onrender.com/api/auth';
   private readonly http = inject(HttpClient);
   public isLoggedIn = signal<boolean>(false);
   private readonly router = inject(Router);

@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MaterialService {
   private http = inject(HttpClient);
-  private readonly url = 'http://localhost:3000/api/materials';
+  private readonly url = 'https://laisdonida-be.onrender.com/api/materials';
 
   getAll = (): Observable<Material[]> => {
     const url = `${this.url}`;

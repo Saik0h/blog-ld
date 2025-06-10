@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ImageService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:3000/api/images'; // Adjust based on your NestJS API endpoint
+  private readonly baseUrl = 'https://laisdonida-be.onrender.com/api/images'; // Adjust based on your NestJS API endpoint
 
   /**
    * Uploads an image file to the backend (NestJS).

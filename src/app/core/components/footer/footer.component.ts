@@ -3,14 +3,13 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
-  imports: [RouterLink],
   providers: [],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css',
 })
 export class FooterComponent {
   currentYear = signal<string>(new Date().getFullYear().toString());
-  developedBy = signal<string>('Desenvolvido por: Cristhyan Magarão');
+  developedBy = signal<string>('Cristhyan Magarão');
 
   socialsNavLinks = signal<{ label: string; url: string; icon: string }[]>([
     {
@@ -35,9 +34,4 @@ export class FooterComponent {
     { label: 'Contato', url: '/contato', icon: 'bi bi-envelope' },
     { label: 'Termos de Uso', url: '/', icon: 'bi bi-file-text' },
   ]);
-
-  constructor() {
-    // You can also set the current year in the constructor if needed
-    // this.currentYear = new Date().getFullYear();
-  }
 }

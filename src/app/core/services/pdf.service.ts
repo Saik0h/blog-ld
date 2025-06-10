@@ -6,7 +6,7 @@ import { catchError, Observable, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class PdfService {
-  private baseUrl = 'http://localhost:3000/api/pdf';
+  private baseUrl = 'https://laisdonida-be.onrender.com/api/pdf';
 
   private http = inject(HttpClient);
 

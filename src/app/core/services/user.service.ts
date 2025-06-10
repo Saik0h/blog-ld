@@ -7,7 +7,7 @@ import { Message, PostPayload, User } from '../utils/types';
 })
 export class UserService {
   private http = inject(HttpClient);
-  private readonly url = 'http://localhost:3000/api';
+  private readonly url = 'https://laisdonida-be.onrender.com/api';
 
   getMe = (): Observable<User> => {
     return this.http.get<User>(`${this.url}/auth/status`, {

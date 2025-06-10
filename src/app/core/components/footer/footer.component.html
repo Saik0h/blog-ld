@@ -3,7 +3,7 @@
     <ul class="footer-nav__socials">
       @for(item of socialsNavLinks(); track item.label) {
       <li class="footer-nav__socials-item">
-        <a href="{{ item.url }}" ariaLabel="Link para {{ item.label }}">
+        <a href="{{ item.url }}" target="_blank" ariaLabel="Link para {{ item.label }}">
           <i [className]="item.icon" aria-hidden="true"></i>
           <span>{{ item.label }}</span>
         </a>

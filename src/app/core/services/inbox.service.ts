@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class InboxService {
   private readonly http = inject(HttpClient);
-  private readonly url = 'http://localhost:3000/api/inbox';
+  private readonly url = 'https://laisdonida-be.onrender.com/api/inbox';
 
   getAllMails = (): Observable<Mail[]> => {
     return this.http.get<Mail[]>(this.url, { withCredentials: true });

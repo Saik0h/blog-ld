@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CurriculumService {
-  private readonly url = 'http://localhost:3000/api/curriculum';
+  private readonly url = 'https://laisdonida-be.onrender.com/api/curriculum';
   private readonly http = inject(HttpClient);
 
   createCurriculum = (data: CurriculumCreatePayload): Observable<Message> => {

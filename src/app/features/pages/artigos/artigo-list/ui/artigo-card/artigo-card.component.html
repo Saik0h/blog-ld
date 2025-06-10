@@ -1,17 +1,17 @@
 <article class="artigo-card">
-  <figure class="artigo-card__image">
+  <figure class="artigo-card__image" [routerLink]="artigo!.id">
     <img [src]="artigo!.image" [alt]="'Imagem do artigo: ' + artigo!.title" />
   </figure>
   <div class="artigo-card__content">
     <header class="artigo-card__header">
-      <h2 class="artigo-card__title">{{ artigo!.title }}</h2>
+      <h2 class="artigo-card__title" [routerLink]="artigo!.id">{{ artigo!.title }}</h2>
     </header>
     <section class="artigo-card__tags">
       @for (tag of artigo!.tags; track tag.id) {
       <span class="artigo-card__tag"> #{{ tag.name }} </span>
       }
     </section>
-    <section class="artigo-card__excerpt">
+    <section class="artigo-card__excerpt" [routerLink]="artigo!.id">
       {{ artigo!.text }}
     </section>
     <footer class="artigo-card__footer">

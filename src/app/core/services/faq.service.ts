@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class FaqService {
   private readonly http = inject(HttpClient);
-  private readonly url = 'http://localhost:3000/api/faq';
+  private readonly url = 'https://laisdonida-be.onrender.com/api/faq';
 
 
   getAllFaqs = (): Observable<faq[]> => {
