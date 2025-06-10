@@ -1,8 +1,8 @@
 .about {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.5rem 3rem;
+  gap: 1rem;
+  padding: 0.5rem 0.25rem;
   border-radius: 8px;
   max-width: 1200px;
   margin-inline: auto;
@@ -15,6 +15,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     align-items: stretch;
+    padding: 1.5rem 3rem;
   }
 }
 

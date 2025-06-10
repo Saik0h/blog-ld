@@ -15,6 +15,7 @@
 .hero .overlay {
   position: absolute;
   inset: 0;
+  top: 95px;
   background-color: #00000066;
   display: flex;
   align-items: flex-start;
