@@ -7,7 +7,7 @@
 <app-resource-empty />
 } @else{
 <section>
-  @for (course of coursesTest; track course.id){
+  @for (course of courses(); track course.id){
   <app-course-card [course]="course" />
   }
 </section>
