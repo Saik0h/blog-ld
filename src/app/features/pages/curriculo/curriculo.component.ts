@@ -25,7 +25,7 @@ import { ImageService } from '../../../core/services/image.service';
 export class CurriculoComponent {
   private server = inject(CurriculumService);
   private readonly auth = inject(AuthService);
-  public readonly isLoading = this.server.isLoading;
+  public isLoading = this.server.isLoading();
   public readonly isProcessing = signal(false);
   public readonly isCreateNewFieldSectionOpen = signal(false);
   public readonly editMode = signal(false);
@@ -63,11 +63,12 @@ export class CurriculoComponent {
       });
   }
 
-
-
   constructor() {
+    console.log(this.isLoading)
     this.getAuthorization()
+        console.log(this.isLoading)
     this.loadCurriculum();
+        console.log(this.isLoading)
   }
 
   getAuthorization() {

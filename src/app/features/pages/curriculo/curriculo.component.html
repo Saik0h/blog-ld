@@ -1,6 +1,6 @@
-@if(isLoading()){
+@if(isLoading){
 <app-loading />
-}@else if(!isLoading() && curriculum()){
+}@else if(!isLoading && curriculum()){
 <section class="curriculo">
   <article class="profile-card">
     @if(editMode()){
