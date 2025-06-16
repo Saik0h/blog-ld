@@ -1,21 +1,17 @@
 <section class="register-form">
   <h2>Crie sua conta</h2>
 
-  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+    
     <div class="form-control">
       <label for="firstname">Nome</label>
       <input
         type="text"
         id="firstname"
         name="firstname"
-        
-        required
-        [(ngModel)]="registerData.firstname"
-        #firstModel="ngModel"
+        formControlName="firstname"
+        autocomplete="given-name"
       />
-      @if(firstModel.invalid && firstModel.touched){
-      <small> Nome é obrigatório. </small>
-      }
     </div>
 
     <div class="form-control">
@@ -24,13 +20,9 @@
         type="text"
         id="lastname"
         name="lastname"
-        required
-        [(ngModel)]="registerData.lastname"
-        #lastModel="ngModel"
+        formControlName="lastname"
+        autocomplete="family-name"
       />
-      @if(lastModel.invalid && lastModel.touched){
-      <small> Sobrenome é obrigatório. </small>
-      }
     </div>
 
     <div class="form-control">
@@ -39,13 +31,9 @@
         type="username"
         id="username"
         name="username"
-        required
-        [(ngModel)]="registerData.username"
-        #usernameModel="ngModel"
+        formControlName="username"
+        autocomplete="username"
       />
-      @if(usernameModel.invalid && usernameModel.touched){
-      <small>Usuário inválido.</small>
-      }
     </div>
 
     <div class="form-control">
@@ -55,15 +43,11 @@
         type="password"
         name="password"
         minlength="8"
-        #passwordModel="ngModel"
-        [(ngModel)]="registerData.password"
-        required
+        formControlName="password"
+        autocomplete="new-password"
       />
-      @if(passwordModel.invalid && passwordModel.touched){
-      <small> Senha deve ter pelo menos 8 caracteres. </small>
-      }
     </div>
 
-    <button type="submit" [disabled]="registerForm.invalid">Registrar</button>
+    <button type="submit">Registrar</button>
   </form>
 </section>

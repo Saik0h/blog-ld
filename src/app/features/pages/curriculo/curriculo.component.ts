@@ -63,28 +63,31 @@ export class CurriculoComponent {
       });
   }
 
-  loadCurriculum() {
-    this.isLoading.set(true);
+
+
+  constructor() {
+    this.getAuthorization()
+    this.loadCurriculum();
+  }
+
+  getAuthorization() {
     this.auth.getAuthorization().subscribe({
       next: (response) => {
         this.userHasPermission.set(response);
       },
       error: (err) => throwError(() => err),
     });
+  }
+
+  loadCurriculum() {
     this.server.getCurriculum().subscribe({
       next: (res: Curriculum) => {
         this.curriculum.set(res);
       },
       error: (err) => {
-        this.isLoading.set(false);
         throwError(() => err);
       },
-      complete: () => this.isLoading.set(false),
     });
-  }
-
-  constructor() {
-    this.loadCurriculum();
   }
 
   addItemToArray(item: HTMLTextAreaElement) {
@@ -133,19 +136,19 @@ export class CurriculoComponent {
 
     const data: CurriculumUpdatePayload = img()
       ? {
-          firstname: this.curriculum()!.firstname,
-          lastname: this.curriculum()!.lastname,
-          credential: this.curriculum()!.credential,
-          jobTitle: this.curriculum()!.jobTitle,
-          profileImage: img(),
-        }
+        firstname: this.curriculum()!.firstname,
+        lastname: this.curriculum()!.lastname,
+        credential: this.curriculum()!.credential,
+        jobTitle: this.curriculum()!.jobTitle,
+        profileImage: img(),
+      }
       : {
-          firstname: this.curriculum()!.firstname,
-          lastname: this.curriculum()!.lastname,
-          credential: this.curriculum()!.credential,
-          jobTitle: this.curriculum()!.jobTitle,
-          profileImage: this.curriculum()!.profileImage,
-        };
+        firstname: this.curriculum()!.firstname,
+        lastname: this.curriculum()!.lastname,
+        credential: this.curriculum()!.credential,
+        jobTitle: this.curriculum()!.jobTitle,
+        profileImage: this.curriculum()!.profileImage,
+      };
 
     if (!data) return;
 

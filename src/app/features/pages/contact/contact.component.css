@@ -5,7 +5,7 @@
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .contact-form h2 {
@@ -28,7 +28,7 @@
 .contact-form input,
 .contact-form textarea {
   padding: 0.75rem;
-  border: 1px solid var(--color-bg);
+  border: 1px solid hsla(35, 100%, 55%, 0.5);
   border-radius: 6px;
   background-color: white;
   color: var(--color-dark);
@@ -59,7 +59,7 @@
   background-color: hsl(35, 100%, 45%);
 }
 
-.form-control{
+.form-control {
   display: flex;
   flex-direction: column;
   gap: 0.1em;

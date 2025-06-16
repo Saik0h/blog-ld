@@ -11,7 +11,7 @@ import { HamburgerMenuComponent } from '../menu-hamburger/menu-hamburguer.compon
 })
 export class HeaderComponent {
   url = 'logo.webp';
-  btnText = 'Ver Currículo';
+  btnText = 'Currículo';
   altText = 'Olá'
   btnGoTo = 'curriculo';
   headerLinks = signal([

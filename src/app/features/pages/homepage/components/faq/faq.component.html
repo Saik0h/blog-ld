@@ -3,14 +3,20 @@
 
   @if (isLoading()) {
   <app-loading />
-  } @else {
+  } @else if(faqs() === null ||faqs()!.length === 0) {
+  <app-resource-empty />
+  }@else {
   <dl class="faq-list">
     @for(item of faqs(); track item.question){
     <div class="faq-item" [class.open]="item.open">
       <dt>
-        <button class="faq-question" (click)="toggle(item)" [ariaExpanded]="item.open">
+        <button
+          class="faq-question"
+          (click)="toggle(item)"
+          [ariaExpanded]="item.open"
+        >
           {{ item.question }}
-          <span class="icon">{{ item.open ? '-' : '+' }}</span>
+          <span class="icon">{{ item.open ? "-" : "+" }}</span>
         </button>
       </dt>
       <dd class="faq-answer-wrapper" [class.open]="item.open">

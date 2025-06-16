@@ -27,7 +27,7 @@
 
 .login-form input {
   padding: 0.75rem;
-  border: 1px solid var(--color-bg);
+  border: 1px solid hsla(35, 100%, 55%, 0.5);
   border-radius: 6px;
   background-color: white;
   color: var(--color-dark);

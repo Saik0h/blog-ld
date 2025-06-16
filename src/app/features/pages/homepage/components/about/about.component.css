@@ -9,11 +9,15 @@
 }
 
 /* Grid para telas médias e grandes */
-@media (min-width: 768px) {
+@media (min-width: 932px) {
   .about {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+  }
+}
+@media (min-width: 768px) {
+  .about {
     align-items: stretch;
     padding: 1.5rem 3rem;
   }

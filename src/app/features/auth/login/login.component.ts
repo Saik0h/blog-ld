@@ -3,36 +3,38 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { LoginPayload } from '../../../core/utils/types';
 import { CommonModule } from '@angular/common';
-import { NgForm } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
   providers: [AuthService, NgForm],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  loginData: LoginPayload = {
-    username: '',
-    password: ''
-  };
+  loginForm = new FormGroup({
+    username: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+  });
 
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
 
   onSubmit() {
-    this.authService.login(this.loginData).subscribe({
+    const payload: LoginPayload = this.loginForm.value as LoginPayload;
+    this.authService.login(payload).subscribe({
       error: (err) => throwError(() => err),
       complete: () => {
-        this.router.navigate(['profile'])
-        this.loginData = {
-          username: '',
-          password: ''
-        }
-      }
-    })
+        this.router.navigate(['profile']);
+      },
+    });
   }
 }

@@ -1,20 +1,16 @@
 <section class="login-form">
   <h2>Entrar</h2>
 
-  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
     <div class="form-control">
       <label for="username">Usuário</label>
       <input
         type="username"
         id="username"
         name="username"
-        required
-        [(ngModel)]="loginData.username"
-        #usernameModel="ngModel"
+        formControlName="username"
+        autocomplete="username"
       />
-      @if(usernameModel.invalid && usernameModel.touched){
-      <small> Nome de usuário inválido. </small>
-      }
     </div>
 
     <div class="form-control">
@@ -23,16 +19,11 @@
         type="password"
         id="password"
         name="password"
-        required
-        minlength="8"
-        [(ngModel)]="loginData.password"
-        #passwordModel="ngModel"
+        formControlName="password"
+        autocomplete="current-password"
       />
-      @if(passwordModel.invalid && passwordModel.touched){
-      <small> Senha deve ter no mínimo 8 caracteres. </small>
-      }
     </div>
 
-    <button type="submit" [disabled]="loginForm.invalid">Login</button>
+    <button type="submit">Login</button>
   </form>
 </section>

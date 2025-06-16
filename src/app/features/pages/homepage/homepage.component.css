@@ -3,6 +3,5 @@
   position: relative;
   flex-direction: column;
   gap: 3rem;
-  max-width: 1600px;
   margin-inline: auto;
 }

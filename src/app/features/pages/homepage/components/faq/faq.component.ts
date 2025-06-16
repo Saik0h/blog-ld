@@ -3,10 +3,11 @@ import { FaqService } from '../../../../../core/services/faq.service';
 import { faq, faqDisplay } from '../../../../../core/utils/types';
 import { map, throwError } from 'rxjs';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
+import { ResourceEmptyComponent } from '../../../shared/resource-empty/resource-empty.component';
 
 @Component({
   selector: 'app-faq',
-  imports: [LoadingComponent],
+  imports: [LoadingComponent, ResourceEmptyComponent],
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.css'
 })

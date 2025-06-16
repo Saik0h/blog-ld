@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import {
   Curriculum,
   CurriculumCreatePayload,
@@ -11,7 +11,7 @@ import {
   CreateContactInfoPayload,
   UpdateContactInfoPayload,
 } from '../utils/types';
-import { Observable } from 'rxjs';
+import { catchError, EMPTY, finalize, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,8 @@ import { Observable } from 'rxjs';
 export class CurriculumService {
   private readonly url = 'https://laisdonida-be.onrender.com/api/curriculum';
   private readonly http = inject(HttpClient);
+  private _isLoading = signal<boolean>(false);
+  public isLoading = this._isLoading.asReadonly()
 
   createCurriculum = (data: CurriculumCreatePayload): Observable<Message> => {
     return this.http.post<Message>(`${this.url}`, data, {
@@ -27,7 +29,16 @@ export class CurriculumService {
   };
 
   getCurriculum = (): Observable<Curriculum> => {
-    return this.http.get<Curriculum>(`${this.url}`);
+    const obs = this.http.get<Curriculum>(this.url).pipe(
+      catchError((err) => {
+        console.error(err)
+        return EMPTY
+      }),
+      finalize(() => {
+        this._isLoading.set(false)
+      })
+    )
+    return obs
   };
 
   updateCurriculum = (data: CurriculumUpdatePayload): Observable<Message> => {
