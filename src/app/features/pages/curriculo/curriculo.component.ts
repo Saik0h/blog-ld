@@ -25,7 +25,7 @@ import { ImageService } from '../../../core/services/image.service';
 export class CurriculoComponent {
   private server = inject(CurriculumService);
   private readonly auth = inject(AuthService);
-  public readonly isLoading = signal(false);
+  public readonly isLoading = this.server.isLoading;
   public readonly isProcessing = signal(false);
   public readonly isCreateNewFieldSectionOpen = signal(false);
   public readonly editMode = signal(false);
