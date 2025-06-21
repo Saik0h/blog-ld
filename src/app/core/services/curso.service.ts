@@ -7,13 +7,14 @@ import {
   Message,
 } from '../utils/types';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CourseService {
   private http = inject(HttpClient);
-  private readonly url = 'https://laisdonida-be.onrender.com/api/courses';
+  private readonly url = environment.apiUrl + '/courses';
 
   getAll = (): Observable<Course[]> => {
     const url = `${this.url}`;

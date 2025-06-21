@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { MailPayload, Mail, Message } from '../utils/types';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InboxService {
   private readonly http = inject(HttpClient);
-  private readonly url = 'https://laisdonida-be.onrender.com/api/inbox';
+  private readonly url = environment.apiUrl + '/inbox';
 
   getAllMails = (): Observable<Mail[]> => {
     return this.http.get<Mail[]>(this.url, { withCredentials: true });
@@ -35,6 +36,10 @@ export class InboxService {
   };
 
   markMailAsRead = (id: string): Observable<Message> => {
-    return this.http.patch<Message>(`${this.url}/${id}`, {}, {withCredentials: true});
+    return this.http.patch<Message>(
+      `${this.url}/${id}`,
+      {},
+      { withCredentials: true }
+    );
   };
 }

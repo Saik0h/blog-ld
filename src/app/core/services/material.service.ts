@@ -7,22 +7,21 @@ import {
   Message,
 } from '../utils/types';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MaterialService {
   private http = inject(HttpClient);
-  private readonly url = 'https://laisdonida-be.onrender.com/api/materials';
+  private readonly url = environment.apiUrl + '/materials';
 
   getAll = (): Observable<Material[]> => {
-    const url = `${this.url}`;
-    return this.http.get<Material[]>(url, { withCredentials: true });
+    return this.http.get<Material[]>(this.url, { withCredentials: true });
   };
 
   create = (data: MaterialCreatePayload): Observable<Message> => {
-    const url = `${this.url}`;
-    return this.http.post<Message>(url, data, { withCredentials: true });
+    return this.http.post<Message>(this.url, data, { withCredentials: true });
   };
 
   getOne = (id: number): Observable<Material> => {

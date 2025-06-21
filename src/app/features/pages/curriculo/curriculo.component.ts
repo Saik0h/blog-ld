@@ -5,7 +5,6 @@ import {
   CreateFieldPayload,
   Curriculum,
   CurriculumUpdatePayload,
-  Field,
   UpdateContactInfoPayload,
   UpdateFieldPayload,
 } from '../../../core/utils/types';
@@ -15,10 +14,12 @@ import { CurriculoSectionComponent } from './ui/curriculo-section/curriculo-sect
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { ImageService } from '../../../core/services/image.service';
+import { CreateCurriculumFormComponent } from "./ui/create-curriculum-form/create-curriculum-form.component";
+import { RecursoTemporariamenteIndisponivelComponent } from "../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component";
 
 @Component({
   selector: 'app-curriculo',
-  imports: [LoadingComponent, CurriculoSectionComponent, FormsModule],
+  imports: [LoadingComponent, CurriculoSectionComponent, FormsModule, CreateCurriculumFormComponent, RecursoTemporariamenteIndisponivelComponent],
   templateUrl: './curriculo.component.html',
   styleUrl: './curriculo.component.css',
 })

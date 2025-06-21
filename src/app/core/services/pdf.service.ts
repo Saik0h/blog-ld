@@ -1,12 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PdfService {
-  private baseUrl = 'https://laisdonida-be.onrender.com/api/pdf';
+  private baseUrl = environment.apiUrl + '/pdf';
 
   private http = inject(HttpClient);
 

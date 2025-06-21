@@ -1,0 +1,137 @@
+<form
+  (ngSubmit)="onSubmit()"
+  [formGroup]="newCurriculumForm"
+  class="create-curriculum-form"
+  aria-labelledby="form-title"
+  role="form"
+>
+  <div class="form-group">
+    <label for="firstName"> Nome <span aria-hidden="true">*</span> </label>
+
+    <input
+      type="text"
+      id="firstName"
+      name="firstName"
+      autocomplete="given-name"
+      placeholder="Digite seu nome"
+      required
+      aria-required="true"
+      aria-describedby="firstNameHelp firstNameError"
+      formControlName="firstname"
+    />
+
+    @if (false) {
+    <small id="firstNameError" class="error" role="alert">
+      O nome é obrigatório.
+    </small>
+    } @else {
+    <small id="firstNameHelp" class="instructions">Seu primeiro nome.</small>
+    }
+  </div>
+
+  <div class="form-group">
+    <label for="lastName"> Sobrenome <span aria-hidden="true">*</span> </label>
+
+    <input
+      type="text"
+      id="lastName"
+      name="lastName"
+      autocomplete="family-name"
+      placeholder="Digite seu sobrenome"
+      required
+      aria-required="true"
+      aria-describedby="lastNameHelp lastNameError"
+      formControlName="lastname"
+    />
+
+    @if (true) {
+    <small id="lastNameError" class="error" role="alert">
+      O sobrenome é obrigatório.
+    </small>
+    } @else {
+    <small id="lastNameHelp" class="instructions"
+      >Seu sobrenome de família.</small
+    >
+    }
+  </div>
+
+  <div class="form-group">
+    <label for="jobTitle"> Profissão <span aria-hidden="true">*</span> </label>
+
+    <input
+      type="text"
+      id="jobTitle"
+      name="jobTitle"
+      autocomplete="organization-title"
+      placeholder="Digite sua profissão"
+      required
+      aria-required="true"
+      formControlName="jobTitle"
+      aria-describedby="jobTitleHelp jobTitleError"
+    />
+
+    @if (false) {
+    <small id="jobTitleError" class="error" role="alert">
+      A profissão é obrigatória.
+    </small>
+    } @else {
+    <small id="jobTitleHelp" class="instructions">
+      Sua função profissional.
+    </small>
+    }
+  </div>
+
+  <div class="form-group">
+    <label for="credential">
+      Credencial <span aria-hidden="true">*</span>
+    </label>
+
+    <input
+      type="text"
+      id="credential"
+      name="credential"
+      autocomplete="credential"
+      placeholder="Insira sua credencial"
+      required
+      aria-required="true"
+      formControlName="credential"
+      aria-describedby="credentialHelp credentialError"
+    />
+
+    @if (false) {
+    <small id="jobTitleError" class="error" role="alert">
+      A profissão é obrigatória.
+    </small>
+    } @else {
+    <small id="jobTitleHelp" class="instructions">
+      Sua função profissional.
+    </small>
+    }
+  </div>
+
+  <div class="form-group">
+    <label for="profileImage">
+      Foto de perfil <span aria-hidden="true">*</span>
+    </label>
+
+    <input
+      type="file"
+      #fileInput
+      (input)="onImageSelected(fileInput)"
+      id="profileImage"
+      name="profileImage"
+      required
+      aria-required="true"
+      formControlName="profileImage"
+      aria-describedby="profileImage profileImageError"
+    />
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="newCurriculumForm.valid"
+    aria-label="Criar currículo com os dados preenchidos"
+  >
+    Criar Currículo
+  </button>
+</form>

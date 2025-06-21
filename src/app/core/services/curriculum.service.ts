@@ -12,15 +12,16 @@ import {
   UpdateContactInfoPayload,
 } from '../utils/types';
 import { catchError, EMPTY, finalize, Observable, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurriculumService {
-  private readonly url = 'https://laisdonida-be.onrender.com/api/curriculum';
+  private readonly url = environment.apiUrl + '/curriculum';
   private readonly http = inject(HttpClient);
   private _isLoading = signal<boolean>(false);
-  public isLoading = this._isLoading.asReadonly()
+  public isLoading = this._isLoading.asReadonly();
 
   createCurriculum = (data: CurriculumCreatePayload): Observable<Message> => {
     return this.http.post<Message>(`${this.url}`, data, {
@@ -31,14 +32,14 @@ export class CurriculumService {
   getCurriculum = (): Observable<Curriculum> => {
     const obs = this.http.get<Curriculum>(this.url).pipe(
       catchError((err) => {
-        console.error(err)
-        return EMPTY
+        console.error(err);
+        return EMPTY;
       }),
       finalize(() => {
-        this._isLoading.set(false)
+        this._isLoading.set(false);
       })
-    )
-    return obs
+    );
+    return obs;
   };
 
   updateCurriculum = (data: CurriculumUpdatePayload): Observable<Message> => {
@@ -77,9 +78,7 @@ export class CurriculumService {
     });
   };
 
-  updateContactInfo = (
-    data: UpdateContactInfoPayload
-  ): Observable<Message> => {
+  updateContactInfo = (data: UpdateContactInfoPayload): Observable<Message> => {
     return this.http.patch<Message>(`${this.url}/contact/${data.id}`, data, {
       withCredentials: true,
     });

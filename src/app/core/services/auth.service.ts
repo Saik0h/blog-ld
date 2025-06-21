@@ -1,17 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { firstValueFrom, lastValueFrom, Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LoginPayload, RegisterPayload, User, Message } from '../utils/types';
-import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly url = 'https://laisdonida-be.onrender.com/api/auth';
+  private readonly url = environment.apiUrl + '/auth';
   private readonly http = inject(HttpClient);
   public isLoggedIn = signal<boolean>(false);
-  private readonly router = inject(Router);
   public user = signal<User | null>(null);
 
   register = (data: RegisterPayload): Observable<Message> => {
@@ -37,7 +36,7 @@ export class AuthService {
 
   getAuthorization = (): Observable<boolean> => {
     const url = `${this.url}/isAdmin`;
-    return this.http.get<boolean>(url, {withCredentials: true});
+    return this.http.get<boolean>(url, { withCredentials: true });
   };
 
   getUser = (): Observable<User> => {

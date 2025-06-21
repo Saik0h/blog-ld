@@ -2,14 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { faq, faqPayload, Message } from '../utils/types';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FaqService {
   private readonly http = inject(HttpClient);
-  private readonly url = 'https://laisdonida-be.onrender.com/api/faq';
-
+  private readonly url = environment.apiUrl + '/faq';
 
   getAllFaqs = (): Observable<faq[]> => {
     return this.http.get<faq[]>(this.url);

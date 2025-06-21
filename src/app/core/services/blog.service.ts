@@ -7,13 +7,14 @@ import {
   Message,
 } from '../utils/types';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BlogService {
   private http = inject(HttpClient);
-  private readonly url = 'https://laisdonida-be.onrender.com/api/blogs';
+  private readonly url = environment.apiUrl +'/blogs';
 
   getAll = (): Observable<Blog[]> => {
     const url = `${this.url}`;
