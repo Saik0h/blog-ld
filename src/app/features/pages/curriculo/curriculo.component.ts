@@ -14,12 +14,18 @@ import { CurriculoSectionComponent } from './ui/curriculo-section/curriculo-sect
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { ImageService } from '../../../core/services/image.service';
-import { CreateCurriculumFormComponent } from "./ui/create-curriculum-form/create-curriculum-form.component";
-import { RecursoTemporariamenteIndisponivelComponent } from "../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component";
+import { CreateCurriculumFormComponent } from './ui/create-curriculum-form/create-curriculum-form.component';
+import { RecursoTemporariamenteIndisponivelComponent } from '../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
 
 @Component({
   selector: 'app-curriculo',
-  imports: [LoadingComponent, CurriculoSectionComponent, FormsModule, CreateCurriculumFormComponent, RecursoTemporariamenteIndisponivelComponent],
+  imports: [
+    LoadingComponent,
+    CurriculoSectionComponent,
+    FormsModule,
+    CreateCurriculumFormComponent,
+    RecursoTemporariamenteIndisponivelComponent,
+  ],
   templateUrl: './curriculo.component.html',
   styleUrl: './curriculo.component.css',
 })
@@ -65,11 +71,11 @@ export class CurriculoComponent {
   }
 
   constructor() {
-    console.log(this.isLoading)
-    this.getAuthorization()
-        console.log(this.isLoading)
+    console.log(this.isLoading);
+    this.getAuthorization();
+    console.log(this.isLoading);
     this.loadCurriculum();
-        console.log(this.isLoading)
+    console.log(this.isLoading);
   }
 
   getAuthorization() {
@@ -138,19 +144,19 @@ export class CurriculoComponent {
 
     const data: CurriculumUpdatePayload = img()
       ? {
-        firstname: this.curriculum()!.firstname,
-        lastname: this.curriculum()!.lastname,
-        credential: this.curriculum()!.credential,
-        jobTitle: this.curriculum()!.jobTitle,
-        profileImage: img(),
-      }
+          firstname: this.curriculum()!.firstname,
+          lastname: this.curriculum()!.lastname,
+          credential: this.curriculum()!.credential,
+          jobTitle: this.curriculum()!.jobTitle,
+          profileImage: img(),
+        }
       : {
-        firstname: this.curriculum()!.firstname,
-        lastname: this.curriculum()!.lastname,
-        credential: this.curriculum()!.credential,
-        jobTitle: this.curriculum()!.jobTitle,
-        profileImage: this.curriculum()!.profileImage,
-      };
+          firstname: this.curriculum()!.firstname,
+          lastname: this.curriculum()!.lastname,
+          credential: this.curriculum()!.credential,
+          jobTitle: this.curriculum()!.jobTitle,
+          profileImage: this.curriculum()!.profileImage,
+        };
 
     if (!data) return;
 
