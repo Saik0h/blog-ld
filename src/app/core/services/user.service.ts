@@ -1,17 +1,17 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Message, PostPayload, User } from '../utils/types';
+import { Message, User } from '../utils/types';
 import { environment } from '../../../environments/environment.development';
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private http = inject(HttpClient);
-  private readonly url = environment.apiUrl + '/api';
+  private readonly url = environment.apiUrl;
 
   getMe = (): Observable<User> => {
-    return this.http.get<User>(`${this.url}/auth/status`, {
+    return this.http.get<User>(`${this.url}/auth/user`, {
       withCredentials: true,
     });
   };

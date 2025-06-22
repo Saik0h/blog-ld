@@ -1,0 +1,27 @@
+@if (isUserLoggedIn) {
+<aside class="user-widget" aria-label="Atalhos do usuário" tabindex="0">
+  <img
+    [src]="userData?.profileImage || '/logo.webp'"
+    alt="Foto de perfil de {{ userData?.username || 'usuário' }}"
+    class="profile-picture"
+    width="48"
+    height="48"
+    loading="lazy"
+    [routerLink]="'/profile'"
+  />
+
+  <span class="username" title="{{ userData?.username }}">
+    
+    {{ userData?.username }}
+  </span>
+
+  <button
+    type="button"
+    class="logout-button"
+    (click)="logout()"
+    aria-label="Sair da conta"
+  >
+    Logout
+  </button>
+</aside>
+}
