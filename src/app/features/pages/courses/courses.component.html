@@ -1,11 +1,11 @@
 <h3>{{ title() }}</h3>
 @if(isLoading()){
 <app-loading />
-} @if(error()){
+} @if(!isLoading() && error()) {
 <app-recurso-temporariamente-indisponivel />
-}@else if (!isLoading() && courses() && courses().length === 0) {
+}@else if (!isLoading() && courses() && courses().length === 0 && !error()) {
 <app-resource-empty />
-} @else{
+} @else {
 <section>
   @for (course of courses(); track course.id){
   <app-course-card [course]="course" />

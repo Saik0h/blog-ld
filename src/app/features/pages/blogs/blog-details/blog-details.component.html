@@ -19,7 +19,7 @@
     
 
     <section class="blog-detail__content">
-    @if(blog()!.image === ''){
+    @if(blog()!.image){
       <figure class="blog-detail__image">
         <img
           [src]="blog()!.image"

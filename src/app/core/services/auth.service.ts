@@ -12,6 +12,8 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   public isLoggedIn = signal<boolean>(false);
   public user = signal<User | null>(null);
+  private _isLoading = signal<boolean>(false);
+  public isLoading = this._isLoading.asReadonly;
 
   register = (data: RegisterPayload): Observable<Message> => {
     const url = `${this.url}/register`;
@@ -22,6 +24,7 @@ export class AuthService {
 
   login = (data: LoginPayload): Observable<Message> => {
     const url = `${this.url}/login`;
+
     return this.http.post<Message>(url, data, {
       withCredentials: true,
     });
@@ -29,6 +32,7 @@ export class AuthService {
 
   status = (): Observable<boolean> => {
     const url = `${this.url}/status`;
+
     return this.http.get<boolean>(url, {
       withCredentials: true,
     });
@@ -36,11 +40,13 @@ export class AuthService {
 
   getAuthorization = (): Observable<boolean> => {
     const url = `${this.url}/isAdmin`;
+
     return this.http.get<boolean>(url, { withCredentials: true });
   };
 
   getUser = (): Observable<User> => {
     const url = `${this.url}/user`;
+
     return this.http.get<User>(url, {
       withCredentials: true,
     });
@@ -48,11 +54,13 @@ export class AuthService {
 
   refresh = (): Observable<Message> => {
     const url = `${this.url}/refresh`;
+
     return this.http.post<Message>(url, {}, { withCredentials: true });
   };
 
   logout = (): Observable<Message> => {
     const url = `${this.url}/logout`;
+    
     return this.http.post<Message>(url, {}, { withCredentials: true });
   };
 }

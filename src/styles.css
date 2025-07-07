@@ -1,5 +1,9 @@
 :root {
-  --color-dark: hsl(210, 50%, 20%);       /* professional navy-gray for text & contrast */
+  --color-dark: hsl(
+    210,
+    50%,
+    20%
+  ); /* professional navy-gray for text & contrast */
   --color-bg: hsl(52, 100%, 95%);
   --color-dark: hsl(204, 86%, 6%);
   --color-light: hsl(0, 0%, 98%);
@@ -10,10 +14,10 @@
 
 :root {
   --color-bg: hsl(48, 100%, 97%);
-  --color-light: hsl(0, 0%, 100%);     
+  --color-light: hsl(0, 0%, 100%);
   --color-accent: hsl(36, 100%, 55%);
-  --color-primary: hsl(248, 60%, 60%);   
-  --color-secondary: hsl(343, 75%, 65%);  
+  --color-primary: hsl(248, 60%, 60%);
+  --color-secondary: hsl(343, 75%, 65%);
 }
 
 * {
@@ -53,5 +57,43 @@ section {
   &&:hover {
     cursor: pointer;
     transform: translateY(-1.5px);
+  }
+}
+body {
+  position: relative;
+}
+
+.toast-error {
+  border-radius: 0.5rem;
+  font-family: "Roboto", sans-serif;
+  padding: 1rem;
+  position: fixed;
+  bottom: 2rem;
+  right: 1rem;
+  background-color: var(--color-secondary);
+  color: #fff;
+  animation: slideIn 0.7s ease-in-out;
+}
+
+.toast-success {
+  background-color: #52c41a;
+}
+
+.toast-info {
+  background-color: #1890ff;
+}
+
+.toast-warning {
+  background-color: #faad14;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
 }

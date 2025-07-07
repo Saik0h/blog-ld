@@ -93,7 +93,7 @@ export type ArtigoCreatePayload = {
   image: string;
   text: string;
   references?: Reference[];
-  tags?: Tag[];
+  tagNames?: Tag[];
 };
 
 export type ArtigoUpdatePayload = {
@@ -141,7 +141,7 @@ export type BlogCreatePayload = {
   title: string;
   image: string;
   text: string;
-  tags?: Tag[];
+  tagNames?: TagPayload[];
 };
 
 export type BlogUpdatePayload = {

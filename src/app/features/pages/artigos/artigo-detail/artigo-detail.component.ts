@@ -16,25 +16,17 @@ import { ArtigoService } from '../../../../core/services/artigo.service';
 export class ArtigoDetailComponent {
   private route = inject(ActivatedRoute);
   private server = inject(ArtigoService);
-  isLoading = signal(false);
-  error = signal(false);
+  isLoading = this.server.isLoading();
+  error = this.server.hasError();
   artigo = signal<Artigo | null>(null);
   constructor() {
-    this.isLoading.set(true);
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.server.getOne(+id).subscribe({
         next: (artigo) => {
           this.artigo.set(artigo);
         },
-        error: (err) => {
-          this.error.set(true);
-          this.isLoading.set(false);
-          throwError(() => err);
-        },
-        complete: () => this.isLoading.set(false),
       });
     }
-    this.isLoading.set(false);
   }
 }

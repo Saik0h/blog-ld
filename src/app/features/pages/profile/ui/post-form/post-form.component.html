@@ -1,1 +1,15 @@
-<p>this shit works</p>
+<form [formGroup]="postPayload" (ngSubmit)="onSubmit(postPayload.value)" class="post-form">
+  <label for="title">Título</label>
+  <input type="text" id="title" formControlName="title" placeholder="Digite o título" />
+
+  <label for="text">Texto</label>
+  <textarea id="text" formControlName="text" placeholder="Escreva seu post"></textarea>
+
+  <label for="image">Imagem</label>
+  <input type="file" id="image" (change)="onFileChange($event)" />
+
+  <label for="tags">Tags</label>
+  <input type="text" id="tags" formControlName="tags" placeholder="Digite as tags separadas por vírgula" />
+
+  <button type="submit">Publicar</button>
+</form>

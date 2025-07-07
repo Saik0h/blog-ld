@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
 import { faq, faqPayload, Message } from '../utils/types';
-import { Observable } from 'rxjs';
+import { catchError, EMPTY, finalize, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,26 @@ import { environment } from '../../../environments/environment.development';
 export class FaqService {
   private readonly http = inject(HttpClient);
   private readonly url = environment.apiUrl + '/faq';
+  private _isLoading = signal<boolean>(false);
+  public isLoading = this._isLoading.asReadonly;
+  private handleError = inject(ErrorService).handleHTTPError;
+  private _hasError = signal<boolean>(false);
+  public hasError = this._hasError.asReadonly;
 
   getAllFaqs = (): Observable<faq[]> => {
-    return this.http.get<faq[]>(this.url);
+    this._isLoading.set(true);
+    const obs = this.http.get<faq[]>(this.url).pipe(
+      catchError((err: HttpErrorResponse) => {
+        this.handleError(err);
+        this._hasError.set(true);
+        return EMPTY;
+      }),
+      finalize(() => {
+        this._isLoading.set(false);
+      })
+    );
+
+    return obs;
   };
 
   postFaq = (data: faqPayload): Observable<Message> => {
@@ -20,7 +38,18 @@ export class FaqService {
   };
 
   getOneFaq = (id: number): Observable<faq> => {
-    return this.http.get<faq>(`${this.url}/${id}`);
+    const obs = this.http.get<faq>(`${this.url}/${id}`).pipe(
+      catchError((err: HttpErrorResponse) => {
+        this.handleError(err);
+        this._hasError.set(true);
+        return EMPTY;
+      }),
+      finalize(() => {
+        this._isLoading.set(false);
+      })
+    );
+
+    return obs;
   };
 
   deleteFaq = (id: number): Observable<Message> => {

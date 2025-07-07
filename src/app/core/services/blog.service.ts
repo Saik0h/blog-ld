@@ -1,41 +1,84 @@
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { catchError, EMPTY, finalize, lastValueFrom, map, Observable, switchMap } from 'rxjs';
 import {
   Blog,
   BlogCreatePayload,
   BlogUpdatePayload,
   Message,
 } from '../utils/types';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
+import { ErrorService } from './error.service';
+import { ImageService } from './image.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BlogService {
   private http = inject(HttpClient);
-  private readonly url = environment.apiUrl +'/blogs';
+  private readonly url = environment.apiUrl + '/blogs';
+  private _isLoading = signal<boolean>(false);
+  public isLoading = this._isLoading.asReadonly;
+  private handleError = inject(ErrorService).handleHTTPError;
+  private _hasError = signal<boolean>(false);
+  public hasError = this._hasError.asReadonly;
+  imageService = inject(ImageService);
 
   getAll = (): Observable<Blog[]> => {
-    const url = `${this.url}`;
-    return this.http.get<Blog[]>(url, { withCredentials: true });
+    this._isLoading.set(true);
+    const obs = this.http.get<Blog[]>(this.url, { withCredentials: true }).pipe(
+      catchError((err: HttpErrorResponse) => {
+        this.handleError(err);
+        this._hasError.set(true);
+        return EMPTY;
+      }),
+      finalize(() => {
+        this._isLoading.set(false);
+      })
+    );
+
+    return obs;
   };
 
-  create = (data: BlogCreatePayload): Observable<Message> => {
-    const url = `${this.url}`;
-    return this.http.post<Message>(url, data, { withCredentials: true });
-  };
+ create = (
+  data: BlogCreatePayload,
+  img: File,
+  imgFolder: string
+): Observable<Message> => {
+  return this.imageService.uploadImage(img, imgFolder).pipe(
+    map(response => {
+      data.image = response.url;
+      return data;
+    }),
+    switchMap((dataWithImage) => {
+      return this.http.post<Message>(this.url, dataWithImage, {
+        withCredentials: true,
+      });
+    })
+  );
+};
 
   getOne = (id: number): Observable<Blog> => {
     const url = `${this.url}/${id}`;
-    return this.http.get<Blog>(url, { withCredentials: true });
+    this._isLoading.set(true);
+    const obs = this.http.get<Blog>(url, { withCredentials: true }).pipe(
+      catchError((err: HttpErrorResponse) => {
+        this.handleError(err);
+        this._hasError.set(true);
+        return EMPTY;
+      }),
+      finalize(() => {
+        this._isLoading.set(false);
+      })
+    );
+    return obs;
   };
 
   update = (data: BlogUpdatePayload): Observable<Message> => {
     const url = `${this.url}/${data.id}`;
     return this.http.get<Message>(url, { withCredentials: true });
   };
-  
+
   delete = (id: number): Observable<Message> => {
     const url = `${this.url}/${id}`;
     return this.http.get<Message>(url, { withCredentials: true });

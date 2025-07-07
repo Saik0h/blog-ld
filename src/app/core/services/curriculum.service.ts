@@ -21,7 +21,7 @@ export class CurriculumService {
   private readonly url = environment.apiUrl + '/curriculum';
   private readonly http = inject(HttpClient);
   private _isLoading = signal<boolean>(false);
-  public isLoading = this._isLoading.asReadonly();
+  public isLoading = this._isLoading.asReadonly;
 
   createCurriculum = (data: CurriculumCreatePayload): Observable<Message> => {
     return this.http.post<Message>(`${this.url}`, data, {
@@ -30,13 +30,15 @@ export class CurriculumService {
   };
 
   getCurriculum = (): Observable<Curriculum> => {
+    this._isLoading.set(true);
     const obs = this.http.get<Curriculum>(this.url).pipe(
-      catchError((err) => {
+    catchError((err) => {
         console.error(err);
         return EMPTY;
       }),
       finalize(() => {
         this._isLoading.set(false);
+        console.log(this._isLoading())
       })
     );
     return obs;

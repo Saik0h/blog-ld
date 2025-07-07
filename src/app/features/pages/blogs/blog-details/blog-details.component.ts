@@ -16,26 +16,19 @@ import { BlogService } from '../../../../core/services/blog.service';
 export class BlogDetailComponent {
   private route = inject(ActivatedRoute);
   private server = inject(BlogService);
-  isLoading = signal(false);
-  error = signal(false);
+  isLoading = this.server.isLoading();
+  error = this.server.hasError();
   blog = signal<Blog | null>(null);
+
   constructor() {
-    this.isLoading.set(true);
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.server.getOne(+id).subscribe({
         next: (b: Blog) => {
           this.blog.set(b);
-        },
-        error: (err) => {
-          this.error.set(true);
-          this.isLoading.set(false);
-          throwError(() => err);
-        },
-        complete: () => this.isLoading.set(false),
+          console.log(b)
+        }, 
       });
-    } else {
-      this.isLoading.set(false);
     }
   }
 }

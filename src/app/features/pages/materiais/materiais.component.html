@@ -1,7 +1,7 @@
 <h3>{{ title() }}</h3>
 @if(isLoading()){
 <app-loading />
-} @if(error()){
+} @else if(!isLoading() && error()){
 <app-recurso-temporariamente-indisponivel/>
 }@else if (!isLoading() && materials() && materials().length === 0) {
 <app-resource-empty />

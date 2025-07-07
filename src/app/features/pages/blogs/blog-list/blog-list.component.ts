@@ -18,23 +18,17 @@ import { BlogCardComponent } from '../ui/blog-card/blog-card.component';
   styleUrl: './blog-list.component.css',
 })
 export class BlogListComponent {
-  isLoading = signal(false);
-  blogs = signal<Blog[] | null>([]);
-  error = signal(false);
   private server = inject(BlogService);
+  blogs = signal<Blog[] | null>([]);
+  isLoading = this.server.isLoading();
+  error = this.server.hasError();
 
   title = signal('Blogs');
   constructor() {
-    this.isLoading.set(true);
     this.server.getAll().subscribe({
       next: (blogs: Blog[]) => {
         this.blogs.set(blogs);
       },
-      error: () => {
-        this.error.set(true);
-        this.isLoading.set(false);
-      },
-      complete: () => this.isLoading.set(false),
     });
   }
 

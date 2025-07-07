@@ -3,9 +3,11 @@
 
   @if (isLoading()) {
   <app-loading />
-  } @else if(faqs() === null ||faqs()!.length === 0) {
+  }@else if(error()){
+  <app-recurso-temporariamente-indisponivel />
+  } @else if(!isLoading() && faqs() && faqs()!.length === 0) {
   <app-resource-empty />
-  }@else {
+  }@else if(!isLoading() && faqs() && faqs()!.length > 0) {
   <dl class="faq-list">
     @for(item of faqs(); track item.question){
     <div class="faq-item" [class.open]="item.open">

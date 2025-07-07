@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
 import { MailPayload, Mail, Message } from '../utils/types';
-import { Observable } from 'rxjs';
+import { catchError, EMPTY, finalize, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,23 @@ import { environment } from '../../../environments/environment.development';
 export class InboxService {
   private readonly http = inject(HttpClient);
   private readonly url = environment.apiUrl + '/inbox';
+  
+  private handleError = inject(ErrorService).handleHTTPError;
+  
+  private _isLoading = signal<boolean>(false);
+  public isLoading = this._isLoading.asReadonly;
 
   getAllMails = (): Observable<Mail[]> => {
-    return this.http.get<Mail[]>(this.url, { withCredentials: true });
+    const obs = this.http.get<Mail[]>(this.url, { withCredentials: true }).pipe(
+      catchError((err: HttpErrorResponse) => {
+        this.handleError(err);
+        return EMPTY;
+      }),
+      finalize(() => {
+        this._isLoading.set(false);
+      })
+    );
+    return obs;
   };
 
   searchMails = (query: string): Observable<Mail[]> => {

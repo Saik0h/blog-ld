@@ -71,11 +71,8 @@ export class CurriculoComponent {
   }
 
   constructor() {
-    console.log(this.isLoading);
     this.getAuthorization();
-    console.log(this.isLoading);
     this.loadCurriculum();
-    console.log(this.isLoading);
   }
 
   getAuthorization() {
