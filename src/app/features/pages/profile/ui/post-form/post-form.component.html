@@ -1,15 +1,32 @@
-<form [formGroup]="postPayload" (ngSubmit)="onSubmit(postPayload.value)" class="post-form">
-  <label for="title">Título</label>
-  <input type="text" id="title" formControlName="title" placeholder="Digite o título" />
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <input type="text" formControlName="title" placeholder="Título" />
+  <app-image-uploader (uploadedUrl)="form.get('image')?.setValue($event)" />
 
-  <label for="text">Texto</label>
-  <textarea id="text" formControlName="text" placeholder="Escreva seu post"></textarea>
+  @if (form.get('text')) {
+  <textarea formControlName="text" placeholder="Texto"></textarea>
+  } @if (form.get('description')) {
+  <textarea formControlName="description" placeholder="Descrição"></textarea>
+  } @if (form.get('file')) {
+  <app-pdf-uploader (uploadedUrl)="form.get('file')?.setValue($event)" />
+  } @if(form.get('tagNames')){
+  <input
+    type="text"
+    formControlName="tagNames"
+    placeholder="Tags separadas por vírgula (ex: angular, rxjs)"
+  />
+  } @if (form.get('link')) {
+  <input type="text" formControlName="link" placeholder="Link do Curso" />
+  } @if (form.get('references')) {
+  <textarea
+    formControlName="references"
+    placeholder="Uma referência por linha"
+  ></textarea>
+  }
 
-  <label for="image">Imagem</label>
-  <input type="file" id="image" (change)="onFileChange($event)" />
-
-  <label for="tags">Tags</label>
-  <input type="text" id="tags" formControlName="tags" placeholder="Digite as tags separadas por vírgula" />
-
-  <button type="submit">Publicar</button>
+  <button type="submit">Enviar</button>
+  @if(inProgress()){
+  <div class="animation-container">
+    <span class="animation-bar"></span>
+  </div>
+  }
 </form>

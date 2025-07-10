@@ -12,10 +12,9 @@ export class ImageService {
   private _isLoading = signal<boolean>(false);
   public isLoading = this._isLoading.asReadonly;
   
-  uploadImage(file: File, folder: string): Observable<{ url: string }> {
+  uploadImage(file: File): Observable<{ url: string }> {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('folder', folder);
 
     return this.http.post<{ url: string }>(`${this.baseUrl}/upload`, formData, {
       withCredentials: true,

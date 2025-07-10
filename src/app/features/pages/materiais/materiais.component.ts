@@ -1,10 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, Signal, signal } from '@angular/core';
 import { RecursoTemporariamenteIndisponivelComponent } from '../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
 import { Material } from '../../../core/utils/types';
 import { MaterialService } from '../../../core/services/material.service';
 import { LoadingComponent } from '../shared/loading/loading.component';
 import { ResourceEmptyComponent } from '../shared/resource-empty/resource-empty.component';
 import { MaterialCardComponent } from './ui/material-card/material-card.component';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-materiais',
@@ -18,20 +19,30 @@ import { MaterialCardComponent } from './ui/material-card/material-card.componen
   styleUrl: './materiais.component.css',
 })
 export class MateriaisComponent {
-  title = signal('Materiais Gratuitos');
-  materials = signal<Material[]>([]);
+  public readonly title = signal('Materiais Gratuitos');
+  public readonly materials = signal<Material[]>([]);
 
-  private server = inject(MaterialService);
-  isLoading = this.server.isLoading();
-  error = this.server.hasError();
+  private readonly server = inject(MaterialService);
+  public readonly isLoading = this.server.isLoading();
+  public readonly error = this.server.hasError();
+  public hasPermission = signal<boolean>(false);
+
+  private readonly authService = inject(AuthService);
 
   constructor() {
     this.server.getAll().subscribe({
-      next: (materiais) => {
+      next: (materiais: Material[]) => {
         this.materials.set(materiais);
       },
     });
+    this.authService.getAuthorization().subscribe({
+      next: (isAdmin: boolean) => this.hasPermission.set(isAdmin),
+    });
   }
+
+  deleteFunction = (id: number) => {
+    this.server.delete(id).subscribe();
+  };
 
   //   materialsTeste =[
   //   {

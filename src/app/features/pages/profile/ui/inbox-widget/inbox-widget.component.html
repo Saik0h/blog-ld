@@ -1,18 +1,15 @@
 <section class="inbox-widget">
-    @if(isLoading()){
-    <app-loading />
-    } @else {
-    <h2>
-        Mensagens não lidas
-    </h2>
-    @if(mails()!== null){
-    <ul class="unread-mails">
-        @for (mail of mails(); track mail.id) {
-        <app-mail-card [mail]="mail" />
-        }
-    </ul>
-    } @else {
-    <app-resource-empty />
+  @if(isLoading()){
+  <app-loading />
+  } @else {
+  <h2>Mensagens não lidas</h2>
+  @if(mails() && mails()!== null && mails()!.length > 0){
+  <ul class="unread-mails" routerLink="/inbox">
+    @for (mail of mails(); track mail.id) {
+    <app-mail-card [mail]="mail" [redirect]="moveToPage" />
     }
-    }
+  </ul>
+  } @else if(mails()?.length === 0) {
+  <app-resource-empty />
+  } }
 </section>

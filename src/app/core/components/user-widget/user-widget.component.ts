@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../services/user.service';
-import { User } from '../../utils/types';
 import { RouterLink } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { User } from '../../utils/types';
 
 @Component({
   selector: 'app-user-widget',
@@ -11,43 +11,18 @@ import { RouterLink } from '@angular/router';
   styleUrl: './user-widget.component.css',
 })
 export class UserWidgetComponent {
-  isUserLoggedIn = false;
   authService = inject(AuthService);
-  userService = inject(UserService);
-  userData: User | null = null;
- 
+  user = signal<User | null>(null);
+  isUserLoggedIn = this.authService.isLoggedIn();
   constructor() {
-    this.authService.status().subscribe({
-      next: (status) => {
-        this.isUserLoggedIn = status;
-      },
-      error: (err) => {
-        console.error('Error checking user status:', err);
-      },
-    });
-
-    if (this.isUserLoggedIn) {
-      this.userService.getMe().subscribe({
-        next: (user) => {
-          console.log('User data:', user);
-        },
-        error: (err) => {
-          console.error('Error fetching user data:', err);
-        },
+    if (this.isUserLoggedIn()) {
+      this.authService.getUser().subscribe({
+        next: (user: User) => this.user.set(user),
       });
     }
   }
-
-  logout() {
-    this.userService.logout().subscribe({
-      next: (response) => {
-        console.log('Logout successful:', response);
-        this.isUserLoggedIn = false;
-        this.userData = null;
-      },
-      error: (err) => {
-        console.error('Error during logout:', err);
-      },
-    });
+  
+  async logout() {
+    await firstValueFrom(this.authService.logout());
   }
 }

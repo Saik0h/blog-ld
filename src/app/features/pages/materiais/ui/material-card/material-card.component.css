@@ -8,10 +8,9 @@
   color: var(--color-dark);
   transition: transform 0.2s;
   max-width: 300px;
-}
-
-.material-card:hover {
-  transform: translateY(-4px);
+  width: 300px;
+  height: 300px;
+  max-height: 300px;
 }
 
 .material-card__image img {

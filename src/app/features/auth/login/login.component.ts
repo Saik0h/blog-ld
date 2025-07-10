@@ -5,10 +5,11 @@ import { LoginPayload } from '../../../core/utils/types';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { throwError } from 'rxjs';
+import { GlobalLoadingComponent } from "../../pages/shared/global-loading/global-loading.component";
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, GlobalLoadingComponent],
   providers: [AuthService, NgForm],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -24,9 +25,11 @@ export class LoginComponent {
       Validators.minLength(8),
     ]),
   });
-
+  
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
+  isLoading = this.authService.isLoading()
+  error = this.authService.hasError()
 
   onSubmit() {
     const payload: LoginPayload = this.loginForm.value as LoginPayload;

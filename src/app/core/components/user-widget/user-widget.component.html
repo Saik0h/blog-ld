@@ -1,8 +1,8 @@
-@if (isUserLoggedIn) {
+@if (isUserLoggedIn()) {
 <aside class="user-widget" aria-label="Atalhos do usuário" tabindex="0">
   <img
-    [src]="userData?.profileImage || '/logo.webp'"
-    alt="Foto de perfil de {{ userData?.username || 'usuário' }}"
+    [src]="user()?.profileImage"
+    alt="Foto de perfil de {{ user()?.username || 'usuário' }}"
     class="profile-picture"
     width="48"
     height="48"
@@ -10,9 +10,9 @@
     [routerLink]="'/profile'"
   />
 
-  <span class="username" title="{{ userData?.username }}">
+  <span class="username" title="{{ user()?.username }}">
     
-    {{ userData?.username }}
+    {{ user()?.username }}
   </span>
 
   <button

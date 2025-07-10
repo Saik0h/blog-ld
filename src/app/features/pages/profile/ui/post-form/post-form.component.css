@@ -1,55 +1,100 @@
-.post-form {
-  max-width: 500px;
-  margin: 40px auto;
-  padding: 24px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+form {
   display: flex;
   flex-direction: column;
+  gap: 1.2rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background-color: var(--color-light);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
-.post-form label {
-  margin-top: 16px;
-  margin-bottom: 4px;
-  font-weight: 500;
-  color: #333;
-}
-
-.post-form input[type="text"],
-.post-form textarea,
-.post-form input[type="file"] {
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: border-color 0.2s;
-}
-
-.post-form input[type="text"]:focus,
-.post-form textarea:focus,
-.post-form input[type="file"]:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.post-form textarea {
+input[type="text"],
+textarea,
+input[type="file"] {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-secondary);
+  border-radius: 0.6rem;
+  font-size: 1rem;
+  color: var(--color-dark);
+  background-color: #fff;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
   resize: vertical;
-  min-height: 100px;
 }
 
-.post-form button {
-  margin-top: 24px;
-  padding: 12px;
-  background: #007bff;
-  color: #fff;
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px hsla(35, 100%, 55%, 0.2);
+}
+
+textarea {
+  min-height: 120px;
+}
+
+input[type="file"] {
+  padding: 0.4rem;
+  background-color: #fafafa;
+}
+
+button[type="submit"] {
+  align-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
+  color: #fff;
+  background-color: var(--color-accent);
   border: none;
-  border-radius: 6px;
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 0.2s ease;
 }
 
-.post-form button:hover {
-  background: #0056b3;
+button[type="submit"]:hover {
+  background-color: hsl(35, 100%, 45%);
+}
+
+button[type="submit"]:disabled {
+  background-color: var(--color-secondary);
+  cursor: not-allowed;
+}
+
+.animation-container {
+  position: absolute;
+  bottom: 0;
+  height: 5px;
+  width: 100%;
+  left: 0;
+  border-radius: 2px;
+  background-color: var(--color-accent);
+  overflow: hidden;
+}
+
+.animation-bar {
+  height: 5px;
+  display: block;
+  width: 20px;
+  left: -20px;
+  background-color: var(--color-secondary);
+  animation: loading 2s ease-in-out infinite,
+    changeSize infinite alternate 8s ease-in-out;
+}
+
+@keyframes loading {
+  from {
+    transform: translateX(-20px);
+  }
+  to {
+    transform: translateX(350px);
+  }
+}
+
+@keyframes changeSize {
+  from {
+    width: 10px;
+  }
+  to {
+    width: 150px;
+  }
 }

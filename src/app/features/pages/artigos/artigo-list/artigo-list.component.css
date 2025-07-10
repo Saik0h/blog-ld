@@ -4,7 +4,6 @@
   background-color: var(--color-light, hsl(60, 100%, 97%));
 }
 
-/* Título */
 h3 {
   font-size: 2rem;
   color: var(--color-dark, hsl(204, 86%, 6%));
@@ -19,7 +18,7 @@ section {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   place-items: center;
-  align-items: baseline;
+  align-items: start;
 }
 
 app-artigo-card {
@@ -31,6 +30,6 @@ app-artigo-card {
 }
 
 app-artigo-card:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }

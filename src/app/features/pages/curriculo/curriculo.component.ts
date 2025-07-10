@@ -1,248 +1,180 @@
-import { Component, inject, input, model, signal } from '@angular/core';
-import { CurriculumService } from '../../../core/services/curriculum.service';
-import {
-  CreateContactInfoPayload,
-  CreateFieldPayload,
-  Curriculum,
-  CurriculumUpdatePayload,
-  UpdateContactInfoPayload,
-  UpdateFieldPayload,
-} from '../../../core/utils/types';
-import { throwError } from 'rxjs';
-import { LoadingComponent } from '../shared/loading/loading.component';
-import { CurriculoSectionComponent } from './ui/curriculo-section/curriculo-section.component';
+import { Component, inject, model, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CurriculumService } from '../../../core/services/curriculum.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ImageService } from '../../../core/services/image.service';
+
+import {
+  Curriculum,
+  CurriculumUpdatePayload,
+  CreateContactInfoPayload,
+  UpdateContactInfoPayload,
+  CreateFieldPayload,
+  UpdateFieldPayload,
+} from '../../../core/utils/types';
+
+import { LoadingComponent } from '../shared/loading/loading.component';
+import { CurriculoSectionComponent } from './ui/curriculo-section/curriculo-section.component';
 import { CreateCurriculumFormComponent } from './ui/create-curriculum-form/create-curriculum-form.component';
 import { RecursoTemporariamenteIndisponivelComponent } from '../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
 
 @Component({
   selector: 'app-curriculo',
+  standalone: true,
   imports: [
     LoadingComponent,
     CurriculoSectionComponent,
-    FormsModule,
     CreateCurriculumFormComponent,
     RecursoTemporariamenteIndisponivelComponent,
+    FormsModule,
   ],
   templateUrl: './curriculo.component.html',
   styleUrl: './curriculo.component.css',
 })
 export class CurriculoComponent {
-  private server = inject(CurriculumService);
-  private readonly auth = inject(AuthService);
-  public isLoading = this.server.isLoading();
-  public readonly isProcessing = signal(false);
+  // ==== Serviços ====
+  private readonly curriculumService = inject(CurriculumService);
+  private readonly authService = inject(AuthService);
+  private readonly imageService = inject(ImageService);
+
+  // ==== Estados ====
+  public readonly curriculum = signal<Curriculum | null>(null);
   public readonly isCreateNewFieldSectionOpen = signal(false);
   public readonly editMode = signal(false);
-  public readonly curriculum = signal<Curriculum | null>(null);
-  public readonly userHasPermission = signal<boolean>(false);
-  newItemLabel = model('');
-  newItemLink = model('');
-  newItemPlatform = model('');
-  imageFromInput = signal<File | null>(null);
-  newFielditemsArray: string[] = [];
-  imagePreview: string | null = null;
-  imageService = inject(ImageService);
+  public readonly userHasPermission = signal(false);
+  public readonly error = this.curriculumService.hasError();
 
-  onImageSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        this.imagePreview = e.target?.result as string;
-      };
-      reader.readAsDataURL(file);
-      this.imageFromInput.set(file);
-    }
-  }
+  public readonly isRequestingGet = this.curriculumService.isRequestingGet();
+  public readonly isRequestingPostOrPatch =
+    this.curriculumService.isRequestingCreateOrUpdate();
+  public readonly isRequestingDelete =
+    this.curriculumService.isRequestingDelete();
 
-  save() {
-    this.imageService
-      .uploadImage(this.imageFromInput()!, 'curriculo')
-      .subscribe({
-        next: (response) => {
-          this.UpdateProfileInfo(response.url);
-        },
-        error: (err) => throwError(() => err),
-      });
-  }
+  // ==== Inputs controlados ====
+  public newItemLabel = model('');
+  public newItemLink = model('');
+  public newItemPlatform = model('');
+  public imageFromInput = signal<File | null>(null);
+  public imagePreview = signal<string | null>(null);
+  public newFieldItemsArray: string[] = [];
 
   constructor() {
     this.getAuthorization();
     this.loadCurriculum();
   }
 
-  getAuthorization() {
-    this.auth.getAuthorization().subscribe({
-      next: (response) => {
-        this.userHasPermission.set(response);
-      },
-      error: (err) => throwError(() => err),
+  private getAuthorization() {
+    this.authService.getAuthorization().subscribe({
+      next: (res) => this.userHasPermission.set(res),
     });
   }
 
-  loadCurriculum() {
-    this.server.getCurriculum().subscribe({
-      next: (res: Curriculum) => {
-        this.curriculum.set(res);
-      },
-      error: (err) => {
-        throwError(() => err);
-      },
+  private loadCurriculum() {
+    this.curriculumService.getCurriculum().subscribe({
+      next: (res) => this.curriculum.set(res),
     });
   }
 
-  addItemToArray(item: HTMLTextAreaElement) {
-    this.newFielditemsArray.push(item.value);
-    item.value = '';
-  }
+  public onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input?.files?.[0];
+    if (!file) return;
 
-  createNewField(titleInput: HTMLInputElement, itemInput: HTMLTextAreaElement) {
-    const value = titleInput.value;
-    let newField = {
-      id:
-        this.curriculum()!.fields[this.curriculum()!.fields.length - 1].id + 1,
-      title: value,
-      items: this.newFielditemsArray,
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview.set(reader.result as string);
     };
-    this.server.createField(newField).subscribe({
-      error: (err) => throwError(() => err),
-    });
-    this.curriculum()!.fields.push(newField);
-    newField = {
-      id: 0,
-      title: '',
-      items: [],
+
+    reader.readAsDataURL(file);
+    this.imageFromInput.set(file);
+  }
+
+  public save = () => {
+    const file = this.imageFromInput();
+    if (file) {
+      this.imageService.uploadImage(file).subscribe({
+        next: ({ url }) => this.updateProfileInfo(url),
+      });
+    } else {
+      this.updateProfileInfo();
+    }
+  };
+
+  private updateProfileInfo = (imageUrl?: string) => {
+    const current = this.curriculum();
+    if (!current) return;
+
+    const payload: CurriculumUpdatePayload = {
+      firstname: current.firstname,
+      lastname: current.lastname,
+      credential: current.credential,
+      jobTitle: current.jobTitle,
+      profileImage: imageUrl,
     };
+
+    this.curriculumService.updateCurriculum(payload).subscribe();
+  };
+
+  // ==== Campos do Currículo ====
+
+  public addItemToArray = (item: HTMLTextAreaElement) => {
+    if (item.value.trim()) {
+      this.newFieldItemsArray.push(item.value.trim());
+      item.value = '';
+    }
+  };
+
+  public createNewField = (
+    titleInput: HTMLInputElement,
+    itemInput: HTMLTextAreaElement
+  ) => {
+    const title = titleInput.value.trim();
+    if (!title || this.newFieldItemsArray.length === 0) return;
+
+    const field: CreateFieldPayload = {
+      title,
+      itemsDescription: this.newFieldItemsArray,
+    };
+
+    this.curriculumService.createField(field).subscribe();
     titleInput.value = '';
     itemInput.value = '';
-  }
-
-  toggle() {
-    this.editMode.update((current) => !current);
-  }
-
-  toggleCreateSection = () => {
-    this.isCreateNewFieldSectionOpen.update((current) => !current);
+    this.newFieldItemsArray = [];
   };
 
-  UpdateProfileInfo(image?: string) {
-    this.isProcessing.set(true);
-    const img = signal<string>('');
-    if (image) img.set(image);
+  public toggleEditMode = () => this.editMode.update((v) => !v);
+  public toggleCreateSection = () =>
+    this.isCreateNewFieldSectionOpen.update((v) => !v);
 
-    if (this.curriculum === null) {
-      this.isProcessing.set(false);
-      return;
-    }
+  // ==== CRUD Contatos ====
 
-    const data: CurriculumUpdatePayload = img()
-      ? {
-          firstname: this.curriculum()!.firstname,
-          lastname: this.curriculum()!.lastname,
-          credential: this.curriculum()!.credential,
-          jobTitle: this.curriculum()!.jobTitle,
-          profileImage: img(),
-        }
-      : {
-          firstname: this.curriculum()!.firstname,
-          lastname: this.curriculum()!.lastname,
-          credential: this.curriculum()!.credential,
-          jobTitle: this.curriculum()!.jobTitle,
-          profileImage: this.curriculum()!.profileImage,
-        };
-
-    if (!data) return;
-
-    this.server.updateCurriculum(data).subscribe({
-      error: (err) => {
-        throwError(() => err);
-      },
-      complete: () => {
-        this.editMode.set(false);
-        this.isProcessing.set(false);
-      },
-    });
-  }
-
-  createContactItem = (body: CreateContactInfoPayload) => {
-    this.isProcessing.set(true);
-    this.server.createContactInfo(body).subscribe({
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
+  public createContactItem = (body: CreateContactInfoPayload) => {
+    this.curriculumService.createContactInfo(body).subscribe();
   };
 
-  updateContactItem = (item: UpdateContactInfoPayload) => {
-    this.isProcessing.set(true);
-    this.server.updateContactInfo(item).subscribe({
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
+  public updateContactItem = (item: UpdateContactInfoPayload) => {
+    this.curriculumService.updateContactInfo(item).subscribe();
   };
 
-  deleteContactItem = (id: number) => {
-    this.isProcessing.set(true);
-    this.server.deleteContactInfo(id).subscribe({
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
+  public deleteContactItem = (id: number) => {
+    this.curriculumService.deleteContactInfo(id).subscribe();
   };
 
-  createField = (body: CreateFieldPayload) => {
-    this.isProcessing.set(true);
-    this.server.createField(body).subscribe({
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
+  // ==== CRUD Campos ====
+
+  public createField = (body: CreateFieldPayload) => {
+    this.curriculumService.createField(body).subscribe();
   };
 
-  updateField = (item: UpdateFieldPayload) => {
-    this.isProcessing.set(true);
-    this.server.updateField(item).subscribe({
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
+  public updateField = (item: UpdateFieldPayload) => {
+    this.curriculumService.updateField(item).subscribe();
   };
 
-  deleteField = (id: number) => {
-    this.isProcessing.set(true);
-    this.server.deleteField(id).subscribe({
-      error: (err) => {
-        this.isProcessing.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isProcessing.set(false);
-      },
-    });
+  public deleteField = (id: number) => {
+    this.curriculumService.deleteField(id).subscribe();
+  };
+
+  public deleteFieldItem = (id: number) => {
+    this.curriculumService.deleteFieldItem(id).subscribe();
   };
 }

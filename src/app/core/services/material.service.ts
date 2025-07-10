@@ -5,6 +5,7 @@ import {
   MaterialCreatePayload,
   MaterialUpdatePayload,
   Message,
+  PostCreatedResponse,
 } from '../utils/types';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
@@ -21,40 +22,54 @@ export class MaterialService {
   private handleError = inject(ErrorService).handleHTTPError;
   private _hasError = signal<boolean>(false);
   public hasError = this._hasError.asReadonly;
-  
-  getAll = (): Observable<Material[]> => {
-    this._isLoading.set(true);
-    const obs = this.http
-      .get<Material[]>(this.url, { withCredentials: true })
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-          this.handleError(err);
-          this._hasError.set(true);
-          return EMPTY;
-        }),
-        finalize(() => {
-          this._isLoading.set(false);
-        })
-      );
-    return obs;
+
+  handleHttpError = (err: HttpErrorResponse) => {
+    this.handleError(err);
+    this._hasError.set(true);
+    return EMPTY;
   };
 
-  create = (data: MaterialCreatePayload): Observable<Message> => {
-    return this.http.post<Message>(this.url, data, { withCredentials: true });
+  getAll = (): Observable<Material[]> => {
+    this._isLoading.set(true);
+
+    return this.http.get<Material[]>(this.url, { withCredentials: true }).pipe(
+      catchError(this.handleHttpError),
+      finalize(() => {
+        this._isLoading.set(false);
+      })
+    );
+  };
+
+  create = (data: MaterialCreatePayload): Observable<PostCreatedResponse> => {
+    return this.http.post<PostCreatedResponse>(this.url, data, {
+      withCredentials: true,
+    });
   };
 
   getOne = (id: number): Observable<Material> => {
     const url = `${this.url}/${id}`;
-    return this.http.get<Material>(url, { withCredentials: true });
+    this._isLoading.set(true)
+
+    return this.http.get<Material>(url, { withCredentials: true }).pipe(
+      catchError(this.handleHttpError),
+      finalize(() => {
+        this._isLoading.set(false);
+      })
+    );
   };
 
   update = (data: MaterialUpdatePayload): Observable<Message> => {
     const url = `${this.url}/${data.id}`;
-    return this.http.get<Message>(url, { withCredentials: true });
+    return this.http.patch<Message>(url, { withCredentials: true });
   };
 
   delete = (id: number): Observable<Message> => {
     const url = `${this.url}/${id}`;
-    return this.http.get<Message>(url, { withCredentials: true });
+    this._isLoading.set(true);
+    
+    return this.http.delete<Message>(url, { withCredentials: true }).pipe(
+      catchError(this.handleHttpError),
+      finalize(() => this._isLoading.set(false))
+    );
   };
 }

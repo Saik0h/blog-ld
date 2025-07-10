@@ -1,5 +1,6 @@
 export type LoginPayload = { username: string; password: string };
 export type Tokens = { accessToken: string; refreshToken: string };
+export type PostCreatedResponse = { message: string; id: number };
 export type Message = { message: string };
 export type Curriculum = {
   profileImage: string;
@@ -92,8 +93,8 @@ export type ArtigoCreatePayload = {
   title: string;
   image: string;
   text: string;
-  references?: Reference[];
-  tagNames?: Tag[];
+  refs?: string[];
+  tagNames?: string[];
 };
 
 export type ArtigoUpdatePayload = {
@@ -105,13 +106,8 @@ export type ArtigoUpdatePayload = {
   references?: Reference[];
 };
 
-
 export type Reference = {
   id: number;
-  name: string;
-};
-
-export type ReferencePayload = {
   name: string;
 };
 
@@ -123,7 +119,6 @@ export type Tag = {
 export type TagPayload = {
   name: string;
 };
-
 
 export type Blog = {
   authorId: string;
@@ -141,7 +136,7 @@ export type BlogCreatePayload = {
   title: string;
   image: string;
   text: string;
-  tagNames?: TagPayload[];
+  tagNames?: string[];
 };
 
 export type BlogUpdatePayload = {
@@ -170,7 +165,7 @@ export type MaterialCreatePayload = {
   image: string;
   description: string;
   file: string;
-  tags?: Tag[];
+  tagNames?: string[];
 };
 
 export type MaterialUpdatePayload = {
@@ -200,7 +195,7 @@ export type CourseCreatePayload = {
   image: string;
   description: string;
   link: string;
-  tags?: Tag[];
+  tagNames?: string[];
 };
 
 export type CourseUpdatePayload = {
@@ -229,29 +224,25 @@ export type Mail = {
   read: boolean;
 };
 
-export type PostPayload = {
-  category: string;
-  title: string;
-  text: string;
-  references?: string[];
-  image?: string;
-};
-
 export type CreateFieldPayload = {
   title: string;
-  items: string[];
+  itemsDescription: string[];
 };
 
 export type Field = {
   id: number;
   title: string;
-  items: string[];
+  items: FieldItem[];
+};
+export type FieldItem = {
+  id: string;
+  description: string;
 };
 
 export type UpdateFieldPayload = {
   id: number;
   title: string;
-  items?: string[];
+  items?: FieldItem[];
 };
 
 export type faq = {

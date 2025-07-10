@@ -5,17 +5,17 @@
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
   max-width: 400px;
+  width: 300px;
+  height: 300px;
+  max-height: 300px;
 }
 
-.artigo-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
 .artigo-card__image:hover,
 .artigo-card__excerpt,
 .artigo-card__title:hover{
   cursor: pointer;
 }
+
 .artigo-card__image img {
   width: 100%;
   height: 200px;

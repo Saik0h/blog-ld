@@ -1,5 +1,5 @@
 <article class="blog-card">
-  <figure class="blog-card__image">
+  <figure class="blog-card__image" [routerLink]="blog.id">
     <img [src]="blog!.image" [alt]="'Imagem do blog: ' + blog!.title" />
   </figure>
   <div class="blog-card__content">

@@ -1,47 +1,64 @@
 @if(isLoading()){
-<app-loading />
+  <app-loading />
 } @else if(artigo()) {
-<article class="artigo">
-  <header class="artigo-header">
-    <figure class="author-image">
+<article class="article-detail">
+  <header class="article-header">
+    <figure class="author">
       <img
+        class="author-photo"
         [src]="artigo()!.author.profileImage"
         [alt]="artigo()!.author.firstname"
       />
-      <figcaption>
+      <figcaption class="author-name">
         {{ artigo()!.author.firstname | titlecase }}
         {{ artigo()!.author.lastname | titlecase }}
       </figcaption>
     </figure>
-    <h1>{{ artigo()!.title }}</h1>
+    <h1 class="article-title">{{ artigo()!.title }}</h1>
   </header>
 
-  <section class="artigo-content">
-    <figure>
-      <img [src]="artigo()!.image" [alt]="artigo()!.title" />
-      <figcaption>{{ artigo()!.title }}</figcaption>
+  <section class="article-body">
+    <figure class="article-image-wrapper">
+      <img
+        class="article-image"
+        [src]="artigo()!.image"
+        [alt]="artigo()!.title"
+      />
+      <figcaption class="image-caption" [hidden]="true">{{ artigo()!.title }}</figcaption>
     </figure>
-    <p>{{ artigo()!.text }}</p>
+    <p class="article-text">{{ artigo()!.text }}</p>
   </section>
 
-  <footer class="artigo-meta">
-    <p>
-      Published on:
+  <footer class="article-footer">
+    <p class="publish-date">
+      Publicado em:
       <time [attr.datetime]="artigo()!.createdAt">
         {{ artigo()!.createdAt | date }}
       </time>
     </p>
 
-    <section class="references">
-      <h2>References</h2>
-      <ul>
-        @for (r of artigo()!.references; track $index) {
-        <li class="reference-item">{{ r }}</li>
+    <section class="article-references">
+      <h2>Referências</h2>
+      <ul class="reference-list">
+        @for (r of artigo()!.references; track r.id) {
+          <li class="reference-item">{{ r.name }}</li>
+        }
+      </ul>
+    </section>
+
+    <section class="article-tags">
+      <ul class="tag-list">
+        @for (t of artigo()!.tags; track t.id) {
+          <li class="tag-item">#{{ t.name }}</li>
         }
       </ul>
     </section>
   </footer>
+
+  @if(hasPermission()){
+    <button class="delete-button" (click)="delete()">Remover Artigo</button>
+  }
 </article>
 } @else {
-<app-page-not-found />
+  <app-page-not-found />
 }

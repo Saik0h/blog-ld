@@ -33,7 +33,7 @@
 .header__link-list {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   list-style: none;
   padding: 0;
   margin: 0;

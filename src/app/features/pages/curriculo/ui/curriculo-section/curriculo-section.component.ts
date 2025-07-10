@@ -13,19 +13,17 @@ export class CurriculoSectionComponent {
   @Input({ required: true }) updateSection = (
     fieldData: UpdateFieldPayload
   ) => {};
-  @Input({ required: true }) fieldInfo: Field = {
-    id: 0,
-    title: '',
-    items: [''],
-  };
+  @Input({ required: true }) fieldInfo!: Field;
   @Input({ required: true }) deleteField = (id: number) => {};
   @Input({ required: true }) userHasPermission = signal<boolean>(false);
   @Input({ required: true }) globalEdit = signal<boolean>(false);
 
   readonly isEditing = signal(false);
-userIsAdmin = ()=>{
-  return this.userHasPermission()
-}
+  
+  userIsAdmin = () => {
+    return this.userHasPermission();
+  };
+
   editTitle(value: string) {
     this.fieldInfo.title = value;
   }
@@ -33,16 +31,13 @@ userIsAdmin = ()=>{
   pushNewItem = (input: HTMLTextAreaElement) => {
     const value = input.value;
     if (!value) return;
-    this.fieldInfo.items.push(value);
+    this.fieldInfo.items.push({id: '1',description: value});
     input.value = '';
   };
 
   editItem(index: number, newValue: string) {
     if (!this.fieldInfo || !this.fieldInfo.items) return;
-
-    this.fieldInfo.items[index] = newValue;
-
-    console.log(this.fieldInfo.items);
+    this.fieldInfo.items[index].description = newValue;
   }
 
   deleteItem = (index: number) => {

@@ -11,14 +11,14 @@ import { HamburgerMenuComponent } from '../menu-hamburger/menu-hamburguer.compon
 })
 export class HeaderComponent {
   url = 'logo.webp';
-  btnText = 'Currículo';
+  btnText = 'Contato';
   altText = 'Olá'
-  btnGoTo = 'curriculo';
+  btnGoTo = 'contato';
   headerLinks = signal([
     { label: 'Artigos', path: '/artigos' },
     { label: 'Blog', path: '/blogs' },
     { label: 'Materiais Gratuitos', path: '/materiais' },
     { label: 'Cursos', path: '/cursos' },
-    { label: 'Contato', path: '/contato' },
+    { label: 'Curriculo', path: '/curriculo' },
   ]);
 }

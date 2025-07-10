@@ -34,9 +34,9 @@
     <li>
       <textarea
         type="text"
-        [value]="item"
+        [value]="item.description"
         (input)="editItem($index, current.value)"
-        [name]="$index"
+        [name]="item.id"
         class="item-update"
         #current
       ></textarea>
@@ -46,7 +46,7 @@
     </li>
     }@else {
     <li>
-      {{ item }}
+      {{ item.description }}
     </li>
     } }
   </ul>

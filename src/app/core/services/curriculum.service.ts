@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import {
   Curriculum,
@@ -13,6 +13,7 @@ import {
 } from '../utils/types';
 import { catchError, EMPTY, finalize, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,55 +21,100 @@ import { environment } from '../../../environments/environment.development';
 export class CurriculumService {
   private readonly url = environment.apiUrl + '/curriculum';
   private readonly http = inject(HttpClient);
-  private _isLoading = signal<boolean>(false);
-  public isLoading = this._isLoading.asReadonly;
+
+  private _isRequestingGet = signal<boolean>(false);
+  public isRequestingGet = this._isRequestingGet.asReadonly;
+
+  private _isRequestingCreateOrUpdate = signal<boolean>(false);
+  public isRequestingCreateOrUpdate =
+    this._isRequestingCreateOrUpdate.asReadonly;
+
+  private _isRequestingDelete = signal<boolean>(false);
+  public isRequestingDelete = this._isRequestingDelete.asReadonly;
+
+  private _hasError = signal<boolean>(false);
+  public hasError = this._hasError.asReadonly;
+
+  private readonly handleError = inject(ErrorService).handleHTTPError;
+
+  private readonly handleHttpError = (err: HttpErrorResponse) => {
+    this.handleError(err);
+    this._hasError.set(true);
+    return EMPTY;
+  };
 
   createCurriculum = (data: CurriculumCreatePayload): Observable<Message> => {
-    return this.http.post<Message>(`${this.url}`, data, {
-      withCredentials: true,
-    });
+    this._isRequestingCreateOrUpdate.set(true);
+    return this.http
+      .post<Message>(`${this.url}`, data, {
+        withCredentials: true,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+        finalize(() => this._isRequestingCreateOrUpdate.set(false))
+      );
   };
 
   getCurriculum = (): Observable<Curriculum> => {
-    this._isLoading.set(true);
-    const obs = this.http.get<Curriculum>(this.url).pipe(
-    catchError((err) => {
-        console.error(err);
-        return EMPTY;
-      }),
-      finalize(() => {
-        this._isLoading.set(false);
-        console.log(this._isLoading())
-      })
+    this._isRequestingGet.set(true);
+    return this.http.get<Curriculum>(this.url).pipe(
+      catchError(this.handleHttpError),
+      finalize(() => this._isRequestingGet.set(false))
     );
-    return obs;
   };
 
   updateCurriculum = (data: CurriculumUpdatePayload): Observable<Message> => {
-    return this.http.patch<Message>(`${this.url}`, data, {
-      withCredentials: true,
-    });
+    this._isRequestingCreateOrUpdate.set(true);
+    return this.http
+      .patch<Message>(`${this.url}`, data, {
+        withCredentials: true,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+        finalize(() => this._isRequestingCreateOrUpdate.set(false))
+      );
   };
 
   deleteCurriculum = (): Observable<Message> => {
-    return this.http.delete<Message>(`${this.url}`, {
-      withCredentials: true,
-    });
+    this._isRequestingDelete.set(true);
+    return this.http
+      .delete<Message>(`${this.url}`, {
+        withCredentials: true,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+        finalize(() => this._isRequestingDelete.set(false))
+      );
   };
 
   createField = (data: CreateFieldPayload): Observable<Message> => {
-    return this.http.post<Message>(`${this.url}/field`, data, {
-      withCredentials: true,
-    });
+    this._isRequestingCreateOrUpdate.set(true);
+
+    return this.http
+      .post<Message>(`${this.url}/field`, data, {
+        withCredentials: true,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+        finalize(() => this._isRequestingCreateOrUpdate.set(false))
+      );
   };
 
   updateField = (data: UpdateFieldPayload): Observable<Message> => {
-    return this.http.put<Message>(`${this.url}/field/${data.id}`, data, {
+    return this.http.patch<Message>(`${this.url}/field/${data.id}`, data, {
+      withCredentials: true,
+    }).pipe(
+      catchError(this.handleHttpError)
+    );
+  };
+
+  deleteField = (id: number): Observable<Message> => {
+    return this.http.delete<Message>(`${this.url}/field/${id}`, {
       withCredentials: true,
     });
   };
 
-  deleteField = (id: number): Observable<Message> => {
+  deleteFieldItem = (id: number): Observable<Message> => {
     return this.http.delete<Message>(`${this.url}/field/${id}`, {
       withCredentials: true,
     });

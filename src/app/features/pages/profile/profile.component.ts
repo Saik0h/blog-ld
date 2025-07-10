@@ -2,15 +2,12 @@ import { Component, inject, signal } from '@angular/core';
 import { UserProfileCardComponent } from './ui/user-profile-card/user-profile-card.component';
 import { AuthService } from '../../../core/services/auth.service';
 import { faq, faqPayload, User } from '../../../core/utils/types';
-import { throwError } from 'rxjs';
-import { Router } from '@angular/router';
+import { firstValueFrom, lastValueFrom, throwError } from 'rxjs';
 import { LoadingComponent } from '../shared/loading/loading.component';
 import { InboxWidgetComponent } from './ui/inbox-widget/inbox-widget.component';
-import { PostFormComponent } from './ui/post-form/post-form.component';
 import { FaqInputComponent } from './faq-input/faq-input.component';
 import { FaqService } from '../../../core/services/faq.service';
-import { ImageService } from '../../../core/services/image.service';
-import { UserService } from '../../../core/services/user.service';
+import { NewPostComponent } from './new-post/new-post.component';
 
 @Component({
   selector: 'app-profile',
@@ -18,42 +15,29 @@ import { UserService } from '../../../core/services/user.service';
     UserProfileCardComponent,
     LoadingComponent,
     InboxWidgetComponent,
-    PostFormComponent,
     FaqInputComponent,
+    NewPostComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
 export class ProfileComponent {
-  public readonly isLoading = signal(false);
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  readonly user = signal<User | null>(null);
-  private userService = inject(UserService);
-  faqService = inject(FaqService);
-  faqs = signal<faq[]>([]);
-  imageService = inject(ImageService);
-  
-  
+  authService = inject(AuthService);
+  public user = signal<User | null>(null);
+  private faqService = inject(FaqService);
+  public readonly faqs = signal<faq[]>([]);
+  public readonly faqsError = this.faqService.hasError();
+  public readonly authError = this.authService.hasError();
+  public readonly faqsLoading = this.faqService.isLoading();
+  public readonly userLoading = this.authService.isLoading();
+
   constructor() {
-    this.isLoading.set(true);
+    this.authService.getUser().subscribe({
+      next: (user: User) => this.user.set(user),
+    });
 
     this.faqService.getAllFaqs().subscribe({
       next: (faqs) => this.faqs.set(faqs),
-      error: (err) => throwError(() => err),
-    });
-
-    this.authService.getUser().subscribe({
-      next: (user: User) => {
-        this.user.set(user);
-      },
-      error: (err) => {
-        this.isLoading.set(false);
-        throwError(() => err);
-      },
-      complete: () => {
-        this.isLoading.set(false);
-      },
     });
   }
 
@@ -64,15 +48,10 @@ export class ProfileComponent {
   };
 
   deleteFaq = (id: number) => {
-    this.faqService.deleteFaq(id).subscribe({
-      error: (err) => throwError(() => err),
-    });
+    return this.faqService.deleteFaq(id);
   };
 
   logout = () => {
-    this.authService.logout().subscribe({
-      error: (err) => throwError(() => err),
-      complete: () => this.router.navigate(['/']),
-    });
+    firstValueFrom(this.authService.logout());
   };
 }

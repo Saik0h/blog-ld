@@ -23,6 +23,5 @@ export class MailListComponent {
       complete: () => this.isLoading.set(false),
     });
   }
-
   redirect = (id: string) => this.router.navigate(['/profile/inbox/' + id]);
 }

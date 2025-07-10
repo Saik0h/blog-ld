@@ -59,7 +59,7 @@ export class CreateCurriculumFormComponent {
   }
 
   onSubmit = () => {
-    this.imageService.uploadImage(this.image!, 'curriculo').subscribe({
+    this.imageService.uploadImage(this.image!).subscribe({
       next: (imageUrl) => {
         console.log('Image uploaded successfully:', imageUrl);
         const payload: CurriculumCreatePayload = {

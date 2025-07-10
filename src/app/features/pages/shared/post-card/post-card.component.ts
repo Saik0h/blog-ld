@@ -10,21 +10,5 @@ import { Artigo } from '../../../../core/utils/types';
   styleUrl: './post-card.component.css',
 })
 export class PostCardComponent {
-  @Input({ required: true }) category: string = '';
-  @Input({ required: true }) article: Artigo = {
-    id: '',
-    authorId: '',
-    author: {
-      firstname: '',
-      lastname: '',
-      profileImage: '',
-    },
-    tags: [],
-    title: '',
-    image: '',
-    text: '',
-    references: [],
-    createdAt: '',
-    updatedAt: '',
-  };
+  @Input({ required: true }) article!: Artigo;
 }

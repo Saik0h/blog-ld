@@ -15,5 +15,8 @@
     >
       Acessar
     </a>
+    @if(hasPermission){
+      <button (click)="deleteCourse()">Remover Curso</button>
+    }
   </section>
 </article>

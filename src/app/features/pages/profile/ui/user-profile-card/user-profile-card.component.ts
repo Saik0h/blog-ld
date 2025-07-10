@@ -11,15 +11,14 @@ import { throwError } from 'rxjs';
 })
 export class UserProfileCardComponent {
   @Input({ required: true }) user = signal<User | null>(null);
-  @Input({ required: true }) logout = () => {};
+  @Input({ required: true }) logout = (): void => {};
   userService = inject(UserService);
   imageService = inject(ImageService);
-
   uploadProfileImage(input: HTMLInputElement) {
     const file = input.files![0];
-    
+
     this.imageService
-      .uploadImage(file, this.user()!.username as string)
+      .uploadImage(file)
       .subscribe({
         next: (res) => {
           this.userService
@@ -53,8 +52,7 @@ export class UserProfileCardComponent {
       reader.readAsDataURL(file);
     }
   }
-
-  logoutUser() {
+  logoutUser = () => {
     this.logout();
-  }
+  };
 }

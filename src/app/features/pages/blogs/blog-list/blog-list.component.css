@@ -19,7 +19,7 @@ section {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   place-items: center;
-  align-items: baseline;
+  align-items: start;
 }
 
 app-blog-card {

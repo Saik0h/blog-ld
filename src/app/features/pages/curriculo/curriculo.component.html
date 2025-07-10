@@ -1,10 +1,10 @@
-@if(isLoading()){
+@if(isRequestingGet()){
 <app-loading />
-}@else if(!isLoading() && curriculum()){
+}@else if(!isRequestingGet() && curriculum()){
 <section class="curriculo">
   <article class="profile-card">
     @if(editMode()){
-    <button (click)="toggle()" class="switch-mode">Modo de edição</button>
+    <button (click)="toggleEditMode()" class="switch-mode">Modo de edição</button>
     <article>
       <label for="profile-photo-img" class="profile-upload-label">
         <input
@@ -15,9 +15,9 @@
           hidden
         />
         <div class="profile-photo-wrapper">
-          @if(imagePreview){
+          @if(imagePreview()){
           <img
-            [src]="imagePreview"
+            [src]="imagePreview()"
             alt="Profile Preview"
             class="profile-photo"
           />
@@ -62,28 +62,28 @@
 
       <button
         (click)="save()"
-        [disabled]="isProcessing()"
-        [class]="isProcessing() ? 'btn-loading' : 'btn'"
+        [disabled]="isRequestingPostOrPatch()"
+        [class]="isRequestingPostOrPatch() ? 'btn-loading' : 'btn'"
       >
-        {{ isProcessing() ? "" : "Salvar" }}
+        {{ isRequestingPostOrPatch() ? "" : "Salvar" }}
       </button>
       <div class="contact-info">
         @for(item of curriculum()!.contactInfo; track item.id){
         <fieldset class="field">
           <legend>
             <button
-              [disabled]="isProcessing()"
+              [disabled]="isRequestingPostOrPatch()"
               (click)="deleteContactItem(item.id)"
-              [class]="isProcessing() ? 'btn-loading' : ''"
+              [class]="isRequestingPostOrPatch() ? 'btn-loading' : ''"
             >
-              {{ isProcessing() ? "" : "Remover" }}
+              {{ isRequestingDelete() ? "" : "Remover" }}
             </button>
             <button
-              [disabled]="isProcessing()"
+              [disabled]="isRequestingPostOrPatch()"
               (click)="updateContactItem(item)"
-              [class]="isProcessing() ? 'btn-loading' : ''"
+              [class]="isRequestingPostOrPatch() ? 'btn-loading' : ''"
             >
-              {{ isProcessing() ? "" : "Atualizar" }}
+              {{ isRequestingPostOrPatch() ? "" : "Atualizar" }}
             </button>
           </legend>
           <label [for]="item.platform">Plataforma</label>
@@ -139,7 +139,7 @@
           />
         </div>
         <button
-          [disabled]="isProcessing()"
+          [disabled]="isRequestingPostOrPatch()"
           (click)="
             createContactItem({
               label: newItemLabel(),
@@ -147,15 +147,21 @@
               platform: newItemPlatform()
             })
           "
-          [class]="isProcessing() ? 'btn-loading' : 'btn'"
+          [class]="isRequestingPostOrPatch() ? 'btn-loading' : 'btn'"
         >
-          {{ isProcessing() ? "" : "Adicionar novo" }}
+          {{ isRequestingPostOrPatch() ? "" : "Adicionar novo" }}
         </button>
       </div>
     </article>
 
     }@else{ @if(userHasPermission()){
-    <button class="switch-mode" [disabled]="isProcessing()" (click)="toggle()">
+    <button
+      class="switch-mode"
+      [disabled]="
+        isRequestingPostOrPatch() || isRequestingDelete() || isRequestingGet()
+      "
+      (click)="toggleEditMode()"
+    >
       Modo de visualização
     </button>
     }
@@ -198,7 +204,7 @@
       </div>
 
       <ul class="editMode newItemsCreated">
-        @for (item of newFielditemsArray; track $index) {
+        @for (item of newFieldItemsArray; track $index) {
         <li>
           <label style="font-size: 1rem" [for]="'item' + ($index + 1)">{{
             "item " + ($index + 1)
@@ -210,11 +216,11 @@
               [id]="'item' + ($index + 1)"
               [value]="item"
               #newFieldItem
-              (input)="newFielditemsArray[$index] = newFieldItem.value"
+              (input)="newFieldItemsArray[$index] = newFieldItem.value"
             ></textarea>
             <button
               class="pushItemButton"
-              (click)="newFielditemsArray.splice($index, 1)"
+              (click)="newFieldItemsArray.splice($index, 1)"
             >
               <i class="bi bi-dash-lg"></i>
             </button>
@@ -236,8 +242,8 @@
     }
   </main>
 </section>
-} @else if(!isLoading() && userHasPermission()) {
+} @else if(!isRequestingGet() && userHasPermission()) {
 <app-create-curriculum-form />
-} @else if(!isLoading() && !userHasPermission() ) {
+} @else if(!isRequestingGet() && error()) {
 <app-recurso-temporariamente-indisponivel />
 }

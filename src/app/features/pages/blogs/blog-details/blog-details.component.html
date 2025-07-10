@@ -1,52 +1,50 @@
 @if (isLoading()) {
-  <app-loading />
+<app-loading />
 } @else if (blog()) {
-  <article class="blog-detail">
-    
-      <header class="blog-detail__header">
-        <figure class="blog-detail__author">
-          <img
-            [src]="blog()!.author.profileImage"
-            [alt]="'Foto de ' + blog()!.author.firstname"
-            class="blog-detail__author-avatar"
-          />
-          <figcaption class="blog-detail__author-name">
-            {{ blog()!.author.firstname }} {{ blog()!.author.lastname }}
-          </figcaption>
-        </figure>
-        <h1 class="blog-detail__title">{{ blog()!.title }}</h1>
-      </header>
-    
+<article class="blog-detail">
+  <header class="blog-detail__header">
+    <figure class="blog-detail__author">
+      <img
+        [src]="blog()!.author.profileImage"
+        [alt]="'Foto de ' + blog()!.author.firstname"
+        class="blog-detail__author-avatar"
+      />
+      <figcaption class="blog-detail__author-name">
+        {{ blog()!.author.firstname }} {{ blog()!.author.lastname }}
+      </figcaption>
+    </figure>
+    <h1 class="blog-detail__title">{{ blog()!.title }}</h1>
+  </header>
 
-    <section class="blog-detail__content">
+  <section class="blog-detail__content">
     @if(blog()!.image){
-      <figure class="blog-detail__image">
-        <img
-          [src]="blog()!.image"
-          [alt]="'Imagem do blog: ' + blog()!.title"
-        />
-        <figcaption>{{ blog()!.title }}</figcaption>
-      </figure>
+    <figure class="blog-detail__image">
+      <img [src]="blog()!.image" [alt]="'Imagem do blog: ' + blog()!.title" />
+      <figcaption>{{ blog()!.title }}</figcaption>
+    </figure>
     }
-      <p class="blog-detail__text">{{ blog()!.text }}</p>
+    <p class="blog-detail__text">{{ blog()!.text }}</p>
+  </section>
+  <footer class="blog-detail__footer">
+    <p class="blog-detail__date">
+      Publicado em:
+      <time [attr.datetime]="blog()!.createdAt">
+        {{ blog()!.createdAt | date : "longDate" }}
+      </time>
+    </p>
+    <section class="blog-detail__tags">
+      <h2>Tags</h2>
+      <ul>
+        @for (tag of blog()!.tags; track tag.id) {
+        <li class="blog-detail__tag">#{{ tag.name }}</li>
+        }
+      </ul>
     </section>
-    <footer class="blog-detail__footer">
-      <p class="blog-detail__date">
-        Publicado em:
-        <time [attr.datetime]="blog()!.createdAt">
-          {{ blog()!.createdAt | date: 'longDate' }}
-        </time>
-      </p>
-      <section class="blog-detail__tags">
-        <h2>Tags</h2>
-        <ul>
-          @for (tag of blog()!.tags; track tag.id) {
-            <li class="blog-detail__tag">#{{ tag.name }}</li>
-          }
-        </ul>
-      </section>
-    </footer>
-  </article>
+  </footer>
+  @if(hasPermission()){
+  <button (click)="delete()">Remover Blog</button>
+  }
+</article>
 } @else {
-  <app-page-not-found />
+<app-page-not-found />
 }

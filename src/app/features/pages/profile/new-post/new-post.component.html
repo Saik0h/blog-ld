@@ -1,0 +1,12 @@
+<div class="post-create-container">
+  <label for="postType" class="select-label">Selecione o tipo de post:</label>
+
+  <select #postType id="postType" (change)="updateType(postType)" class="post-type-select">
+    <option value="artigo">Artigo</option>
+    <option value="blog">Blog</option>
+    <option value="material">Material</option>
+    <option value="curso">Curso</option>
+  </select>
+
+  <app-post-form [type]="type" />
+</div>

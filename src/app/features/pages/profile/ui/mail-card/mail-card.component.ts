@@ -11,7 +11,7 @@ import { Mail } from '../../../../../core/utils/types';
 export class MailCardComponent {
   @Input({required: true}) mail: Mail | null = null;
 
-  @Input() redirect = (id: string) => {};
+  @Input({required: true}) redirect = (id: string) => {};
   redirects() {
     this.redirect(this.mail!.id);
   }

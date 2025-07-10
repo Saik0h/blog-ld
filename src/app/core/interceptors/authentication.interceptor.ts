@@ -1,33 +1,38 @@
 import {
-  HttpEvent,
-  HttpHandlerFn,
-  HttpRequest,
-  HttpErrorResponse,
   HttpInterceptorFn,
+  HttpRequest,
+  HttpHandlerFn,
+  HttpEvent,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, catchError, switchMap, throwError } from 'rxjs';
-import { AuthService } from '../services/auth.service';
-
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { RefreshService } from '../services/refresh.service';
+import { ErrorService } from '../services/error.service';
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
-  const authService = inject(AuthService);
+  const refreshService = inject(RefreshService);
+  const handleError = inject(ErrorService).handleHTTPError;
 
-  return next(req).pipe(
+  const clonedReq = req.clone({
+    withCredentials: true,
+  });
+
+  return next(clonedReq).pipe(
     catchError((err: HttpErrorResponse) => {
-      if (err.status === 401) {
-        return authService.refresh().pipe(
-          switchMap(() => next(req)),
-          catchError(refreshErr => {
-            return throwError(() => refreshErr);
-          })
-        );
+      if (
+        err.status === 401 &&
+        !req.url.includes('/auth/login') &&
+        !req.url.includes('/auth/refresh')
+      ) {
+        return refreshService.handle401(() => next(clonedReq));
       }
 
+      handleError(err);
       return throwError(() => err);
     })
   );

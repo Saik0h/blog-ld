@@ -1,68 +1,143 @@
-import { Component, inject } from '@angular/core';
 import {
-  FormControl,
+  Component,
+  effect,
+  inject,
+  Input,
+  OnInit,
+  signal,
+} from '@angular/core';
+import {
+  FormBuilder,
   FormGroup,
-  FormsModule,
-  NgForm,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { ImageUploaderComponent } from '../../../shared/image-uploader/image-uploader.component';
+import { PostService } from '../../../../../core/services/post.service';
 import {
+  ArtigoCreatePayload,
   BlogCreatePayload,
-  PostPayload,
+  CourseCreatePayload,
+  MaterialCreatePayload,
 } from '../../../../../core/utils/types';
-import { BlogService } from '../../../../../core/services/blog.service';
+import { PdfUploaderComponent } from '../../../shared/pdf-uploader/pdf-uploader.component';
+
+export type PostType = 'artigo' | 'blog' | 'material' | 'curso';
 
 @Component({
   selector: 'app-post-form',
-  imports: [FormsModule, ReactiveFormsModule],
-  providers: [],
   templateUrl: './post-form.component.html',
   styleUrl: './post-form.component.css',
+  imports: [ImageUploaderComponent, ReactiveFormsModule, PdfUploaderComponent],
 })
-export class PostFormComponent {
-  private server = inject(BlogService);
-  public postPayload = new FormGroup({
-    title: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    text: new FormControl('', [Validators.required]),
-    tags: new FormControl(''),
-    image: new FormControl<File | null>(null),
-  });
+export class PostFormComponent implements OnInit {
+  @Input({ required: true }) type = signal<PostType>('artigo');
+  private fb: FormBuilder = inject(FormBuilder);
+  postService = inject(PostService);
+  inProgress = this.postService.isLoading();
+  form!: FormGroup;
+  constructor() {
+    effect(() => {
+      this.onTypeChange(this.type());
+    });
+  }
+  ngOnInit() {
+    this.onTypeChange(this.type());
+  }
 
-  onFileChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length) {
-      const file = input.files[0];
-      this.postPayload.patchValue({
-        image: file,
-      });
-      this.postPayload.get('image')?.updateValueAndValidity();
+  onTypeChange(type: PostType) {
+    this.buildForm(type);
+  }
+
+  buildForm(type: PostType) {
+    const common = {
+      title: ['', Validators.required],
+      image: ['', Validators.required],
+      tagNames: [[]],
+    };
+
+    switch (type) {
+      case 'artigo':
+        this.form = this.fb.group({
+          ...common,
+          text: ['', Validators.required],
+          references: [[]],
+        });
+        break;
+
+      case 'blog':
+        this.form = this.fb.group({
+          ...common,
+          text: ['', Validators.required],
+        });
+        break;
+
+      case 'material':
+        this.form = this.fb.group({
+          ...common,
+          description: ['', Validators.required],
+          file: ['', Validators.required],
+        });
+        break;
+
+      case 'curso':
+        this.form = this.fb.group({
+          ...common,
+          description: ['', Validators.required],
+          link: ['', Validators.required],
+        });
+        break;
     }
   }
 
-  onSubmit(payload: any) {
-    const blogCreatePayload = {
-      title: payload.title,
-      text: payload.text,
-      tagNames: payload.tags
-        ? payload.tags.split(',').map((tag: string) => tag.trim())
-        : [],
-        image: ''
-    };
-    const image = payload.image as File;
+  onSubmit() {
+    if (this.form.invalid) {
+      return;
+    }
 
-    this.server.create(blogCreatePayload, image, 'blog-images').subscribe({
-      next: (response) => {
-        console.log('Post created successfully:', response);
-      },
-      error: (error) => {
-        console.error('Error creating post:', error);
-      },
-      complete: () => {
-        this.postPayload.reset();
-        console.log('Post creation process completed');
-      },
-    });
+    const raw = this.form.value;
+    const tagNames =
+      typeof raw.tagNames === 'string'
+        ? raw.tagNames
+            .split(',')
+            .map((t: string) => t.trim())
+            .filter(Boolean)
+        : raw.tagNames;
+
+    const refs =
+      typeof raw.references === 'string'
+        ? raw.references
+            .split('\n')
+            .map((r: string) => r.trim())
+            .filter(Boolean)
+        : raw.references;
+
+    const data = {
+      ...raw,
+      tagNames,
+      refs,
+    };
+
+    delete data.references;
+
+    switch (this.type()) {
+      case 'artigo':
+        this.postService.createArtigo(data as ArtigoCreatePayload).subscribe();
+        break;
+
+      case 'blog':
+        this.postService.createBlog(data as BlogCreatePayload).subscribe();
+        break;
+
+      case 'material':
+        this.postService
+          .createMaterial(data as MaterialCreatePayload)
+          .subscribe();
+        break;
+
+      case 'curso':
+        this.postService.createCurso(data as CourseCreatePayload).subscribe();
+        break;
+    }
   }
 }

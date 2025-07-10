@@ -8,7 +8,7 @@
 } @else {
 <section>
   @for (course of courses(); track course.id){
-  <app-course-card [course]="course" />
+  <app-course-card [course]="course" [delCourse]="delete" [hasPermission]="userHasPermission()" />
   }
 </section>
 }

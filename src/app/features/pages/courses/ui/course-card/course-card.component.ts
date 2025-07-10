@@ -9,4 +9,10 @@ import { Course } from '../../../../../core/utils/types';
 })
 export class CourseCardComponent {
   @Input({ required: true }) course: Course | null = null;
+  @Input({ required: true }) hasPermission: boolean = false;
+  @Input({ required: true }) delCourse = (id: string) => {};
+
+  deleteCourse = () => {
+    return this.delCourse(this.course!.id);
+  };
 }

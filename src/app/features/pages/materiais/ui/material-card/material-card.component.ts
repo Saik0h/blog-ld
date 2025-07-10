@@ -7,5 +7,11 @@ import { Material } from '../../../../../core/utils/types';
   styleUrl: './material-card.component.css',
 })
 export class MaterialCardComponent {
-  @Input({ required: true }) material: Material | null = null;
+  @Input({ required: true }) material!: Material;
+  @Input({ required: true }) canDelete!: boolean;
+  @Input({ required: true }) delete = (id: number) => {};
+
+  deleteMaterial = () => {
+    this.delete(+this.material.id);
+  };
 }

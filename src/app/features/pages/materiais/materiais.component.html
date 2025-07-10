@@ -2,13 +2,13 @@
 @if(isLoading()){
 <app-loading />
 } @else if(!isLoading() && error()){
-<app-recurso-temporariamente-indisponivel/>
+<app-recurso-temporariamente-indisponivel />
 }@else if (!isLoading() && materials() && materials().length === 0) {
 <app-resource-empty />
 } @else{
 <section>
   @for (material of materials(); track material.id){
-<app-material-card [material]="material"/>
+  <app-material-card [material]="material" [canDelete]="hasPermission()" [delete]="deleteFunction"/>
   }
 </section>
 }

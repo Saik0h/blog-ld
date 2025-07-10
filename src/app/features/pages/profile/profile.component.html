@@ -1,12 +1,12 @@
 <main class="profile-page">
-  @if(isLoading()){
+  @if(faqsLoading() || userLoading()){
   <app-loading />
   } @else {
   <app-user-profile-card [user]="user" [logout]="logout"  />
   <app-inbox-widget />
   <aside>
     <app-faq-input [faqs]="faqs" [deleteFaq]="deleteFaq" [postNewFaq]="createFaq"/>
-    <app-post-form />
+    <app-new-post />
   </aside>
   }
 </main>

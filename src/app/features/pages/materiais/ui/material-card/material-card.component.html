@@ -21,5 +21,8 @@
     >
       📄 Baixar PDF
     </a>
+    @if (canDelete) {
+      <button (click)="deleteMaterial()">deletar</button>
+    }
   </section>
 </article>
