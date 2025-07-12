@@ -1,25 +1,30 @@
 <section class="section">
-  <span class="title-wrapper">
+  @if(isLoading()){
+<app-loading></app-loading>
+  } @else{
+<span class="title-wrapper">
     @if (isEditing()) {
     <form>
       <input
         class="title-input"
         type="text"
-        [value]="fieldInfo.title"
+        [value]="field.title"
         name="title"
-        placeholder="Enter title"
-        (input)="editTitle(titleInput.value)"
+        placeholder="Titulo"
         #titleInput
       />
     </form>
-    <button (click)="save(fieldInfo)" class="change-title-btn">
+    <button
+      (click)="updateTitle(field.id, titleInput.value)"
+      class="change-title-btn"
+    >
       <i class="bi bi-check-lg"></i>
     </button>
     } @else {
-    <h2>{{ fieldInfo.title | titlecase }}</h2>
+    <h2>{{ field.title | titlecase }}</h2>
     @if(userIsAdmin() && globalEdit()){
     <span>
-      <button (click)="deleteThis(fieldInfo.id)">
+      <button (click)="deleteThis(field.id)">
         <i class="bi bi-trash"></i>
       </button>
       <button (click)="isEditing.set(true)">
@@ -30,33 +35,39 @@
   </span>
 
   <ul>
-    @for(item of fieldInfo.items; track $index) { @if(isEditing()){
+    @for(item of field.items; track item.id) {
     <li>
+      @if(isEditing()){
       <textarea
         type="text"
         [value]="item.description"
-        (input)="editItem($index, current.value)"
         [name]="item.id"
         class="item-update"
         #current
       ></textarea>
-      <button (click)="deleteItem($index)">
+      <button (click)="updateFieldItem(item.id, current.value)">
+        <i class="bi bi-check-lg"></i>
+      </button>
+      <button (click)="deleteFieldItem(item)">
         <i class="bi bi-dash-lg"></i>
       </button>
+      }@else {
+      <p>
+        {{ item.description }}
+      </p>
+      }
     </li>
-    }@else {
-    <li>
-      {{ item.description }}
-    </li>
-    } }
+    }
   </ul>
 
   @if (isEditing()) {
-  <form class="add-new-item" (submit)="pushNewItem(newItem)">
+  <form class="add-new-item" (submit)="addNewItem(newItem)">
     <textarea class="item-input" type="text" name="newItem" #newItem ></textarea>
     <button>
       <i class="bi bi-plus-lg"></i>
     </button>
   </form>
   }
+  }
+  
 </section>

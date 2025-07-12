@@ -1,14 +1,26 @@
-<h3>{{ title() }}</h3>
-@if(isLoading()){
-<app-loading />
-} @if(!isLoading() && error()) {
-<app-recurso-temporariamente-indisponivel />
-}@else if (!isLoading() && courses() && courses().length === 0 && !error()) {
-<app-resource-empty />
-} @else {
-<section>
-  @for (course of courses(); track course.id){
-  <app-course-card [course]="course" [delCourse]="delete" [hasPermission]="userHasPermission()" />
+<section class="course-section" aria-labelledby="course-section-title">
+  <h3 id="course-section-title" class="course-section__title">
+    {{ title() }}
+  </h3>
+
+  @if (isLoading()) {
+  <app-loading aria-label="Carregando cursos" role="status" />
+  } @if (!isLoading() && error()) {
+  <app-recurso-temporariamente-indisponivel
+    aria-label="Erro ao carregar os cursos"
+    role="alert"
+  />
+  } @else if (!isLoading() && courses() && courses().length === 0 && !error()) {
+  <app-resource-empty aria-label="Nenhum curso encontrado" />
+  } @else {
+  <ul class="course-list" role="list">
+    @for (course of courses(); track course.id) {
+    <app-course-card
+      [course]="course"
+      [delCourse]="delete"
+      [hasPermission]="userHasPermission()"
+    />
+    }
+  </ul>
   }
 </section>
-}

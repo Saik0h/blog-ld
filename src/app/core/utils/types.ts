@@ -1,7 +1,11 @@
 export type LoginPayload = { username: string; password: string };
 export type Tokens = { accessToken: string; refreshToken: string };
 export type PostCreatedResponse = { message: string; id: number };
+export type CreatedContactMessage = { message: string, item: ContactInfo };
 export type Message = { message: string };
+export type CreatedFieldMessage = { message: string, field: Field };
+export type CreatedFieldItemMessage = { message: string, fieldItem: FieldItem };
+export type UpdateMessage = { message: string; data: string };
 export type Curriculum = {
   profileImage: string;
   firstname: string;
@@ -230,19 +234,19 @@ export type CreateFieldPayload = {
 };
 
 export type Field = {
-  id: number;
+  id: string;
   title: string;
   items: FieldItem[];
 };
 export type FieldItem = {
+  fieldId?: string
   id: string;
   description: string;
 };
 
 export type UpdateFieldPayload = {
-  id: number;
+  id: string;
   title: string;
-  items?: FieldItem[];
 };
 
 export type faq = {

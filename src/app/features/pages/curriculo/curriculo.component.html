@@ -1,10 +1,12 @@
-@if(isRequestingGet()){
-<app-loading />
-}@else if(!isRequestingGet() && curriculum()){
 <section class="curriculo">
+@if(isLoadingCurriculum()){
+<app-loading />
+}@else if(!isLoadingCurriculum() && curriculum()){
   <article class="profile-card">
     @if(editMode()){
-    <button (click)="toggleEditMode()" class="switch-mode">Modo de edição</button>
+    <button (click)="toggleEditMode()" class="switch-mode">
+      Modo de edição
+    </button>
     <article>
       <label for="profile-photo-img" class="profile-upload-label">
         <input
@@ -68,7 +70,7 @@
         {{ isRequestingPostOrPatch() ? "" : "Salvar" }}
       </button>
       <div class="contact-info">
-        @for(item of curriculum()!.contactInfo; track item.id){
+        @for(item of contactItems(); track item.id){
         <fieldset class="field">
           <legend>
             <button
@@ -158,7 +160,9 @@
     <button
       class="switch-mode"
       [disabled]="
-        isRequestingPostOrPatch() || isRequestingDelete() || isRequestingGet()
+        isRequestingPostOrPatch() ||
+        isRequestingDelete() ||
+        isLoadingCurriculum()
       "
       (click)="toggleEditMode()"
     >
@@ -177,7 +181,7 @@
       <p class="credential">{{ curriculum()?.credential }}</p>
 
       <div class="contact-info">
-        @for (i of curriculum()!.contactInfo; track i.id) {
+        @for (i of contactItems(); track i.id) {
         <p>
           {{ i.platform }}: <a [href]="i.link" target="_blank">{{ i.label }}</a>
         </p>
@@ -188,11 +192,15 @@
   </article>
 
   <main class="main-content">
-    @for (field of curriculum()!.fields; track field.id) {
+    @for (field of fields()!; track field.id) {
     <app-curriculo-section
-      [fieldInfo]="field"
-      [updateSection]="updateField"
+      [isLoading]="isLoadingFields"
+      [field]="field"
+      [createNewItem]="createFieldItem"
+      [updateTitle]="updateField"
+      [updateItem]="updateFieldItem"
       [deleteField]="deleteField"
+      [deleteFieldItem]="deleteFieldItem"
       [userHasPermission]="userHasPermission"
       [globalEdit]="editMode"
     />
@@ -206,9 +214,9 @@
       <ul class="editMode newItemsCreated">
         @for (item of newFieldItemsArray; track $index) {
         <li>
-          <label style="font-size: 1rem" [for]="'item' + ($index + 1)">{{
-            "item " + ($index + 1)
-          }}</label>
+          <label style="font-size: 1rem" [for]="'item' + ($index + 1)">
+            {{ "item " + ($index + 1) }}
+          </label>
 
           <div class="textarea-wrapper">
             <textarea
@@ -241,9 +249,11 @@
     </section>
     }
   </main>
-</section>
-} @else if(!isRequestingGet() && userHasPermission()) {
-<app-create-curriculum-form />
-} @else if(!isRequestingGet() && error()) {
-<app-recurso-temporariamente-indisponivel />
+} 
+@if(!isLoadingCurriculum() && !curriculum() && userHasPermission()) {
+  <app-create-curriculum-form />
+} 
+@if(!isLoadingCurriculum() && error()) {
+  <app-recurso-temporariamente-indisponivel />
 }
+</section>

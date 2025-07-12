@@ -1,22 +1,37 @@
 <article class="course-card">
   <figure class="course-card__image">
-    <img [src]="course!.image? course!.image : 'placeholder.webp'" [alt]="'Imagem do curso: ' + course!.title" />
+    <img
+      [src]="course?.image || 'placeholder.webp'"
+      [alt]="'Imagem do curso: ' + course!.title"
+    />
   </figure>
+
   <section class="course-card__info">
     <h2 class="course-card__title">{{ course!.title }}</h2>
+
     <p class="course-card__author">
       Por {{ course!.author.firstname }} {{ course!.author.lastname }}
     </p>
-    <a
-      [href]="course!.link"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="course-card__link"
-    >
-      Acessar
-    </a>
-    @if(hasPermission){
-      <button (click)="deleteCourse()">Remover Curso</button>
-    }
+
+    <p class="course-card__description">
+      {{ course?.description }}
+    </p>
+
+    <div class="course-card__actions">
+      <a
+        [href]="course!.link"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="course-card__link"
+      >
+        Acessar
+      </a>
+
+      @if (hasPermission) {
+        <button (click)="deleteCourse()" class="course-card__delete-btn">
+          Remover Curso
+        </button>
+      }
+    </div>
   </section>
 </article>

@@ -212,3 +212,148 @@ button:not(.switch-mode, .btn-loading):hover {
     width: 100%;
   }
 }
+
+.editMode.createNewFieldControl {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  background-color: var(--color-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Título */
+.editMode.createNewFieldTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.editMode.createNewFieldTitle label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+.editMode.createNewFieldTitle input {
+  font-size: 1.3rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 0.5rem;
+  outline: none;
+  width: 100%;
+  transition: var(--transition);
+}
+
+/* Lista de itens */
+.editMode.newItemsCreated {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.editMode.newItemsCreated li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Wrapper do textarea e botão */
+.textarea-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.textarea-wrapper textarea {
+  flex: 1;
+  min-height: 80px;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 0.5rem;
+  resize: vertical;
+  transition: var(--transition);
+}
+
+.pushItemButton {
+  background-color: var(--color-accent);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1.2rem;
+}
+
+.pushItemButton:hover {
+  background-color: hsl(35, 100%, 45%);
+}
+
+/* Formulário para adicionar novo item */
+.newFieldForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.newFieldForm label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-dark);
+}
+
+.newFieldForm > div {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.newFieldForm textarea {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 0.5rem;
+  resize: vertical;
+  transition: var(--transition);
+}
+
+.newFieldForm button[type='button'] {
+  background-color: var(--color-accent);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.newFieldForm button[type='button']:hover {
+  background-color: hsl(35, 100%, 45%);
+}
+
+/* Botão principal de envio */
+.new_field_button {
+  align-self: flex-end;
+  background-color: var(--color-dark);
+  color: white;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.new_field_button:hover {
+  background-color: hsl(204, 86%, 10%);
+}

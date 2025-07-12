@@ -5,12 +5,12 @@ import { AuthService } from '../../../core/services/auth.service';
 import { ImageService } from '../../../core/services/image.service';
 
 import {
-  Curriculum,
   CurriculumUpdatePayload,
   CreateContactInfoPayload,
   UpdateContactInfoPayload,
   CreateFieldPayload,
   UpdateFieldPayload,
+  FieldItem,
 } from '../../../core/utils/types';
 
 import { LoadingComponent } from '../shared/loading/loading.component';
@@ -32,23 +32,27 @@ import { RecursoTemporariamenteIndisponivelComponent } from '../shared/recurso-t
   styleUrl: './curriculo.component.css',
 })
 export class CurriculoComponent {
-  // ==== Serviços ====
   private readonly curriculumService = inject(CurriculumService);
   private readonly authService = inject(AuthService);
   private readonly imageService = inject(ImageService);
 
-  // ==== Estados ====
-  public readonly curriculum = signal<Curriculum | null>(null);
+  public readonly curriculum = this.curriculumService.curriculum();
+  public readonly fields = this.curriculumService.fields();
   public readonly isCreateNewFieldSectionOpen = signal(false);
   public readonly editMode = signal(false);
   public readonly userHasPermission = signal(false);
   public readonly error = this.curriculumService.hasError();
 
-  public readonly isRequestingGet = this.curriculumService.isRequestingGet();
+  public readonly isLoadingCurriculum =
+    this.curriculumService.isRequestingGet();
+  public readonly isLoadingFields = this.curriculumService.isLoadingFields();
+
   public readonly isRequestingPostOrPatch =
     this.curriculumService.isRequestingCreateOrUpdate();
   public readonly isRequestingDelete =
     this.curriculumService.isRequestingDelete();
+  
+    public readonly contactItems = this.curriculumService.contactInfo();
 
   // ==== Inputs controlados ====
   public newItemLabel = model('');
@@ -60,18 +64,12 @@ export class CurriculoComponent {
 
   constructor() {
     this.getAuthorization();
-    this.loadCurriculum();
+    this.curriculumService.loadCurriculum();
   }
 
   private getAuthorization() {
     this.authService.getAuthorization().subscribe({
       next: (res) => this.userHasPermission.set(res),
-    });
-  }
-
-  private loadCurriculum() {
-    this.curriculumService.getCurriculum().subscribe({
-      next: (res) => this.curriculum.set(res),
     });
   }
 
@@ -115,8 +113,6 @@ export class CurriculoComponent {
     this.curriculumService.updateCurriculum(payload).subscribe();
   };
 
-  // ==== Campos do Currículo ====
-
   public addItemToArray = (item: HTMLTextAreaElement) => {
     if (item.value.trim()) {
       this.newFieldItemsArray.push(item.value.trim());
@@ -129,7 +125,7 @@ export class CurriculoComponent {
     itemInput: HTMLTextAreaElement
   ) => {
     const title = titleInput.value.trim();
-    if (!title || this.newFieldItemsArray.length === 0) return;
+    if (!title) return;
 
     const field: CreateFieldPayload = {
       title,
@@ -146,8 +142,6 @@ export class CurriculoComponent {
   public toggleCreateSection = () =>
     this.isCreateNewFieldSectionOpen.update((v) => !v);
 
-  // ==== CRUD Contatos ====
-
   public createContactItem = (body: CreateContactInfoPayload) => {
     this.curriculumService.createContactInfo(body).subscribe();
   };
@@ -160,21 +154,30 @@ export class CurriculoComponent {
     this.curriculumService.deleteContactInfo(id).subscribe();
   };
 
-  // ==== CRUD Campos ====
-
   public createField = (body: CreateFieldPayload) => {
     this.curriculumService.createField(body).subscribe();
   };
 
-  public updateField = (item: UpdateFieldPayload) => {
-    this.curriculumService.updateField(item).subscribe();
+  public createFieldItem = (fieldId: string, description: string) => {
+    const data = { fieldId, description };
+    this.curriculumService.createFieldItem(data).subscribe();
   };
 
-  public deleteField = (id: number) => {
+  public updateField = (id: string, title: string) => {
+    const data: UpdateFieldPayload = { id, title };
+    this.curriculumService.updateFieldTitle(data).subscribe();
+  };
+
+  public updateFieldItem = (id: string, description: string) => {
+    const data: FieldItem = { id, description };
+    this.curriculumService.updateFieldItem(data).subscribe();
+  };
+
+  public deleteField = (id: string) => {
     this.curriculumService.deleteField(id).subscribe();
   };
 
-  public deleteFieldItem = (id: number) => {
-    this.curriculumService.deleteFieldItem(id).subscribe();
+  public deleteFieldItem = (fieldItem: FieldItem) => {
+    this.curriculumService.deleteFieldItem(fieldItem).subscribe();
   };
 }

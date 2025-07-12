@@ -1,28 +1,42 @@
-<article class="material-card">
+<article class="material-card" role="listitem">
   <figure class="material-card__image">
     <img
-      [src]="material!.image"
+      [src]="material.image || 'placeholder-material.webp'"
       [alt]="'Capa do material: ' + material!.title"
     />
   </figure>
+
   <section class="material-card__info">
     <h2 class="material-card__title">{{ material!.title }}</h2>
+
     <p class="material-card__author">
-      Por {{ material!.author!.firstname }} {{ material!.author!.lastname }}
+      Por {{ material!.author.firstname }} {{ material!.author.lastname }}
     </p>
+
     <p class="material-card__description">
       {{ material!.description }}
     </p>
-    <a
-      [href]="material!.file"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="material-card__link"
-    >
-      📄 Baixar PDF
-    </a>
-    @if (canDelete) {
-      <button (click)="deleteMaterial()">deletar</button>
-    }
+
+    <div class="material-card__actions">
+      <a
+        [href]="material!.file"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="material-card__link"
+        aria-label="Baixar arquivo PDF do material"
+      >
+        📄 Acessar PDF
+      </a>
+
+      @if (canDelete) {
+        <button
+          (click)="deleteMaterial()"
+          class="material-card__delete-btn"
+          aria-label="Deletar material"
+        >
+          🗑️ Deletar
+        </button>
+      }
+    </div>
   </section>
 </article>

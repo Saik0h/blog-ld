@@ -7,7 +7,6 @@ import {
   map,
   Observable,
   tap,
-  throwError,
 } from 'rxjs';
 import { LoginPayload, RegisterPayload, User, Message } from '../utils/types';
 import { environment } from '../../../environments/environment.development';
@@ -18,17 +17,20 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  router = inject(Router);
   private readonly url = environment.apiUrl + '/auth';
+
+  private readonly router = inject(Router);
   private readonly http = inject(HttpClient);
-  private _isLoggedIn = signal<boolean>(false);
-  public readonly isLoggedIn = this._isLoggedIn.asReadonly;
-  private _user = signal<User | null>(null);
-  public user = this._user.asReadonly;
-  private _isLoading = signal<boolean>(false);
-  public isLoading = this._isLoading.asReadonly;
   private handleError = inject(ErrorService).handleHTTPError;
+
+  private _isLoggedIn = signal<boolean>(false);
+  private _user = signal<User | null>(null);
+  private _isLoading = signal<boolean>(false);
   private _hasError = signal<boolean>(false);
+
+  public user = this._user.asReadonly;
+  public isLoading = this._isLoading.asReadonly;
+  public readonly isLoggedIn = this._isLoggedIn.asReadonly;
   public readonly hasError = this._hasError.asReadonly;
 
   private handleHttpError = (err: HttpErrorResponse) => {
@@ -42,9 +44,7 @@ export class AuthService {
     this._isLoading.set(true);
 
     const obs = this.http
-      .post<Message>(url, data, {
-        withCredentials: true,
-      })
+      .post<Message>(url, data, { withCredentials: true })
       .pipe(
         map((newUserMsg) => {
           this.getUser().pipe(
@@ -56,9 +56,7 @@ export class AuthService {
           return newUserMsg;
         }),
         catchError(this.handleHttpError),
-        finalize(() => {
-          this._isLoading.set(false);
-        })
+        finalize(() => this._isLoading.set(false))
       );
     this._isLoggedIn.set(true);
     return obs;
@@ -67,34 +65,29 @@ export class AuthService {
   login = (data: LoginPayload): Observable<Message> => {
     const url = `${this.url}/login`;
     this._isLoading.set(true);
+
     const obs = this.http
-      .post<Message>(url, data, {
-        withCredentials: true,
-      })
+      .post<Message>(url, data, { withCredentials: true })
       .pipe(
         catchError(this.handleHttpError),
-        finalize(() => {
-          this._isLoading.set(false);
-        })
+        finalize(() => this._isLoading.set(false))
       );
-    this._isLoggedIn.set(true);
 
+    this._isLoggedIn.set(true);
     return obs;
   };
 
   status = (): Observable<boolean> => {
     const url = `${this.url}/status`;
-    const obs = this.http
-      .get<boolean>(url, {
-        withCredentials: true,
-      })
-      .pipe(
-        map((value) => {
-          this._isLoggedIn.set(value);
-          return value;
-        }),
-        catchError(this.handleHttpError)
-      );
+
+    const obs = this.http.get<boolean>(url, { withCredentials: true }).pipe(
+      tap((value) => {
+        this._isLoggedIn.set(value);
+        return value;
+      }),
+      catchError(this.handleHttpError)
+    );
+
     return obs;
   };
 
@@ -106,32 +99,29 @@ export class AuthService {
   getUser = (): Observable<User> => {
     const url = `${this.url}/user`;
     this._isLoading.set(true);
-    const obs = this.http
-      .get<User>(url, {
-        withCredentials: true,
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-        finalize(() => {
-          this._isLoading.set(false);
-        })
-      );
+
+    const obs = this.http.get<User>(url, { withCredentials: true }).pipe(
+      catchError(this.handleHttpError),
+      finalize(() => this._isLoading.set(false))
+    );
+
     return obs;
   };
 
   refresh = (): Observable<Message> => {
     const url = `${this.url}/refresh`;
 
-    return this.http.post<Message>(url, {}, { withCredentials: true }).pipe(
-      map((value) => {
-        this._isLoggedIn.set(true);
-        return value;
-      }),
-      catchError((err: HttpErrorResponse) => {
-        console.log(err)
-        return throwError(() => err);
-      })
-    );
+    const obs = this.http
+      .post<Message>(url, {}, { withCredentials: true })
+      .pipe(
+        tap((value) => {
+          this._isLoggedIn.set(true);
+          return value;
+        }),
+        catchError(this.handleHttpError)
+      );
+    this._isLoggedIn.set(true);
+    return obs;
   };
 
   logout = (): Observable<Message> => {
@@ -139,12 +129,9 @@ export class AuthService {
     this._isLoading.set(true);
 
     return this.http.post<Message>(url, {}, { withCredentials: true }).pipe(
-      catchError((err: HttpErrorResponse) => {
-        this.handleError(err);
-        return EMPTY;
-      }),
+      catchError(this.handleHttpError),
       finalize(() => {
-        this.router.navigate(['/auth']);
+        this.router.navigate(['/']);
         this._isLoggedIn.set(false);
         this._isLoading.set(false);
       })
@@ -158,7 +145,7 @@ export class AuthService {
     return this.http.post<Message>(url, {}, { withCredentials: true }).pipe(
       catchError(this.handleHttpError),
       finalize(() => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/auth/login']);
         this._isLoggedIn.set(false);
         this._isLoading.set(false);
       })
