@@ -33,7 +33,7 @@
     <p class="publish-date">
       Publicado em:
       <time [attr.datetime]="artigo()!.createdAt">
-        {{ artigo()!.createdAt | date }}
+        {{ artigo()!.createdAt | date:'shortDate' }}
       </time>
     </p>
 

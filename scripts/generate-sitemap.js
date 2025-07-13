@@ -30,8 +30,12 @@ const getNonStaticRoutes = async () => {
 const main = async () => {
   const { blogs, artigos } = await getNonStaticRoutes();
 
-  const dynamicBlogRoutes = blogs.map((b) => `/blogs/${b.id}`);
-  const dynamicArtigoRoutes = artigos.map((a) => `/artigos/${a.id}`);
+  const dynamicBlogRoutes = blogs.map((b) => `/blogs/${b.id}</loc>
+    <lastmod>${b.updatedAt.split('T')[0]}</lastmod>
+  </url>`);
+  const dynamicArtigoRoutes = artigos.map((a) => `/artigos/${a.id}</loc>
+    <lastmod>${a.updatedAt.split('T')[0]}</lastmod>
+  </url>`);
 
   const allRoutes = [
     ...staticRoutes,
