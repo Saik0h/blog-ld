@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://laisdonida.com.br/sitemap.xml
