@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild": "node scripts/generate-sitemap.js",
     "build": "ng build",
-    "postbuild": "node scripts/generate-sitemap.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
