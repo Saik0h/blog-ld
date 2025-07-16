@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { faq, faqPayload, Message } from '../utils/types';
-import { catchError, EMPTY, finalize, Observable } from 'rxjs';
+import { faq, faqDisplay, faqPayload, Message } from '../utils/types';
+import { catchError, EMPTY, finalize, map, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { ErrorService } from './error.service';
 
@@ -9,28 +9,42 @@ import { ErrorService } from './error.service';
   providedIn: 'root',
 })
 export class FaqService {
-  private readonly http = inject(HttpClient);
   private readonly url = environment.apiUrl + '/faq';
-  private _isLoading = signal<boolean>(false);
-  public isLoading = this._isLoading.asReadonly;
+
+  private readonly http = inject(HttpClient);
   private handleError = inject(ErrorService).handleHTTPError;
+
   private _hasError = signal<boolean>(false);
-  public hasError = this._hasError.asReadonly;
+  private _isLoading = signal<boolean>(false);
 
-  getAllFaqs = (): Observable<faq[]> => {
+  public faqs = signal<faqDisplay[]>([]);
+  public isLoading = this._isLoading.asReadonly();
+  public hasError = this._hasError.asReadonly();
+
+
+  private handleHttpError = (err: HttpErrorResponse) => {
+    this.handleError(err);
+    this._hasError.set(true);
+    return EMPTY;
+  }
+
+  getAllFaqs = (): Observable<faqDisplay[]> => {
     this._isLoading.set(true);
-    const obs = this.http.get<faq[]>(this.url).pipe(
-      catchError((err: HttpErrorResponse) => {
-        this.handleError(err);
-        this._hasError.set(true);
-        return EMPTY;
-      }),
-      finalize(() => {
-        this._isLoading.set(false);
-      })
-    );
 
-    return obs;
+    return this.http.get<faqDisplay[]>(this.url).pipe(
+      map((faqs): faqDisplay[] =>
+        faqs.map((newFaq) => {
+          const faqItem: faqDisplay = {
+            ...newFaq,
+            open: false
+          }
+          return faqItem
+        })
+      ),
+      tap((faqs) => this.faqs.set(faqs)),
+      catchError(this.handleHttpError),
+      finalize(() => this._isLoading.set(false))
+    );
   };
 
   postFaq = (data: faqPayload): Observable<Message> => {
@@ -38,18 +52,12 @@ export class FaqService {
   };
 
   getOneFaq = (id: number): Observable<faq> => {
-    const obs = this.http.get<faq>(`${this.url}/${id}`).pipe(
-      catchError((err: HttpErrorResponse) => {
-        this.handleError(err);
-        this._hasError.set(true);
-        return EMPTY;
-      }),
-      finalize(() => {
-        this._isLoading.set(false);
-      })
+    this._isLoading.set(true);
+    return this.http.get<faq>(`${this.url}/${id}`).pipe(
+      catchError(this.handleHttpError),
+      finalize(() => this._isLoading.set(false))
     );
 
-    return obs;
   };
 
   deleteFaq = (id: number): Observable<Message> => {

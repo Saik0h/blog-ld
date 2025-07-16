@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FaqService } from '../../../../../core/services/faq.service';
 import { faq, faqDisplay } from '../../../../../core/utils/types';
 import { map, throwError } from 'rxjs';
@@ -16,30 +16,16 @@ import { RecursoTemporariamenteIndisponivelComponent } from '../../../shared/rec
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.css',
 })
-export class FaqComponent {
+export class FaqComponent implements OnInit {
   private readonly faqService = inject(FaqService);
-  readonly isLoading = this.faqService.isLoading();
-  faqs = signal<faqDisplay[] | null>(null);
-  error = this.faqService.hasError();
-  constructor() {
-    this.faqService
-      .getAllFaqs()
-      .pipe(
-        map((faqs): faqDisplay[] =>
-          faqs.map((newFaq) => {
-            return {
-              ...newFaq,
-              open: false,
-            };
-          })
-        )
-      )
-      .subscribe({
-        next: (res: faq[]) => {
-          this.faqs.set(res as faqDisplay[]);
-        },
-      });
+  readonly isLoading = this.faqService.isLoading;
+  public readonly error = this.faqService.hasError;
+  public faqs = this.faqService.faqs;
+  
+  ngOnInit() {
+    this.faqService.getAllFaqs().subscribe();
   }
+
   toggle(item: any) {
     item.open = !item.open;
   }

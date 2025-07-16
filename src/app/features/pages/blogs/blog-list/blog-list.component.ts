@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Blog } from '../../../../core/utils/types';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { ResourceEmptyComponent } from '../../shared/resource-empty/resource-empty.component';
@@ -17,19 +17,15 @@ import { BlogCardComponent } from '../ui/blog-card/blog-card.component';
   templateUrl: './blog-list.component.html',
   styleUrl: './blog-list.component.css',
 })
-export class BlogListComponent {
+export class BlogListComponent implements OnInit {
+  public readonly title = signal('Blogs');
   private server = inject(BlogService);
-  blogs = signal<Blog[] | null>([]);
-  isLoading = this.server.isLoading();
-  error = this.server.hasError();
+  public readonly blogs = this.server.blogs;
+  public readonly isLoading = this.server.isLoading;
+  public readonly error = this.server.hasError;
 
-  title = signal('Blogs');
-  constructor() {
-    this.server.getAll().subscribe({
-      next: (blogs: Blog[]) => {
-        this.blogs.set(blogs);
-      },
-    });
+  ngOnInit() {
+    this.server.loadAllBlogs().subscribe();
   }
 
 //   blogsTeste: Blog[] = [

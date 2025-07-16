@@ -36,6 +36,6 @@ export class RegisterComponent {
   private authService: AuthService = inject(AuthService);
 
   onSubmit() {
-    this.authService.register(this.registerForm.value as RegisterPayload);
+    this.authService.register(this.registerForm.value as RegisterPayload).subscribe();
   }
 }

@@ -8,6 +8,7 @@ import {
   map,
   Observable,
   switchMap,
+  tap,
 } from 'rxjs';
 import {
   Blog,
@@ -19,31 +20,37 @@ import {
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { ErrorService } from './error.service';
-import { ImageService } from './image.service';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BlogService {
-  private http = inject(HttpClient);
-  private readonly url = environment.apiUrl + '/blogs';
-  private _isLoading = signal<boolean>(false);
-  public isLoading = this._isLoading.asReadonly;
-  private handleError = inject(ErrorService).handleHTTPError;
-  private _hasError = signal<boolean>(false);
-  public hasError = this._hasError.asReadonly;
   private readonly router = inject(Router);
-  handleHttpError = (err: HttpErrorResponse) => {
+  private readonly http = inject(HttpClient);
+  private handleError = inject(ErrorService).handleHTTPError;
+
+  private readonly url = environment.apiUrl + '/blogs';
+
+  private _isLoading = signal<boolean>(false);
+  private _hasError = signal<boolean>(false);
+  private _blogs = signal<Blog[]>([]);
+
+  public readonly blogs = this._blogs.asReadonly;
+  public readonly isLoading = this._isLoading.asReadonly;
+  public readonly hasError = this._hasError.asReadonly;
+
+  private handleHttpError = (err: HttpErrorResponse) => {
     this.handleError(err);
     this._hasError.set(true);
     return EMPTY;
   };
 
-  getAll = (): Observable<Blog[]> => {
+  loadAllBlogs = (): Observable<Blog[]> => {
     this._isLoading.set(true);
 
     return this.http.get<Blog[]>(this.url, { withCredentials: true }).pipe(
+      tap((blogs) => this._blogs.set(blogs)),
       catchError(this.handleHttpError),
       finalize(() => this._isLoading.set(false))
     );
@@ -73,7 +80,7 @@ export class BlogService {
   delete = (id: number): Observable<Message> => {
     const url = `${this.url}/${id}`;
     this._isLoading.set(true);
-    
+
     return this.http.delete<Message>(url, { withCredentials: true }).pipe(
       catchError(this.handleHttpError),
       finalize(() => {

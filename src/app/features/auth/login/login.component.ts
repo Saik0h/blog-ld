@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { LoginPayload } from '../../../core/utils/types';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
-import { throwError } from 'rxjs';
 import { GlobalLoadingComponent } from "../../pages/shared/global-loading/global-loading.component";
 
 @Component({
@@ -15,7 +14,7 @@ import { GlobalLoadingComponent } from "../../pages/shared/global-loading/global
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  loginForm = new FormGroup({
+  public loginForm = new FormGroup({
     username: new FormControl('', [
       Validators.required,
       Validators.minLength(3),
@@ -25,19 +24,13 @@ export class LoginComponent {
       Validators.minLength(8),
     ]),
   });
-  
+
   private authService: AuthService = inject(AuthService);
-  private router: Router = inject(Router);
-  isLoading = this.authService.isLoading()
-  error = this.authService.hasError()
+  public readonly isLoading = this.authService.isLoading
+  public readonly error = this.authService.hasError
 
   onSubmit() {
     const payload: LoginPayload = this.loginForm.value as LoginPayload;
-    this.authService.login(payload).subscribe({
-      error: (err) => throwError(() => err),
-      complete: () => {
-        this.router.navigate(['profile']);
-      },
-    });
+    this.authService.login(payload).subscribe();
   }
 }

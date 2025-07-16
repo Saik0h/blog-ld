@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RecursoTemporariamenteIndisponivelComponent } from '../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
 import { Course } from '../../../core/utils/types';
 import { CourseService } from '../../../core/services/curso.service';
@@ -18,24 +18,24 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.css',
 })
-export class CoursesComponent {
-  private server = inject(CourseService);
-  authService = inject(AuthService);
-  userHasPermission = signal(false);
+export class CoursesComponent implements OnInit {
   public readonly title = signal('Cursos');
-  readonly courses = signal<Course[]>([]);
-  public readonly isLoading = this.server.isLoading();
-  public readonly error = this.server.hasError();
+  private server = inject(CourseService);
+  private readonly authService = inject(AuthService);
 
-  constructor() {
+
+  public readonly userHasPermission = signal(false);
+  public readonly isLoading = this.server.isLoading;
+  public readonly error = this.server.hasError;
+  readonly courses = this.server.courses;
+
+
+  ngOnInit() {
     this.authService.getAuthorization().subscribe({
-      next:(res)=> this.userHasPermission.set(res)
+      next: (res) => this.userHasPermission.set(res)
     })
-    this.server.getAll().subscribe({
-      next: (courses: Course[]) => {
-        this.courses.set(courses);
-      },
-    });
+    this.server.loadAllCourses().subscribe();
+
   }
 
   delete = (id: string) => {

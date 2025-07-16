@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { UserProfileCardComponent } from './ui/user-profile-card/user-profile-card.component';
 import { AuthService } from '../../../core/services/auth.service';
 import { faq, faqPayload, User } from '../../../core/utils/types';
@@ -21,37 +21,31 @@ import { NewPostComponent } from './new-post/new-post.component';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   authService = inject(AuthService);
-  public user = signal<User | null>(null);
   private faqService = inject(FaqService);
-  public readonly faqs = signal<faq[]>([]);
-  public readonly faqsError = this.faqService.hasError();
-  public readonly authError = this.authService.hasError();
-  public readonly faqsLoading = this.faqService.isLoading();
-  public readonly userLoading = this.authService.isLoading();
 
-  constructor() {
-    this.authService.getUser().subscribe({
-      next: (user: User) => this.user.set(user),
-    });
+  public user = this.authService.user;
+  public readonly faqs = this.faqService.faqs;
+  public readonly faqsError = this.faqService.hasError;
+  public readonly authError = this.authService.hasError;
+  public readonly faqsLoading = this.faqService.isLoading;
+  public readonly userLoading = this.authService.isLoading;
 
-    this.faqService.getAllFaqs().subscribe({
-      next: (faqs) => this.faqs.set(faqs),
-    });
+  ngOnInit() {
+    this.authService.getUser().subscribe();
+    this.faqService.getAllFaqs().subscribe();
   }
 
   createFaq = (data: faqPayload) => {
-    this.faqService.postFaq(data).subscribe({
-      error: (err) => throwError(() => err),
-    });
+    this.faqService.postFaq(data).subscribe();
   };
 
   deleteFaq = (id: number) => {
-    return this.faqService.deleteFaq(id);
+    return this.faqService.deleteFaq(id).subscribe();
   };
 
   logout = () => {
-    firstValueFrom(this.authService.logout());
+    this.authService.logout().subscribe()
   };
 }

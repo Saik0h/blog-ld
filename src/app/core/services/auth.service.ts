@@ -28,10 +28,10 @@ export class AuthService {
   private _isLoading = signal<boolean>(false);
   private _hasError = signal<boolean>(false);
 
-  public user = this._user.asReadonly;
-  public isLoading = this._isLoading.asReadonly;
-  public readonly isLoggedIn = this._isLoggedIn.asReadonly;
-  public readonly hasError = this._hasError.asReadonly;
+  public user = this._user.asReadonly();
+  public isLoading = this._isLoading.asReadonly();
+  public readonly isLoggedIn = this._isLoggedIn.asReadonly();
+  public readonly hasError = this._hasError.asReadonly();
 
   private handleHttpError = (err: HttpErrorResponse) => {
     this.handleError(err);
@@ -69,11 +69,14 @@ export class AuthService {
     const obs = this.http
       .post<Message>(url, data, { withCredentials: true })
       .pipe(
+        tap(() => {
+          this._isLoggedIn.set(true);
+          this.router.navigate(['profile']);
+        }),
         catchError(this.handleHttpError),
         finalize(() => this._isLoading.set(false))
       );
 
-    this._isLoggedIn.set(true);
     return obs;
   };
 
@@ -101,6 +104,11 @@ export class AuthService {
     this._isLoading.set(true);
 
     const obs = this.http.get<User>(url, { withCredentials: true }).pipe(
+      tap((user) => {
+        this._user.set(user);
+        this._isLoggedIn.set(true);
+        return user;
+      }),
       catchError(this.handleHttpError),
       finalize(() => this._isLoading.set(false))
     );

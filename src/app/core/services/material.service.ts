@@ -15,13 +15,18 @@ import { ErrorService } from './error.service';
   providedIn: 'root',
 })
 export class MaterialService {
-  private http = inject(HttpClient);
   private readonly url = environment.apiUrl + '/materials';
-  private _isLoading = signal<boolean>(false);
-  public isLoading = this._isLoading.asReadonly;
+
+  private http = inject(HttpClient);
   private handleError = inject(ErrorService).handleHTTPError;
+
+  private _isLoading = signal<boolean>(false);
   private _hasError = signal<boolean>(false);
-  public hasError = this._hasError.asReadonly;
+  private _materials = signal<Material[]>([]);
+
+  public readonly isLoading = this._isLoading.asReadonly();
+  public readonly hasError = this._hasError.asReadonly();
+  public readonly materials = this._materials.asReadonly();
 
   handleHttpError = (err: HttpErrorResponse) => {
     this.handleError(err);
@@ -29,7 +34,7 @@ export class MaterialService {
     return EMPTY;
   };
 
-  getAll = (): Observable<Material[]> => {
+  loadAllMaterials = (): Observable<Material[]> => {
     this._isLoading.set(true);
 
     return this.http.get<Material[]>(this.url, { withCredentials: true }).pipe(
@@ -66,7 +71,7 @@ export class MaterialService {
   delete = (id: number): Observable<Message> => {
     const url = `${this.url}/${id}`;
     this._isLoading.set(true);
-    
+
     return this.http.delete<Message>(url, { withCredentials: true }).pipe(
       catchError(this.handleHttpError),
       finalize(() => this._isLoading.set(false))

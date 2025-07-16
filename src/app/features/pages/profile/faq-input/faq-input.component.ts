@@ -1,5 +1,5 @@
 import { Component, Input, signal } from '@angular/core';
-import { faq, faqPayload } from '../../../../core/utils/types';
+import { faqDisplay, faqPayload } from '../../../../core/utils/types';
 
 @Component({
   selector: 'app-faq-input',
@@ -10,7 +10,7 @@ import { faq, faqPayload } from '../../../../core/utils/types';
 export class FaqInputComponent {
   @Input({ required: true }) postNewFaq = (data: faqPayload) => {};
   @Input({ required: true }) deleteFaq = (id: number) => {};
-  @Input({ required: true }) faqs = signal<faq[]>([]);
+  @Input({ required: true }) faqs = signal<faqDisplay[]>([]);
   newFaq: faqPayload = {
     question: '',
     answer: '',

@@ -10,7 +10,7 @@ import { throwError } from 'rxjs';
   styleUrl: './user-profile-card.component.css',
 })
 export class UserProfileCardComponent {
-  @Input({ required: true }) user = signal<User | null>(null);
+  @Input({ required: true }) user = signal<User | null>(null).asReadonly();
   @Input({ required: true }) logout = (): void => {};
   userService = inject(UserService);
   imageService = inject(ImageService);

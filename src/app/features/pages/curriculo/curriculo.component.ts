@@ -1,4 +1,4 @@
-import { Component, inject, model, signal, computed } from '@angular/core';
+import { Component, inject, model, signal, computed, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CurriculumService } from '../../../core/services/curriculum.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -31,28 +31,28 @@ import { RecursoTemporariamenteIndisponivelComponent } from '../shared/recurso-t
   templateUrl: './curriculo.component.html',
   styleUrl: './curriculo.component.css',
 })
-export class CurriculoComponent {
+export class CurriculoComponent implements OnInit {
   private readonly curriculumService = inject(CurriculumService);
   private readonly authService = inject(AuthService);
   private readonly imageService = inject(ImageService);
 
-  public readonly curriculum = this.curriculumService.curriculum();
-  public readonly fields = this.curriculumService.fields();
+  public readonly curriculum = this.curriculumService.curriculum;
+  public readonly fields = this.curriculumService.fields;
   public readonly isCreateNewFieldSectionOpen = signal(false);
   public readonly editMode = signal(false);
   public readonly userHasPermission = signal(false);
-  public readonly error = this.curriculumService.hasError();
+  public readonly error = this.curriculumService.hasError;
 
   public readonly isLoadingCurriculum =
-    this.curriculumService.isRequestingGet();
-  public readonly isLoadingFields = this.curriculumService.isLoadingFields();
+    this.curriculumService.isRequestingGet;
+  public readonly isLoadingFields = this.curriculumService.isLoadingFields;
 
   public readonly isRequestingPostOrPatch =
-    this.curriculumService.isRequestingCreateOrUpdate();
+    this.curriculumService.isRequestingCreateOrUpdate;
   public readonly isRequestingDelete =
-    this.curriculumService.isRequestingDelete();
+    this.curriculumService.isRequestingDelete;
   
-    public readonly contactItems = this.curriculumService.contactInfo();
+    public readonly contactItems = this.curriculumService.contactInfo;
 
   // ==== Inputs controlados ====
   public newItemLabel = model('');
@@ -62,7 +62,7 @@ export class CurriculoComponent {
   public imagePreview = signal<string | null>(null);
   public newFieldItemsArray: string[] = [];
 
-  constructor() {
+  ngOnInit() {
     this.getAuthorization();
     this.curriculumService.loadCurriculum();
   }

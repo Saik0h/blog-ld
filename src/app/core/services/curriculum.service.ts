@@ -29,30 +29,30 @@ export class CurriculumService {
   private readonly http = inject(HttpClient);
 
   private _isRequestingGet = signal<boolean>(false);
-  public isRequestingGet = this._isRequestingGet.asReadonly;
+  public isRequestingGet = this._isRequestingGet.asReadonly();
 
   private _isRequestingCreateOrUpdate = signal<boolean>(false);
   public isRequestingCreateOrUpdate =
-    this._isRequestingCreateOrUpdate.asReadonly;
+    this._isRequestingCreateOrUpdate.asReadonly();
 
   private _isRequestingDelete = signal<boolean>(false);
-  public isRequestingDelete = this._isRequestingDelete.asReadonly;
+  public isRequestingDelete = this._isRequestingDelete.asReadonly();
 
   private _hasError = signal<boolean>(false);
-  public hasError = this._hasError.asReadonly;
+  public hasError = this._hasError.asReadonly();
 
   private readonly handleError = inject(ErrorService).handleHTTPError;
 
   private _curriciculum = signal<Curriculum | null>(null);
-  public readonly curriculum = this._curriciculum.asReadonly;
+  public readonly curriculum = this._curriciculum.asReadonly();
 
   private _contactInfo = signal<ContactInfo[] | null>(null);
-  public readonly contactInfo = this._contactInfo.asReadonly;
+  public readonly contactInfo = this._contactInfo.asReadonly();
 
   private _fields = signal<Field[] | null>(null);
-  public readonly fields = this._fields.asReadonly;
+  public readonly fields = this._fields.asReadonly();
   private _isLoadingFields = signal<boolean>(false);
-  public readonly isLoadingFields = this._isLoadingFields.asReadonly;
+  public readonly isLoadingFields = this._isLoadingFields.asReadonly();
 
   private readonly handleHttpError = (err: HttpErrorResponse) => {
     this.handleError(err);

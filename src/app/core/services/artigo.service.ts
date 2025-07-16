@@ -24,23 +24,32 @@ import { Router } from '@angular/router';
 })
 export class ArtigoService {
   private http = inject(HttpClient);
-  private readonly url = environment.apiUrl + '/articles';
-  private _isLoading = signal<boolean>(false);
-  public isLoading = this._isLoading.asReadonly;
-  private handleError = inject(ErrorService).handleHTTPError;
-  private _hasError = signal<boolean>(false);
-  public hasError = this._hasError.asReadonly;
   private readonly router = inject(Router);
+  private handleError = inject(ErrorService).handleHTTPError;
+
+  private readonly url = environment.apiUrl + '/articles';
+  
+  private _isLoading = signal<boolean>(false);
+  private _hasError = signal<boolean>(false);
+  private _artigos = signal<Artigo[]>([]);
+  
+  public readonly hasError = this._hasError.asReadonly();
+  public readonly isLoading = this._isLoading.asReadonly();
+  public readonly artigos = this._artigos.asReadonly();
+
   private handleHttpError = (err: HttpErrorResponse) => {
     this.handleError(err);
     this._hasError.set(true);
     return EMPTY;
   };
 
-  getAll = (): Observable<Artigo[]> => {
+  loadAllArticles = (): Observable<Artigo[]> => {
     this._isLoading.set(true);
 
     return this.http.get<Artigo[]>(this.url, { withCredentials: true }).pipe(
+      tap((artigos: Artigo[]) => {
+        this._artigos.set(artigos);
+      }),
       catchError(this.handleHttpError),
       finalize(() => {
         this._isLoading.set(false);

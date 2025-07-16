@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Blog } from '../../../../core/utils/types';
 import { DatePipe, TitleCasePipe } from '@angular/common';
@@ -14,16 +14,16 @@ import { AuthService } from '../../../../core/services/auth.service';
   templateUrl: './blog-details.component.html',
   styleUrl: './blog-details.component.css',
 })
-export class BlogDetailComponent {
+export class BlogDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private server = inject(BlogService);
-  public readonly isLoading = this.server.isLoading();
-  public readonly error = this.server.hasError();
+  public readonly isLoading = this.server.isLoading;
+  public readonly error = this.server.hasError;
   public readonly blog = signal<Blog | null>(null);
   private readonly authService: AuthService = inject(AuthService);
   public readonly hasPermission = signal(false);
   
-  constructor() {
+  ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.server.getOne(+id).subscribe({

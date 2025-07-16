@@ -15,13 +15,18 @@ import { ErrorService } from './error.service';
   providedIn: 'root',
 })
 export class CourseService {
-  private http = inject(HttpClient);
   private readonly url = environment.apiUrl + '/courses';
-  private _isLoading = signal<boolean>(false);
-  public isLoading = this._isLoading.asReadonly;
+  
+  private http = inject(HttpClient);
   private handleError = inject(ErrorService).handleHTTPError;
+  
+  private _isLoading = signal<boolean>(false);
   private _hasError = signal<boolean>(false);
-  public hasError = this._hasError.asReadonly;
+  private _courses = signal<Course[]>([]);
+  
+  public isLoading = this._isLoading.asReadonly();
+  public hasError = this._hasError.asReadonly();
+  public courses = this._courses.asReadonly();
 
   handleHttpError(err: HttpErrorResponse) {
     this.handleError(err);
@@ -29,10 +34,11 @@ export class CourseService {
     return EMPTY;
   }
 
-  getAll = (): Observable<Course[]> => {
+  loadAllCourses = (): Observable<Course[]> => {
     this._isLoading.set(true);
 
     return this.http.get<Course[]>(this.url, { withCredentials: true }).pipe(
+      tap((courses) => this._courses.set(courses)),
       catchError(this.handleHttpError),
       finalize(() => this._isLoading.set(false))
     );

@@ -1,4 +1,4 @@
-import { Component, inject, Signal, signal } from '@angular/core';
+import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { RecursoTemporariamenteIndisponivelComponent } from '../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
 import { Material } from '../../../core/utils/types';
 import { MaterialService } from '../../../core/services/material.service';
@@ -18,23 +18,20 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './materiais.component.html',
   styleUrl: './materiais.component.css',
 })
-export class MateriaisComponent {
+export class MateriaisComponent implements OnInit {
   public readonly title = signal('Materiais Gratuitos');
-  public readonly materials = signal<Material[]>([]);
-
+  
+  private readonly authService = inject(AuthService);
   private readonly server = inject(MaterialService);
-  public readonly isLoading = this.server.isLoading();
-  public readonly error = this.server.hasError();
+  
+  public readonly materials = this.server.materials;
+  public readonly isLoading = this.server.isLoading;
+  public readonly error = this.server.hasError;
   public hasPermission = signal<boolean>(false);
 
-  private readonly authService = inject(AuthService);
 
-  constructor() {
-    this.server.getAll().subscribe({
-      next: (materiais: Material[]) => {
-        this.materials.set(materiais);
-      },
-    });
+  ngOnInit() {
+    this.server.loadAllMaterials().subscribe();
     this.authService.getAuthorization().subscribe({
       next: (isAdmin: boolean) => this.hasPermission.set(isAdmin),
     });

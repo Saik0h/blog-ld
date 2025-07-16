@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Artigo } from '../../../../core/utils/types';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { ResourceEmptyComponent } from '../../shared/resource-empty/resource-empty.component';
@@ -17,20 +17,16 @@ import { ArtigoCardComponent } from './ui/artigo-card/artigo-card.component';
   templateUrl: './artigo-list.component.html',
   styleUrl: './artigo-list.component.css',
 })
-export class ArtigoListComponent {
+export class ArtigoListComponent implements OnInit {
   title = signal('Artigos');
-  artigos = signal<Artigo[]>([]);
-
-  private server = inject(ArtigoService);
-  readonly isLoading = this.server.isLoading();
-  readonly error = this.server.hasError();
   
-  constructor() {
-    this.server.getAll().subscribe({
-      next: (artigos: Artigo[]) => {
-        this.artigos.set(artigos);
-      },
-    });
+  private articleService = inject(ArtigoService);
+  readonly isLoading = this.articleService.isLoading;
+  readonly error = this.articleService.hasError;
+  public readonly artigos = this.articleService.artigos;
+  
+  ngOnInit() {
+    this.articleService.loadAllArticles().subscribe();
   }
 
   //   artigoTest =[

@@ -1,7 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe, TitleCasePipe } from '@angular/common';
-import { throwError } from 'rxjs';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { PageNotFoundComponent } from '../../shared/page-not-found/page-not-found.component';
 import { Artigo, Blog } from '../../../../core/utils/types';
@@ -14,16 +13,16 @@ import { AuthService } from '../../../../core/services/auth.service';
   templateUrl: './artigo-detail.component.html',
   styleUrl: './artigo-detail.component.css',
 })
-export class ArtigoDetailComponent {
+export class ArtigoDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private server = inject(ArtigoService);
   private authService = inject(AuthService);
-  public readonly isLoading = this.server.isLoading();
-  public readonly error = this.server.hasError();
+  public readonly isLoading = this.server.isLoading;
+  public readonly error = this.server.hasError;
   public readonly artigo = signal<Artigo | null>(null);
   public readonly hasPermission = signal(false);
 
-  constructor() {
+  ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.server.getOne(+id).subscribe({
@@ -39,6 +38,7 @@ export class ArtigoDetailComponent {
       });
     }
   }
+  
   delete = () => {
     this.server.delete(+this.artigo()!.id).subscribe();
   };
