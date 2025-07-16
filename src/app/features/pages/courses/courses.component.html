@@ -5,12 +5,12 @@
 
   @if (isLoading()) {
   <app-loading aria-label="Carregando cursos" role="status" />
-  } @if (!isLoading() && error()) {
+  } @else if (error()) {
   <app-recurso-temporariamente-indisponivel
     aria-label="Erro ao carregar os cursos"
     role="alert"
   />
-  } @else if (!isLoading() && courses() && courses().length === 0 && !error()) {
+  } @else if (courses() && courses().length === 0) {
   <app-resource-empty aria-label="Nenhum curso encontrado" />
   } @else {
   <ul class="course-list" role="list">

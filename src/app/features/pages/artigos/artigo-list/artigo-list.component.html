@@ -1,14 +1,14 @@
 <h3>{{ title() }}</h3>
 @if(isLoading()){
 <app-loading />
-} @else if(error()) {
-  <app-recurso-temporariamente-indisponivel />
-  }
-@else if (!isLoading() && artigos() && artigos().length === 0) {
-  <app-resource-empty />
-} @else if(!isLoading() && artigos() && artigos().length > 0) {
-  <section>
-    @for (artigo of artigos(); track artigo.id){
-      <app-artigo-card [artigo]="artigo" /> }
-    </section>
-  } 
+} @else if(!artigos() && error()) {
+<app-recurso-temporariamente-indisponivel />
+}
+@else if (!isLoading() && artigos().length === 0) {
+<app-resource-empty />
+} @else if(!isLoading() && artigos().length > 0) {
+<section>
+  @for (artigo of artigos(); track artigo.id){
+  <app-artigo-card [artigo]="artigo" /> }
+</section>
+}

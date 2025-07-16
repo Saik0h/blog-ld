@@ -36,9 +36,9 @@ export class BlogService {
   private _hasError = signal<boolean>(false);
   private _blogs = signal<Blog[]>([]);
 
-  public readonly blogs = this._blogs.asReadonly;
-  public readonly isLoading = this._isLoading.asReadonly;
-  public readonly hasError = this._hasError.asReadonly;
+  public readonly blogs = this._blogs.asReadonly();
+  public readonly isLoading = this._isLoading.asReadonly();
+  public readonly hasError = this._hasError.asReadonly();
 
   private handleHttpError = (err: HttpErrorResponse) => {
     this.handleError(err);
