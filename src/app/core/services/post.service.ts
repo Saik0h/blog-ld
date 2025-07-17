@@ -13,12 +13,13 @@ import { catchError, EMPTY, finalize, Observable, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from './error.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PostService {
-  baseUrl = 'https://localhost:3000';
+  baseUrl = environment.apiUrl;
   private readonly http = inject(HttpClient);
   private readonly courseService = inject(CourseService);
   private readonly materialService = inject(MaterialService);
@@ -41,7 +42,7 @@ export class PostService {
     data: BlogCreatePayload
   ): Observable<PostCreatedResponse> => {
     this._isLoading.set(true);
-    const url = this.baseUrl + '/api/blogs';
+    const url = this.baseUrl + '/blogs';
     return this.http
       .post<PostCreatedResponse>(url, data, { withCredentials: true })
       .pipe(
@@ -56,7 +57,7 @@ export class PostService {
     data: ArtigoCreatePayload
   ): Observable<PostCreatedResponse> => {
     this._isLoading.set(true);
-    const url = this.baseUrl + '/api/articles';
+    const url = this.baseUrl + '/articles';
     return this.http
       .post<PostCreatedResponse>(url, data, { withCredentials: true })
       .pipe(
