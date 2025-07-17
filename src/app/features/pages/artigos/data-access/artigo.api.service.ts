@@ -6,13 +6,14 @@ import {
   ArtigoUpdatePayload,
   Message,
 } from '../../../../core/utils/types';
+import { environment } from '../../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArtigoApiService {
   private http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:3000/api/articles';
+  private readonly baseUrl = environment.apiUrl + '/articles';
 
   getAllArticles = (): Observable<Artigo[]> => {
     return this.http.get<Artigo[]>(this.baseUrl, { withCredentials: true });
