@@ -1,12 +1,11 @@
 <h3>{{ title() }}</h3>
 @if(isLoading()){
 <app-loading />
-} @else if(!artigos() && error()) {
+} @else if(artigos() === null) {
 <app-recurso-temporariamente-indisponivel />
-}
-@else if (!isLoading() && artigos().length === 0) {
+} @else if (!isLoading() && artigos()!.length === 0) {
 <app-resource-empty />
-} @else if(!isLoading() && artigos().length > 0) {
+} @else if(!isLoading() && artigos()!.length > 0) {
 <section>
   @for (artigo of artigos(); track artigo.id){
   <app-artigo-card [artigo]="artigo" /> }

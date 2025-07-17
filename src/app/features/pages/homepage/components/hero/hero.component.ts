@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ButtonComponent } from '../../../../../core/components/shared/button.component';
+import { ButtonComponent } from '../../../../../core/shared/button.component';
 
 @Component({
   selector: 'app-hero',

@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ButtonComponent } from '../shared/button.component';
-import { HamburgerMenuComponent } from '../menu-hamburger/menu-hamburguer.component';
+import { ButtonComponent } from '../../shared/button.component';
+import { HamburgerMenuComponent } from './menu-hamburger/menu-hamburguer.component';
 
 @Component({
   selector: 'app-header',

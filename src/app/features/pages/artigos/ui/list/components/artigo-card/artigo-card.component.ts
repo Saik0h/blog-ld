@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Artigo } from '../../../../../../core/utils/types';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Artigo } from '../../../../../../../core/utils/types';
 
 @Component({
   selector: 'app-artigo-card',

@@ -1,11 +1,22 @@
-<div class="overlay">
-    <div class="modal">
-        <h2>
-            Mensagem Enviada!
-        </h2>
-        <p>
-            Obrigado por entrar em contato conosco, adoramos ouvir de você.
-        </p>
-        <a routerLink="/">Voltar para a página inicial</a>
-    </div>
+@if(isOpen()){
+<div
+  class="overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+  aria-describedby="modal-desc"
+  (click)="onOverlayClick($event)"
+>
+  <div class="modal" tabindex="-1" #modalContent>
+    <header>
+      <h2 id="modal-title">Mensagem Enviada!</h2>
+    </header>
+    <main id="modal-desc">
+      <p>Obrigado por entrar em contato conosco, adoramos ouvir de você.</p>
+    </main>
+    <footer>
+      <a routerLink="/" class="return-link">Voltar para a página inicial</a>
+    </footer>
+  </div>
 </div>
+}

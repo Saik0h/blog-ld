@@ -33,7 +33,9 @@ export class RefreshService {
         switchMap(() => retryRequest()),
         catchError((err) => {
           this.isRefreshing = false;
-          this.authService.forceLogout();
+          this.refreshSubject.error(err);
+          this.refreshSubject = new BehaviorSubject<boolean>(false);
+          this.authService.forceLogout().subscribe();
           return throwError(() => err);
         })
       );

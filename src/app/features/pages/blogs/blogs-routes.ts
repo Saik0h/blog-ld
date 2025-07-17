@@ -7,7 +7,7 @@ export const routes: Routes = [
     data: { animation: 'ListaBlog' },
 
     loadComponent: async () => {
-      return import('./blog-list/blog-list.component').then(
+      return import('./ui/list/blog-list.component').then(
         (m) => m.BlogListComponent
       );
     },
@@ -16,7 +16,7 @@ export const routes: Routes = [
     path: ':id',
     data: { animation: 'Blog' },
     loadComponent: async () => {
-      return import('./blog-details/blog-details.component').then(
+      return import('./ui/details/blog-details.component').then(
         (m) => m.BlogDetailComponent
       );
     },

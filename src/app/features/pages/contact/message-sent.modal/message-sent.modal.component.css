@@ -1,57 +1,73 @@
+/* Overlay cobre toda a tela com fundo semitransparente */
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0; /* top:0; right:0; bottom:0; left:0; */
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
-  animation: fadeInOverlay 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease forwards;
 }
 
+/* Container do modal */
 .modal {
-  background-color: var(--color-light);
-  padding: 2.5rem;
-  border-radius: 16px;
-  max-width: 450px;
+  background-color: hsl(60, 100%, 97%);
+  color: hsl(204, 86%, 6%);
+  border-radius: 12px;
   width: 90%;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  text-align: center;
-  animation: slideIn 0.4s ease-out;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 400px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  outline: none; /* Remova se usar foco manualmente */
+  animation: slideIn 0.3s ease forwards;
 }
 
-.modal h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  color: var(--color-accent);
+/* Cabeçalho do modal */
+header h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: hsl(204, 86%, 6%);
 }
 
-.modal p {
+/* Conteúdo principal */
+main p {
+  margin: 0 0 1.5rem 0;
   font-size: 1rem;
-  margin-bottom: 1.5rem;
-  color: var(--color-dark);
+  line-height: 1.5;
+  color: hsl(45, 7%, 35%);
 }
 
-.modal a {
+/* Rodapé com link */
+footer {
+  text-align: center;
+}
+
+/* Link estilo botão */
+.return-link {
   display: inline-block;
-  background-color: var(--color-accent);
-  color: var(--color-light);
-  padding: 0.6rem 1.4rem;
+  padding: 0.6rem 1.2rem;
+  background-color: hsl(35, 100%, 55%);
+  color: white;
   text-decoration: none;
-  border-radius: 8px;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
 }
 
-.modal a:hover {
-  background-color: darken(var(--color-accent));
+.return-link:hover,
+.return-link:focus {
+  background-color: hsl(35, 100%, 45%);
+  outline: none;
+  box-shadow: 0 0 0 3px hsla(35, 100%, 55%, 0.5);
 }
 
-@keyframes fadeInOverlay {
+/* Animações suaves */
+@keyframes fadeIn {
   from {
     opacity: 0;
   }
@@ -63,10 +79,21 @@
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .modal {
+    padding: 1.5rem 1.5rem;
+  }
+
+  header h2 {
+    font-size: 1.5rem;
   }
 }

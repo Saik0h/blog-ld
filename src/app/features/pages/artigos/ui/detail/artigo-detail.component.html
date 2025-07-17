@@ -1,6 +1,6 @@
 @if(isLoading()){
-  <app-loading />
-} @else if(artigo()) {
+<app-loading />
+} @else if(artigo() !== null) {
 <article class="article-detail">
   <header class="article-header">
     <figure class="author">
@@ -24,7 +24,9 @@
         [src]="artigo()!.image"
         [alt]="artigo()!.title"
       />
-      <figcaption class="image-caption" [hidden]="true">{{ artigo()!.title }}</figcaption>
+      <figcaption class="image-caption" [hidden]="true">
+        {{ artigo()!.title }}
+      </figcaption>
     </figure>
     <p class="article-text">{{ artigo()!.text }}</p>
   </section>
@@ -33,7 +35,7 @@
     <p class="publish-date">
       Publicado em:
       <time [attr.datetime]="artigo()!.createdAt">
-        {{ artigo()!.createdAt | date:'shortDate' }}
+        {{ artigo()!.createdAt | date : "shortDate" }}
       </time>
     </p>
 
@@ -41,7 +43,7 @@
       <h2>Referências</h2>
       <ul class="reference-list">
         @for (r of artigo()!.references; track r.id) {
-          <li class="reference-item">{{ r.name }}</li>
+        <li class="reference-item">{{ r.name }}</li>
         }
       </ul>
     </section>
@@ -49,16 +51,12 @@
     <section class="article-tags">
       <ul class="tag-list">
         @for (t of artigo()!.tags; track t.id) {
-          <li class="tag-item">#{{ t.name }}</li>
+        <li class="tag-item">#{{ t.name }}</li>
         }
       </ul>
     </section>
   </footer>
-
-  @if(hasPermission()){
-    <button class="delete-button" (click)="delete()">Remover Artigo</button>
-  }
 </article>
 } @else {
-  <app-page-not-found />
+<app-page-not-found />
 }

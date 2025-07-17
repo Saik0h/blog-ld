@@ -5,7 +5,7 @@ export const routes: Routes = [
     path: '',
     data: { animation: 'ListaArtigo' },
     loadComponent: async () => {
-      return import('./artigo-list/artigo-list.component').then(
+      return import('./ui/list/artigo-list.component').then(
         (m) => m.ArtigoListComponent
       );
     },
@@ -14,7 +14,7 @@ export const routes: Routes = [
     path: ':id',
     data: { animation: 'Artigo' },
     loadComponent: async () => {
-      return import('./artigo-detail/artigo-detail.component').then(
+      return import('./ui/detail/artigo-detail.component').then(
         (m) => m.ArtigoDetailComponent
       );
     },

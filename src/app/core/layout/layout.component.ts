@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { fadeAnimation } from '../animations/route-animations';
 import { UserWidgetComponent } from "./user-widget/user-widget.component";
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -25,7 +26,10 @@ import { UserWidgetComponent } from "./user-widget/user-widget.component";
     `,
   ],
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnInit {
+  private authService = inject(AuthService);
+  ngOnInit(): void {
+  }
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData?.['animation'];
   }
