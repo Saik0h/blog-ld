@@ -11,7 +11,8 @@ import { BlogListStoreService } from '../../data-access/blog-list.store.service'
     LoadingComponent,
     ResourceEmptyComponent,
     BlogCardComponent,
-  ],
+    RecursoTemporariamenteIndisponivelComponent
+],
   templateUrl: './blog-list.component.html',
   styleUrl: './blog-list.component.css',
 })
@@ -24,5 +25,6 @@ export class BlogListComponent implements OnInit {
 
   ngOnInit() {
     this.blogService.loadAllBlogs();
+    console.log(this.blogs());
   }
 }

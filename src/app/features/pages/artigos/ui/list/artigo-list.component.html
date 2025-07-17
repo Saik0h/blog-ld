@@ -1,13 +1,13 @@
-<h3>{{ title() }}</h3>
-@if(isLoading()){
+@if(isLoading() && !artigos()){
 <app-loading />
-} @else if(artigos() === null) {
-<app-recurso-temporariamente-indisponivel />
-} @else if (!isLoading() && artigos()!.length === 0) {
-<app-resource-empty />
-} @else if(!isLoading() && artigos()!.length > 0) {
+}@else if (artigos()) {
 <section>
   @for (artigo of artigos(); track artigo.id){
   <app-artigo-card [artigo]="artigo" /> }
+  @empty {
+  <app-resource-empty />
+  }
 </section>
+} @else {
+<app-recurso-temporariamente-indisponivel aria-label="Erro ao carregar os blogs" role="alert" />
 }
