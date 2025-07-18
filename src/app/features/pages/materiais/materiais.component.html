@@ -1,21 +1,16 @@
-<section class="material-section" aria-labelledby="material-section-title">
-  <h3 id="material-section-title">{{ title() }}</h3>
-
-  @if (isLoading()) {
-  <app-loading />
-  } @else if (!isLoading() && error()) {
-  <app-recurso-temporariamente-indisponivel />
-  } @else if (!isLoading() && materials() && materials().length === 0) {
-  <app-resource-empty />
-  } @else {
-  <ul class="material-list" role="list">
-    @for (material of materials(); track material.id) {
-    <app-material-card
-      [material]="material"
-      [canDelete]="hasPermission()"
-      [delete]="deleteFunction"
-    />
-    }
-  </ul>
+@if (!hasMaterials() && isLoading()) {
+<app-loading aria-label="Carregando materiais" role="status" />
+} @else if (hasMaterials()) { @if (materials() && materials()!.length > 0) {
+<ul class="material-list" role="list">
+  @for (material of materials(); track material.id) {
+  <app-material-card
+    [material]="material"
+    [canDelete]="hasPermission()"
+  />
   }
-</section>
+</ul>
+} @else {
+<app-resource-empty />
+} } @else {
+<app-recurso-temporariamente-indisponivel />
+}

@@ -9,7 +9,7 @@ import { BlogApiService } from './blog.api.service';
 export class BlogListStoreService {
   private readonly api = inject(BlogApiService);
 
-  private _blogs = signal<Blog[]>([]);
+  private _blogs = signal<Blog[] | null>(null);
   public readonly blogs = this._blogs.asReadonly();
 
   private _isLoading = signal<boolean>(false);

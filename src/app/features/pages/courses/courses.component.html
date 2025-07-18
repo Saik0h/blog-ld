@@ -1,4 +1,3 @@
-
 <section class="course-section" aria-labelledby="course-section-title">
   <h3 id="course-section-title" class="course-section__title">
     {{ title() }}
@@ -6,22 +5,19 @@
 
   @if (isLoading()) {
   <app-loading aria-label="Carregando cursos" role="status" />
-  } @else if (error()) {
-  <app-recurso-temporariamente-indisponivel
-    aria-label="Erro ao carregar os cursos"
-    role="alert"
-  />
-  } @else if (courses() && courses().length === 0) {
-  <app-resource-empty aria-label="Nenhum curso encontrado" />
-  } @else {
+  } @else { @if (hasCourses()) {
   <ul class="course-list" role="list">
-    @for (course of courses(); track course.id) {
+    @for (course of coursesMemo(); track course.id) {
     <app-course-card
       [course]="course"
       [delCourse]="delete"
       [hasPermission]="userHasPermission()"
     />
+    } @empty {
+    <app-resource-empty aria-label="Nenhum curso encontrado" />
     }
   </ul>
-  }
+  } @else {
+  <app-recurso-temporariamente-indisponivel />
+  } }
 </section>

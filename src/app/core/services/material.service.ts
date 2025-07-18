@@ -22,7 +22,7 @@ export class MaterialService {
 
   private _isLoading = signal<boolean>(false);
   private _hasError = signal<boolean>(false);
-  private _materials = signal<Material[]>([]);
+  private _materials = signal<Material[] | null>(null);
 
   public readonly isLoading = this._isLoading.asReadonly();
   public readonly hasError = this._hasError.asReadonly();
@@ -34,7 +34,7 @@ export class MaterialService {
     return EMPTY;
   };
 
-  loadAllMaterials = (): Observable<Material[]> => {
+  loadAllMaterials = () => {
     this._isLoading.set(true);
 
     return this.http.get<Material[]>(this.url, { withCredentials: true }).pipe(
@@ -42,7 +42,7 @@ export class MaterialService {
       finalize(() => {
         this._isLoading.set(false);
       })
-    );
+    ).subscribe();
   };
 
   create = (data: MaterialCreatePayload): Observable<PostCreatedResponse> => {
@@ -53,7 +53,7 @@ export class MaterialService {
 
   getOne = (id: number): Observable<Material> => {
     const url = `${this.url}/${id}`;
-    this._isLoading.set(true)
+    this._isLoading.set(true);
 
     return this.http.get<Material>(url, { withCredentials: true }).pipe(
       catchError(this.handleHttpError),

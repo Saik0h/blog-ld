@@ -3,8 +3,16 @@
     <h2 id="about-title" class="about__title">{{ title() }}</h2>
     <p class="about__description">{{ description() }}</p>
   </div>
-
   <div class="about__img-wrapper">
-    <img [src]="imageUrl()" [alt]="title() || 'Imagem sobre nós'" />
+    <img
+      [src]="imageUrl()"
+      [alt]="title() || 'Imagem sobre nós'"
+      (load)="onImageLoad()"
+      [class.loaded]="imgLoaded()"
+      loading="lazy"
+    />
   </div>
+  @if (!imgLoaded) {
+  <div class="placeholder"></div>
+  }
 </section>

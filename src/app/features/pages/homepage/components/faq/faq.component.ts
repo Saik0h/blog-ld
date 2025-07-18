@@ -21,12 +21,14 @@ export class FaqComponent implements OnInit {
   readonly isLoading = this.faqService.isLoading;
   public readonly error = this.faqService.hasError;
   public faqs = this.faqService.faqs;
-  
+
   ngOnInit() {
-    this.faqService.getAllFaqs().subscribe();
+    this.faqService.getAllFaqs();
   }
 
-  toggle(item: any) {
-    item.open = !item.open;
+  toggle(item: faqDisplay) {
+    this.faqs.update((list) =>
+      list.map((faq) => (faq === item ? { ...faq, open: !faq.open } : faq))
+    );
   }
 }

@@ -21,30 +21,30 @@ export class FaqService {
   public isLoading = this._isLoading.asReadonly();
   public hasError = this._hasError.asReadonly();
 
-
   private handleHttpError = (err: HttpErrorResponse) => {
     this.handleError(err);
     this._hasError.set(true);
     return EMPTY;
-  }
+  };
 
-  getAllFaqs = (): Observable<faqDisplay[]> => {
+  getAllFaqs = (): void => {
     this._isLoading.set(true);
 
-    return this.http.get<faqDisplay[]>(this.url).pipe(
-      map((faqs): faqDisplay[] =>
-        faqs.map((newFaq) => {
-          const faqItem: faqDisplay = {
-            ...newFaq,
-            open: false
-          }
-          return faqItem
-        })
-      ),
-      tap((faqs) => this.faqs.set(faqs)),
-      catchError(this.handleHttpError),
-      finalize(() => this._isLoading.set(false))
-    );
+    const obs = this.http
+      .get<faqDisplay[]>(this.url)
+      .pipe(
+        map((faqs): faqDisplay[] =>
+          faqs.map((faq) => ({
+            ...faq,
+            open: false,
+          }))
+        ),
+        tap((faqs) => this.faqs.set(faqs)),
+        catchError(this.handleHttpError),
+        finalize(() => this._isLoading.set(false))
+      )
+      
+      obs.subscribe();
   };
 
   postFaq = (data: faqPayload): Observable<Message> => {
@@ -57,7 +57,6 @@ export class FaqService {
       catchError(this.handleHttpError),
       finalize(() => this._isLoading.set(false))
     );
-
   };
 
   deleteFaq = (id: number): Observable<Message> => {

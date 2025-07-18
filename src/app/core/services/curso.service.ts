@@ -16,14 +16,14 @@ import { ErrorService } from './error.service';
 })
 export class CourseService {
   private readonly url = environment.apiUrl + '/courses';
-  
+
   private http = inject(HttpClient);
   private handleError = inject(ErrorService).handleHTTPError;
-  
+
   private _isLoading = signal<boolean>(false);
   private _hasError = signal<boolean>(false);
-  private _courses = signal<Course[]>([]);
-  
+  private _courses = signal<Course[] | null>(null);
+
   public isLoading = this._isLoading.asReadonly();
   public hasError = this._hasError.asReadonly();
   public courses = this._courses.asReadonly();
@@ -34,14 +34,17 @@ export class CourseService {
     return EMPTY;
   }
 
-  loadAllCourses = (): Observable<Course[]> => {
+  loadAllCourses = (): void => {
     this._isLoading.set(true);
 
-    return this.http.get<Course[]>(this.url, { withCredentials: true }).pipe(
-      tap((courses) => this._courses.set(courses)),
-      catchError(this.handleHttpError),
-      finalize(() => this._isLoading.set(false))
-    );
+    this.http
+      .get<Course[]>(this.url, { withCredentials: true })
+      .pipe(
+        tap((courses) => this._courses.set(courses)),
+        catchError(this.handleHttpError),
+        finalize(() => this._isLoading.set(false))
+      )
+      .subscribe();
   };
 
   create = (data: CourseCreatePayload): Observable<Message> => {
@@ -65,13 +68,17 @@ export class CourseService {
       .pipe(catchError(this.handleHttpError));
   };
 
-  delete = (id: number): Observable<Message> => {
+  delete = (id: number): void => {
     const url = `${this.url}/${id}`;
     this._isLoading.set(true);
-    return this.http.delete<Message>(url, { withCredentials: true }).pipe(
-      tap((res) => console.log(res)),
-      catchError(this.handleHttpError),
-      finalize(() => this._isLoading.set(false))
-    );
+
+    this.http
+      .delete<Message>(url, { withCredentials: true })
+      .pipe(
+        tap((res) => console.log(res)),
+        catchError(this.handleHttpError),
+        finalize(() => this._isLoading.set(false))
+      )
+      .subscribe();
   };
 }

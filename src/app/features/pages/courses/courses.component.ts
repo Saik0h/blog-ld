@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RecursoTemporariamenteIndisponivelComponent } from '../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
 import { Course } from '../../../core/utils/types';
 import { CourseService } from '../../../core/services/curso.service';
@@ -20,25 +20,31 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class CoursesComponent implements OnInit {
   public readonly title = signal('Cursos');
-  private server = inject(CourseService);
+  private courseService = inject(CourseService);
   private readonly authService = inject(AuthService);
 
-
   public readonly userHasPermission = signal(false);
-  public readonly isLoading = this.server.isLoading;
-  public readonly error = this.server.hasError;
-  readonly courses = this.server.courses;
-
+  public readonly isLoading = this.courseService.isLoading;
+  public readonly error = this.courseService.hasError;
+  readonly courses = this.courseService.courses;
 
   ngOnInit() {
     this.authService.getAuthorization().subscribe({
-      next: (res) => this.userHasPermission.set(res)
-    })
-    this.server.loadAllCourses().subscribe();
-
+      next: (res) => this.userHasPermission.set(res),
+    });
+    this.courseService.loadAllCourses();
   }
 
+  readonly coursesMemo = computed(() => this.courses());
+
+  readonly hasCourses = computed(() => {
+    const list = this.courses();
+    return list && list.length > 0;
+  });
+
+  hasError = computed(() => !!this.error());
+
   delete = (id: string) => {
-    this.server.delete(+id).subscribe();
+    this.courseService.delete(+id);
   };
 }

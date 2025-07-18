@@ -1,13 +1,7 @@
 <section class="faq" aria-labelledby="faq-title">
   <h2 id="faq-title" class="faq-title">Perguntas Frequentes</h2>
 
-  @if (isLoading()) {
-  <app-loading />
-  }@else if(error()){
-  <app-recurso-temporariamente-indisponivel />
-  } @else if(!isLoading() && faqs() && faqs()!.length === 0) {
-  <app-resource-empty />
-  }@else if(!isLoading() && faqs() && faqs()!.length > 0) {
+  @defer (on idle) {
   <dl class="faq-list">
     @for(item of faqs(); track item.question){
     <div class="faq-item" [class.open]="item.open">
@@ -27,7 +21,15 @@
         </div>
       </dd>
     </div>
+    } @empty {
+    <app-resource-empty />
     }
   </dl>
+  } @placeholder {
+  <app-loading />
+  } @loading {
+  <app-loading />
+  } @error {
+  <app-recurso-temporariamente-indisponivel />
   }
 </section>

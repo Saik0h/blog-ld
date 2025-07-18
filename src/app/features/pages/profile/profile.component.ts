@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getUser().subscribe();
-    this.faqService.getAllFaqs().subscribe();
+    this.faqService.getAllFaqs()
   }
 
   createFaq = (data: faqPayload) => {

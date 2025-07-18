@@ -59,3 +59,36 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.about__img-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 200px; /* para evitar "pulo" no layout */
+  overflow: hidden;
+}
+
+.about__img-wrapper img {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.about__img-wrapper img.loaded {
+  opacity: 1;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #ccc, #eee);
+  animation: pulse 1.2s infinite ease-in-out;
+  z-index: 1;
+}
+
+/* animação leve */
+@keyframes pulse {
+  0%, 100% { opacity: 0.9; }
+  50%      { opacity: 0.6; }
+}
