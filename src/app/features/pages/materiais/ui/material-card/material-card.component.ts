@@ -9,7 +9,7 @@ import { Material } from '../../../../../core/utils/types';
 export class MaterialCardComponent {
   @Input({ required: true }) material!: Material;
   @Input({ required: true }) canDelete!: boolean;
-  // @Input({ required: true }) delete = (id: number) => void {};
+  @Input({ required: true }) delete = (id: string): void =>  {};
 
   deleteMaterial = () => {
     // this.delete(+this.material.id);

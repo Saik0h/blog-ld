@@ -14,7 +14,7 @@ export class UserWidgetComponent implements OnInit {
   public readonly isUserLoggedIn = this.authService.isLoggedIn;
   
   ngOnInit() {
-    this.authService.getUser().subscribe()
+   this.authService.initialize()
   }
 
   logout() {

@@ -1,0 +1,11 @@
+<section class="artigo-list">
+  @if(isLoading() && !artigos()) {
+  <app-loading />
+  } @else if (artigos()) { @for (artigo of artigos(); track artigo.id){
+  <app-artigo-card [artigo]="artigo" />
+  } @empty {
+  <app-resource-empty />
+  }}@else {
+    <app-recurso-temporariamente-indisponivel />
+  }
+</section>

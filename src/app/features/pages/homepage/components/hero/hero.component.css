@@ -1,5 +1,5 @@
 .hero {
-  background-image: url("/homepage.jpg");
+  background-image: url("/homepage.webp");
   transform: translateY(-90px);
   background-size: cover;
   background-position: center;
@@ -11,29 +11,10 @@
   overflow: hidden;
   position: relative;
 
-  /* não mais necessário aqui */
-  /* opacity: 0; */
-  /* transition: opacity 1s ease-in-out; */
-}
-
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.4); /* escurece */
-  backdrop-filter: blur(8px);          /* desfoca */
-  transition: all 1s ease;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.hero.loaded::before {
-  background-color: rgba(0, 0, 0, 0); /* remove escurecimento */
-  backdrop-filter: blur(0px);        /* remove desfoque */
 }
 
 .hero .overlay {
-  position: relative; /* para ficar acima do ::before */
+  position: relative; 
   z-index: 1;
   background-color: #00000066;
   width: 100%;

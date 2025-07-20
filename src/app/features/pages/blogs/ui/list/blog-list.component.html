@@ -1,15 +1,19 @@
-<h3>{{ title() }}</h3>
-@if(isLoading() && !blogs()){
-<app-loading aria-label="Carregando blogs" role="status" />
-}@else if(blogs()) {
-  <section>
-    @for (blog of blogs(); track blog.id){
-    <app-blog-card [blog]="blog" />
-    } @empty {
-    <app-resource-empty aria-label="Nenhum blog encontrado" />
+<section>
+  <header>
+    <h3>{{ title() }}</h3>
+  </header>
+  <div>
+    @defer(on idle) {
+    <app-blog-list />
+    } @placeholder {
+    <app-loading aria-label="Carregando artigos" role="status" />
+    } @loading {
+      <app-loading aria-label="Carregando artigos" role="status" />
     }
-  </section>
-  } @else {
-  <app-recurso-temporariamente-indisponivel aria-label="Erro ao carregar os blogs" role="alert" />
-}
-
+    @error {
+    <app-recurso-temporariamente-indisponivel
+      aria-label="Erro ao carregar os artigos"
+      role="alert"
+    />}
+  </div>
+</section>

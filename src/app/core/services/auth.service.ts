@@ -1,13 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import {
-  catchError,
-  EMPTY,
-  finalize,
-  map,
-  Observable,
-  tap,
-} from 'rxjs';
+import { catchError, EMPTY, finalize, map, Observable, tap } from 'rxjs';
 import { LoginPayload, RegisterPayload, User, Message } from '../utils/types';
 import { environment } from '../../../environments/environment.development';
 import { ErrorService } from './error.service';
@@ -78,6 +71,19 @@ export class AuthService {
       );
 
     return obs;
+  };
+
+  initialize = () => {
+    this.status().subscribe((isLoggedIn) => {
+      this._isLoggedIn.set(isLoggedIn);
+      if (isLoggedIn) {
+        this.getUser().subscribe();
+      } else {
+        this.forceLogout().subscribe(() => {
+          this._user.set(null);
+        });
+      }
+    });
   };
 
   status = (): Observable<boolean> => {
@@ -153,7 +159,7 @@ export class AuthService {
     return this.http.post<Message>(url, {}, { withCredentials: true }).pipe(
       catchError(this.handleHttpError),
       finalize(() => {
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/']);
         this._isLoggedIn.set(false);
         this._isLoading.set(false);
       })

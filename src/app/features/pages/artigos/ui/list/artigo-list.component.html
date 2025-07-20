@@ -1,13 +1,19 @@
-@if(isLoading() && !artigos()){
-<app-loading />
-}@else if (artigos()) {
 <section>
-  @for (artigo of artigos(); track artigo.id){
-  <app-artigo-card [artigo]="artigo" /> }
-  @empty {
-  <app-resource-empty />
-  }
+  <header>
+    <h3>{{ title() }}</h3>
+  </header>
+  <div>
+    @defer(on idle) {
+    <app-list />
+    } @placeholder {
+    <app-loading aria-label="Carregando artigos" role="status" />
+    } @loading {
+      <app-loading aria-label="Carregando artigos" role="status" />
+    }
+    @error {
+    <app-recurso-temporariamente-indisponivel
+      aria-label="Erro ao carregar os artigos"
+      role="alert"
+    />}
+  </div>
 </section>
-} @else {
-<app-recurso-temporariamente-indisponivel aria-label="Erro ao carregar os blogs" role="alert" />
-}

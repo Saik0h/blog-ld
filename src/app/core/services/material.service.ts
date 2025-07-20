@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, EMPTY, finalize, Observable } from 'rxjs';
+import { catchError, EMPTY, finalize, Observable, tap } from 'rxjs';
 import {
   Material,
   MaterialCreatePayload,
@@ -36,7 +36,7 @@ export class MaterialService {
 
   loadAllMaterials = () => {
     this._isLoading.set(true);
-
+console.log('Loading all materials...');
     return this.http.get<Material[]>(this.url, { withCredentials: true }).pipe(
       catchError(this.handleHttpError),
       finalize(() => {

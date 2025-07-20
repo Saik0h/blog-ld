@@ -1,15 +1,20 @@
 <header class="header">
   <nav class="header__nav" aria-label="Main navigation">
     <a class="header__logo" [routerLink]="'/'" aria-label="Home">
-      <img [src]="url" [alt]="'Logo da empresa'" />
+      <img
+        [src]="url"
+        [alt]="'Logo da empresa'"
+        loading="eager"
+        fetchpriority="high"
+      />
     </a>
 
     <div class="header__actions">
       <ul class="header__link-list">
         @for (l of headerLinks(); track $index) {
-          <li class="header__link-item">
-            <a [routerLink]="l.path" class="header__link">{{ l.label }}</a>
-          </li>
+        <li class="header__link-item">
+          <a [routerLink]="l.path" class="header__link">{{ l.label }}</a>
+        </li>
         }
       </ul>
 

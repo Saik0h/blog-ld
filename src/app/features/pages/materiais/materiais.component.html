@@ -1,16 +1,19 @@
-@if (!hasMaterials() && isLoading()) {
-<app-loading aria-label="Carregando materiais" role="status" />
-} @else if (hasMaterials()) { @if (materials() && materials()!.length > 0) {
-<ul class="material-list" role="list">
-  @for (material of materials(); track material.id) {
-  <app-material-card
-    [material]="material"
-    [canDelete]="hasPermission()"
-  />
-  }
-</ul>
-} @else {
-<app-resource-empty />
-} } @else {
-<app-recurso-temporariamente-indisponivel />
-}
+<section>
+  <header>
+    <h3>{{ title() }}</h3>
+  </header>
+  <div>
+    @defer(on idle) {
+    <app-materiais-list-loader />
+    } @placeholder {
+    <app-loading aria-label="Carregando artigos" role="status" />
+    } @loading {
+      <app-loading aria-label="Carregando artigos" role="status" />
+    }
+    @error {
+    <app-recurso-temporariamente-indisponivel
+      aria-label="Erro ao carregar os artigos"
+      role="alert"
+    />}
+  </div>
+</section>

@@ -1,0 +1,11 @@
+<section class="blog-list">
+  @if(isLoading() && !blogs()) {
+  <app-loading />
+  } @else if (blogs()) { @for (blog of blogs(); track blog.id){
+  <app-blog-card [blog]="blog" />
+  } @empty {
+  <app-resource-empty />
+  }}@else {
+  <app-recurso-temporariamente-indisponivel />
+  }
+</section>
