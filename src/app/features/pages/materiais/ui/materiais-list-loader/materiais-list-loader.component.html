@@ -1,15 +1,19 @@
 <section class="materials-list">
-  @if(isLoading() && hasMaterials()) {
+  @if(isLoading() && !hasMaterials()) {
   <app-loading />
-  } @else if (materials()) { @for (m of materials(); track m.id){
-  <app-material-card
-    [material]="m"
-    [canDelete]="hasPermission()"
-    [delete]="deleteFunction"
-  />
-  } @empty {
-  <app-resource-empty />
-  }}@else {
+  } @else if (materials()) {
+  <section>
+    @for (m of materials(); track m.id){
+    <app-material-card
+      [material]="m"
+      [canDelete]="hasPermission()"
+      [delete]="deleteFunction"
+    />
+    }@empty {
+    <app-resource-empty />
+    }
+  </section>
+  }@else {
   <app-recurso-temporariamente-indisponivel />
   }
 </section>

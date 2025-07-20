@@ -1,0 +1,96 @@
+@if(isLoading()){
+<app-loading />
+} @else {
+<div class="contact-info">
+  @if(contactItems() && !isEditModeOn()){ 
+    @for (i of contactItems(); track i.id)
+  {
+  <p>
+    {{ i.platform }}: <a [href]="i.link" target="_blank">{{ i.label }}</a>
+  </p>
+  } } @else if(isEditModeOn()){ @for(item of contactItems(); track item.id){
+  <fieldset class="field">
+    <legend>
+      <button
+        [disabled]="isLoading()"
+        (click)="deleteContactItem(item.id)"
+        [class]="isLoading() ? 'btn-loading' : ''"
+      >
+        {{ isLoading() ? "" : "Remover" }}
+      </button>
+      <button
+        [disabled]="isLoading()"
+        (click)="updateContactItem(item)"
+        [class]="isLoading() ? 'btn-loading' : ''"
+      >
+        {{ isLoading() ? "" : "Atualizar" }}
+      </button>
+    </legend>
+    <label [for]="item.platform">Plataforma</label>
+    <input
+      [(ngModel)]="item.platform"
+      placeholder="Plataforma"
+      type="text"
+      [id]="item.platform"
+    />
+
+    <label [for]="item.label">Tag ou nome:</label>
+    <input
+      [(ngModel)]="item.label"
+      placeholder="Nome"
+      type="text"
+      [id]="item.label"
+    />
+
+    <label [for]="item.link">Link</label>
+    <input
+      [(ngModel)]="item.link"
+      placeholder="Link"
+      type="url"
+      [id]="item.link"
+    />
+  </fieldset>
+  }
+  <div class="create-contact-item">
+    <div>
+      <label for="new-item-platform">Plataforma</label>
+      <input
+        [(ngModel)]="newItemPlatform"
+        placeholder="Plataforma"
+        type="text"
+        id="new-item-platform"
+      />
+
+      <label for="new-item-label">Tag ou nome:</label>
+      <input
+        [(ngModel)]="newItemLabel"
+        placeholder="Nome"
+        type="text"
+        id="new-item-label"
+      />
+
+      <label for="new-item-link">Link</label>
+      <input
+        [(ngModel)]="newItemLink"
+        placeholder="Link"
+        type="url"
+        id="new-item-link"
+      />
+    </div>
+    <button
+      [disabled]="isLoading()"
+      (click)="
+        createContactItem({
+          label: newItemLabel(),
+          link: newItemLink(),
+          platform: newItemPlatform()
+        })
+      "
+      [class]="isLoading() ? 'btn-loading' : 'btn'"
+    >
+      {{ isLoading() ? "" : "Adicionar novo" }}
+    </button>
+  </div>
+  }
+</div>
+}

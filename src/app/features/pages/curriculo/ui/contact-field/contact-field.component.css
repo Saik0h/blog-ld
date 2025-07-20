@@ -1,0 +1,55 @@
+.contact-info {
+  margin-top: 0.8rem;
+  max-height: 40ch;
+  overflow-y: auto;
+  text-align: left;
+}
+
+fieldset {
+    border: none;
+    padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.contact-info p {
+  font-size: 0.9rem;
+  margin: 0.4rem 0;
+  color: var(--color-dark);
+  word-break: break-word;
+}
+
+.contact-info a {
+  color: var(--color-dark);
+  text-decoration: none;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+/* 🔧 Form Elements */
+input[type="text"],
+input[type="url"],
+textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-secondary);
+  font-size: 1rem;
+  transition: border 0.2s;
+  margin-bottom: 0.75rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.2s;
+}

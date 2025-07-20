@@ -1,11 +1,19 @@
 <section class="courses-list">
   @if(isLoading() && !courses()) {
   <app-loading />
-  } @else if (courses()) { @for (c of courses(); track c.id){
-  <app-course-card [course]="c" [hasPermission]="userHasPermission()" [delCourse]="delete" />
-  } @empty {
-  <app-resource-empty />
-  }}@else {
+  } @else if (courses()) {
+  <section>
+    @for (c of courses(); track c.id){
+    <app-course-card
+      [course]="c"
+      [hasPermission]="userHasPermission()"
+      [delCourse]="delete"
+    />
+    } @empty {
+    <app-resource-empty />
+    }
+  </section>
+  }@else {
   <app-recurso-temporariamente-indisponivel />
   }
 </section>

@@ -73,13 +73,27 @@ export class AuthService {
     return obs;
   };
 
+  clearCookies = (): Observable<Message> => {
+    this._isLoading.set(true);
+    const url = this.url + '/clear-cookies';
+
+    return this.http.post<Message>(url, {}, { withCredentials: true }).pipe(
+      catchError(this.handleHttpError),
+      finalize(() => {
+        this._user.set(null);
+        this._isLoggedIn.set(false);
+        this._isLoading.set(false);
+      })
+    );
+  };
+
   initialize = () => {
     this.status().subscribe((isLoggedIn) => {
       this._isLoggedIn.set(isLoggedIn);
       if (isLoggedIn) {
         this.getUser().subscribe();
       } else {
-        this.forceLogout().subscribe(() => {
+        this.clearCookies().subscribe(() => {
           this._user.set(null);
         });
       }
@@ -153,16 +167,8 @@ export class AuthService {
   };
 
   forceLogout() {
-    const url = this.url + '/force-logout';
-    this._isLoading.set(true);
-
-    return this.http.post<Message>(url, {}, { withCredentials: true }).pipe(
-      catchError(this.handleHttpError),
-      finalize(() => {
-        this.router.navigate(['/']);
-        this._isLoggedIn.set(false);
-        this._isLoading.set(false);
-      })
-    );
+    this.clearCookies().subscribe(() => {
+      this.router.navigate(['/auth/login']);
+    });
   }
 }

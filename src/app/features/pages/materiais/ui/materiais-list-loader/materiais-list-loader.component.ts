@@ -19,8 +19,8 @@ import { RecursoTemporariamenteIndisponivelComponent } from '../../../shared/rec
   styleUrl: './materiais-list-loader.component.css',
 })
 export class MateriaisListLoaderComponent implements OnInit {
-  private readonly authService = inject(AuthService);
   private readonly server = inject(MaterialService);
+  private readonly authService = inject(AuthService);
 
   public readonly materials = this.server.materials;
   public readonly isLoading = this.server.isLoading;
@@ -37,10 +37,11 @@ export class MateriaisListLoaderComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.server.loadAllMaterials();
     this.authService.getAuthorization().subscribe({
       next: (isAdmin: boolean) => this.hasPermission.set(isAdmin),
     });
+
+    this.server.loadAllMaterials();
   }
 
   deleteFunction = (id: string): void => {

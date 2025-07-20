@@ -1,6 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Blog } from '../../../../../core/utils/types';
 import { DatePipe } from '@angular/common';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { PageNotFoundComponent } from '../../../shared/page-not-found/page-not-found.component';

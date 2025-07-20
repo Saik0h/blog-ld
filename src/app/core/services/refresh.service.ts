@@ -35,7 +35,7 @@ export class RefreshService {
           this.isRefreshing = false;
           this.refreshSubject.error(err);
           this.refreshSubject = new BehaviorSubject<boolean>(false);
-          this.authService.forceLogout().subscribe();
+          this.authService.forceLogout()
           return throwError(() => err);
         })
       );

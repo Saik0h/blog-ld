@@ -36,13 +36,16 @@ export class MaterialService {
 
   loadAllMaterials = () => {
     this._isLoading.set(true);
-console.log('Loading all materials...');
-    return this.http.get<Material[]>(this.url, { withCredentials: true }).pipe(
-      catchError(this.handleHttpError),
-      finalize(() => {
-        this._isLoading.set(false);
-      })
-    ).subscribe();
+    return this.http
+      .get<Material[]>(this.url, { withCredentials: true })
+      .pipe(
+        tap((materials) => this._materials.set(materials)),
+        catchError(this.handleHttpError),
+        finalize(() => {
+          this._isLoading.set(false);
+        })
+      )
+      .subscribe();
   };
 
   create = (data: MaterialCreatePayload): Observable<PostCreatedResponse> => {
