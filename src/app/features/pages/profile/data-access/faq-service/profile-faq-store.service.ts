@@ -1,0 +1,58 @@
+import { inject, Injectable, signal } from '@angular/core';
+import { map, tap, finalize } from 'rxjs';
+import { faqDisplay, faqPayload } from '../../../../../core/utils/types';
+import { FaqApiProfileService } from './profile-faq-api.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class FaqStoreProfileService {
+  api = inject(FaqApiProfileService);
+
+  private _hasError = signal<boolean>(false);
+  private _isLoading = signal<boolean>(false);
+
+  public faqs = signal<faqDisplay[]>([]);
+  public isLoading = this._isLoading.asReadonly();
+  public hasError = this._hasError.asReadonly();
+
+  initialize(): void {
+    this._isLoading.set(true);
+
+    this.api
+      .getAllFaqs()
+      .pipe(
+        map((faqs): faqDisplay[] =>
+          faqs.map((faq) => ({
+            ...faq,
+            open: false,
+          }))
+        ),
+        tap((faqs) => this.faqs.set(faqs)),
+        finalize(() => this._isLoading.set(false))
+      )
+      .subscribe();
+  }
+
+  createFaq(data: faqPayload): void {
+    this._isLoading.set(true);
+    this.api
+      .postFaq(data)
+      .pipe(
+        tap(() => this.initialize()),
+        finalize(() => this._isLoading.set(false))
+      )
+      .subscribe();
+  }
+
+  deleteFaq = (id: number): void => {
+    this._isLoading.set(true);
+    this.api
+      .deleteFaq(id)
+      .pipe(
+        tap(() => this.initialize()),
+        finalize(() => this._isLoading.set(false))
+      )
+      .subscribe();
+  };
+}

@@ -1,5 +1,5 @@
 import { Component, Input, signal } from '@angular/core';
-import { faqDisplay, faqPayload } from '../../../../core/utils/types';
+import { faqDisplay, faqPayload } from '../../../../../core/utils/types';
 
 @Component({
   selector: 'app-faq-input',

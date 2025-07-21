@@ -3,19 +3,16 @@
     <label for="profile-photo-input">
       <img
         [src]="previewUrl() || user()?.profileImage"
+        fetchpriority="high"
         [alt]="user()?.firstname + ' ' + user()?.lastname"
         class="avatar"
       />
-      <input
-        type="file"
-        id="profile-photo-input"
-        hidden
-        #input
-        (change)="onProfileImageChange($event)"
-      />
+      <app-image-uploader
+        (uploadedUrl)="onImageUploaded($event)"
+      ></app-image-uploader>
     </label>
     @if(isEditing()){
-    <button (click)="uploadProfileImage(input)">salvar</button>
+    <button (click)="uploadProfileImage()">salvar</button>
     }
   </div>
   <div class="info">

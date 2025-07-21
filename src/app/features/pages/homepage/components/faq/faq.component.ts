@@ -1,29 +1,28 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { FaqService } from '../../../../../core/services/faq.service';
-import { faq, faqDisplay } from '../../../../../core/utils/types';
-import { map, throwError } from 'rxjs';
+import { Component, inject, OnInit } from '@angular/core';
+import { faqDisplay } from '../../../../../core/utils/types';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { ResourceEmptyComponent } from '../../../shared/resource-empty/resource-empty.component';
-import { RecursoTemporariamenteIndisponivelComponent } from '../../../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
+import { UnavailableResourceComponent } from '../../../shared/resource-temporarily-unavailable/unavailable-resource.component';
+import { FaqStoreHomepageService } from '../../data-access/faq-store.service';
 
 @Component({
   selector: 'app-faq',
   imports: [
     LoadingComponent,
     ResourceEmptyComponent,
-    RecursoTemporariamenteIndisponivelComponent,
+    UnavailableResourceComponent,
   ],
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.css',
 })
 export class FaqComponent implements OnInit {
-  private readonly faqService = inject(FaqService);
+  private readonly faqService = inject(FaqStoreHomepageService);
   readonly isLoading = this.faqService.isLoading;
   public readonly error = this.faqService.hasError;
   public faqs = this.faqService.faqs;
 
   ngOnInit() {
-    this.faqService.getAllFaqs();
+    this.faqService.initialize();
   }
 
   toggle(item: faqDisplay) {

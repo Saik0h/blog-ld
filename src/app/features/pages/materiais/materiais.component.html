@@ -9,11 +9,8 @@
     <app-loading aria-label="Carregando artigos" role="status" />
     } @loading {
     <app-loading aria-label="Carregando artigos" role="status" />
+    } @error {
+    <app-unavailable-resource />
     }
-    @error {
-    <app-recurso-temporariamente-indisponivel
-      aria-label="Erro ao carregar os artigos"
-      role="alert"
-    />}
   </div>
 </section>

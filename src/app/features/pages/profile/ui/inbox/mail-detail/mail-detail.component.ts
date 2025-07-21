@@ -1,11 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
-import { InboxService } from '../../../../../core/services/inbox.service';
-import { Mail, Message } from '../../../../../core/utils/types';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
-import { throwError } from 'rxjs';
-import { LoadingComponent } from '../../../shared/loading/loading.component';
-import { PageNotFoundComponent } from '../../../shared/page-not-found/page-not-found.component';
+import { DatePipe } from "@angular/common";
+import { Component, inject, signal } from "@angular/core";
+import { RouterLink, ActivatedRoute, Router } from "@angular/router";
+import { throwError } from "rxjs";
+import { InboxService } from "../../../../../../core/services/inbox.service";
+import { Mail, Message } from "../../../../../../core/utils/types";
+import { LoadingComponent } from "../../../../shared/loading/loading.component";
+import { PageNotFoundComponent } from "../../../../shared/page-not-found/page-not-found.component";
 
 @Component({
   selector: 'app-mail-detail',

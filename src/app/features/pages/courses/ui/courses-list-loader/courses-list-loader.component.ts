@@ -1,18 +1,24 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { CourseCardComponent } from "../course-card/course-card.component";
-import { ResourceEmptyComponent } from "../../../shared/resource-empty/resource-empty.component";
-import { RecursoTemporariamenteIndisponivelComponent } from "../../../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component";
-import { LoadingComponent } from "../../../shared/loading/loading.component";
+import { CourseCardComponent } from '../course-card/course-card.component';
+import { ResourceEmptyComponent } from '../../../shared/resource-empty/resource-empty.component';
+import { UnavailableResourceComponent } from '../../../shared/resource-temporarily-unavailable/unavailable-resource.component';
+import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { AuthService } from '../../../../../core/services/auth.service';
-import { CourseService } from '../../../../../core/services/curso.service';
+import { CoursesStoreService } from '../../data-access/courses-store.service';
 
 @Component({
   selector: 'app-courses-list-loader',
-  imports: [CourseCardComponent, ResourceEmptyComponent, RecursoTemporariamenteIndisponivelComponent, LoadingComponent],
+  imports: [
+    CourseCardComponent,
+    ResourceEmptyComponent,
+    LoadingComponent,
+    UnavailableResourceComponent
+],
   templateUrl: './courses-list-loader.component.html',
-  styleUrl: './courses-list-loader.component.css'
+  styleUrl: './courses-list-loader.component.css',
 })
-export class CoursesListLoaderComponent {  private courseService = inject(CourseService);
+export class CoursesListLoaderComponent {
+  private courseService = inject(CoursesStoreService);
   private readonly authService = inject(AuthService);
 
   public readonly userHasPermission = signal(false);
@@ -24,7 +30,7 @@ export class CoursesListLoaderComponent {  private courseService = inject(Course
     this.authService.getAuthorization().subscribe({
       next: (res) => this.userHasPermission.set(res),
     });
-    this.courseService.loadAllCourses();
+    this.courseService.initialize();
   }
 
   readonly coursesMemo = computed(() => this.courses());
@@ -39,5 +45,4 @@ export class CoursesListLoaderComponent {  private courseService = inject(Course
   delete = (id: string) => {
     this.courseService.delete(+id);
   };
-
 }

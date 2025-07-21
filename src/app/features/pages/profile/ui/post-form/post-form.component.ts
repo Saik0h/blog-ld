@@ -13,7 +13,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { ImageUploaderComponent } from '../../../shared/image-uploader/image-uploader.component';
-import { PostService } from '../../../../../core/services/post.service';
 import {
   ArtigoCreatePayload,
   BlogCreatePayload,
@@ -21,6 +20,7 @@ import {
   MaterialCreatePayload,
 } from '../../../../../core/utils/types';
 import { PdfUploaderComponent } from '../../../shared/pdf-uploader/pdf-uploader.component';
+import { PostService } from '../../data-access/post-store.service';
 
 export type PostType = 'artigo' | 'blog' | 'material' | 'curso';
 

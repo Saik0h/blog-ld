@@ -1,17 +1,17 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImageService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = environment.apiUrl+ '/images';
+  private readonly baseUrl = environment.apiUrl + '/images';
   private _isLoading = signal<boolean>(false);
   public isLoading = this._isLoading.asReadonly;
-  
+
   uploadImage(file: File): Observable<{ url: string }> {
     const formData = new FormData();
     formData.append('file', file);

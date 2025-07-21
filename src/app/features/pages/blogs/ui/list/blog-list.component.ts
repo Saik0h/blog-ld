@@ -1,16 +1,15 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
-import { RecursoTemporariamenteIndisponivelComponent } from '../../../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component';
-import { BlogListStoreService } from '../../data-access/blog-list.store.service';
+import { UnavailableResourceComponent } from '../../../shared/resource-temporarily-unavailable/unavailable-resource.component';
 import { BlogListSubComponent } from './components/blog-list/blog-list.component';
 
 @Component({
   selector: 'app-blog-list-page',
   imports: [
     LoadingComponent,
-    RecursoTemporariamenteIndisponivelComponent,
-    BlogListSubComponent
-],
+    UnavailableResourceComponent,
+    BlogListSubComponent,
+  ],
   templateUrl: './blog-list.component.html',
   styleUrl: './blog-list.component.css',
 })

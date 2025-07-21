@@ -1,6 +1,6 @@
 import { Component, inject, model, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Mail } from '../../../../../../core/utils/types';
+import { Mail } from '../../../../../../../core/utils/types';
 
 @Component({
   selector: 'app-search-bar',

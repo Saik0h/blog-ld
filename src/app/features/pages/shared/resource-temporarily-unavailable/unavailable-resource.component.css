@@ -1,0 +1,48 @@
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: hsl(0, 0%, 98%);
+  border: 1px solid hsl(0, 0%, 85%);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 500px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.error-icon svg {
+  stroke: hsl(349, 86%, 48%);
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+
+.error-header h2 {
+  font-size: 1.5rem;
+  color: hsl(204, 86%, 6%);
+  margin-bottom: 0.5rem;
+}
+
+.error-message {
+  font-size: 1rem;
+  color: hsl(45, 7%, 35%);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.error-actions .retry-button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: hsl(35, 100%, 55%);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.error-actions .retry-button:hover {
+  background-color: hsl(35, 100%, 45%);
+}

@@ -3,11 +3,11 @@ import { ArtigoListStore } from '../../../../data-access/artigo.store.service';
 import { ArtigoCardComponent } from "../artigo-card/artigo-card.component";
 import { ResourceEmptyComponent } from "../../../../../shared/resource-empty/resource-empty.component";
 import { LoadingComponent } from "../../../../../shared/loading/loading.component";
-import { RecursoTemporariamenteIndisponivelComponent } from "../../../../../shared/recurso-temporariamente-indisponivel/recurso-temporariamente-indisponivel.component";
+import { UnavailableResourceComponent } from '../../../../../shared/resource-temporarily-unavailable/unavailable-resource.component';
 
 @Component({
   selector: 'app-list',
-  imports: [ArtigoCardComponent, ResourceEmptyComponent, LoadingComponent, RecursoTemporariamenteIndisponivelComponent],
+  imports: [ArtigoCardComponent, ResourceEmptyComponent, LoadingComponent, UnavailableResourceComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
 })

@@ -1,8 +1,5 @@
 import { Component, signal } from '@angular/core';
-import {
-  PostFormComponent,
-  PostType,
-} from '../ui/post-form/post-form.component';
+import { PostFormComponent, PostType } from '../post-form/post-form.component';
 
 @Component({
   selector: 'app-new-post',

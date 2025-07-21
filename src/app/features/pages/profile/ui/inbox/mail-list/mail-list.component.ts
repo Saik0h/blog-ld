@@ -1,9 +1,9 @@
-import { Component, effect, inject, model, signal } from '@angular/core';
-import { Mail } from '../../../../../core/utils/types';
-import { InboxService } from '../../../../../core/services/inbox.service';
-import { SearchBarComponent } from './search-bar/search-bar.component';
-import { MailCardComponent } from '../../ui/mail-card/mail-card.component';
-import { Router } from '@angular/router';
+import { Component, signal, model, inject } from "@angular/core";
+import { Router } from "@angular/router";
+import { InboxService } from "../../../../../../core/services/inbox.service";
+import { Mail } from "../../../../../../core/utils/types";
+import { MailCardComponent } from "../../mail-card/mail-card.component";
+import { SearchBarComponent } from "./search-bar/search-bar.component";
 
 @Component({
   selector: 'app-mail-list',
