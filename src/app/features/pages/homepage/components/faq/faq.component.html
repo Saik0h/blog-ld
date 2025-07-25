@@ -3,7 +3,9 @@
 
   @defer (on idle) {
   <dl class="faq-list">
-    @for(item of faqs(); track item.question){
+    @if(isLoading() && !faqs()){
+    <app-loading />
+    } @else { @for(item of faqs(); track item.question){
     <div class="faq-item" [class.open]="item.open">
       <dt>
         <button
@@ -23,13 +25,13 @@
     </div>
     } @empty {
     <app-resource-empty />
-    }
+    } }
   </dl>
   } @placeholder {
   <app-loading />
   } @loading {
   <app-loading />
   } @error {
-    <app-unavailable-resource/>
+  <app-unavailable-resource />
   }
 </section>

@@ -5,7 +5,8 @@
   </div>
   <div class="about__img-wrapper">
     <img
-      [src]="imageUrl()"
+      [src]="imageUrl"
+      sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
       [alt]="title() || 'Imagem sobre nós'"
       (load)="onImageLoad()"
       [class.loaded]="imgLoaded()"
