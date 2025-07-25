@@ -27,7 +27,7 @@ export class FaqComponent implements OnInit {
 
   toggle(item: faqDisplay) {
     this.faqs.update((list) =>
-      list.map((faq) => (faq === item ? { ...faq, open: !faq.open } : faq))
+      list!.map((faq) => (faq === item ? { ...faq, open: !faq.open } : faq))
     );
   }
 }

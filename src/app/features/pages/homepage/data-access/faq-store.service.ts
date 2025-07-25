@@ -12,7 +12,7 @@ export class FaqStoreHomepageService {
   private _hasError = signal<boolean>(false);
   private _isLoading = signal<boolean>(false);
 
-  public faqs = signal<faqDisplay[]>([]);
+  public faqs = signal<faqDisplay[] | null>(null);
   public isLoading = this._isLoading.asReadonly();
   public hasError = this._hasError.asReadonly();
 
@@ -33,7 +33,6 @@ export class FaqStoreHomepageService {
       )
       .subscribe();
   }
-
 
   deleteFaq(id: number): void {
     this._isLoading.set(true);
