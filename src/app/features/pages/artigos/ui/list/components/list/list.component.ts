@@ -14,7 +14,7 @@ import { UnavailableResourceComponent } from '../../../../../shared/resource-tem
 export class ListComponent implements OnInit {
   private articleService = inject(ArtigoListStore);
   readonly isLoading = this.articleService.isLoading;
-  readonly error = this.articleService.hasError;
+  readonly error = this.articleService.error;
   public readonly artigos = this.articleService.artigos;
 
   ngOnInit() {

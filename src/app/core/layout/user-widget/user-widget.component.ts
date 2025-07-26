@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthStoreService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-user-widget',
@@ -9,15 +9,15 @@ import { RouterLink } from '@angular/router';
   styleUrl: './user-widget.component.css',
 })
 export class UserWidgetComponent implements OnInit {
-  private readonly authService = inject(AuthService);
+  private readonly authService = inject(AuthStoreService);
   public readonly user = this.authService.user;
   public readonly isUserLoggedIn = this.authService.isLoggedIn;
-  
+
   ngOnInit() {
-   this.authService.initialize()
+    this.authService.initialize();
   }
 
   logout() {
-   this.authService.logout().subscribe() 
+    this.authService.logout().subscribe();
   }
 }

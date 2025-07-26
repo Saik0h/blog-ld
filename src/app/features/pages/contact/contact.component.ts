@@ -1,10 +1,10 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MailPayload, Message } from '../../../core/utils/types';
-import { InboxService } from '../../../core/services/inbox.service';
 import { MessageSentModalComponent } from './message-sent.modal/message-sent.modal.component';
 import { LoadingComponent } from '../shared/loading/loading.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InboxStoreService } from '../profile/data-access/inbox-service/inbox-store.service';
 
 @Component({
   selector: 'app-contact',
@@ -14,7 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class ContactComponent {
   @ViewChild(MessageSentModalComponent) modal!: MessageSentModalComponent;
-  private readonly mailService: InboxService = inject(InboxService);
+  private readonly mailService: InboxStoreService = inject(InboxStoreService);
   public readonly isModalOpen = signal(false);
   public readonly isLoading = signal(false);
   public mailPayload = new FormGroup({

@@ -1,77 +1,92 @@
 .profile {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
-  border-radius: 1rem;
-  background-color: var(--color-bg);
-  color: var(--color-dark);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  max-width: 400px;
-  margin: auto;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: 3px solid var(--color-accent);
-  object-fit: cover;
-}
-
-.info h2 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: var(--color-dark);
-}
-
-.username {
-  margin: 0.25rem 0;
-  font-size: 0.9rem;
-  color: var(--color-primary);
-}
-
-.role {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
   background-color: var(--color-light);
-  color: var(--color-primary);
-  border-radius: 999px;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-.logout {
-  margin-left: auto;
-  background: var(--color-accent);
-  color: var(--color-light);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.4rem 0.6rem;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
-}
-
-.logout:hover {
-  background: var(--color-secondary);
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 400px;
+  margin: 2rem auto;
+  text-align: center;
+  gap: 1.5rem;
+  position: relative;
 }
 
 .image-wrapper {
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-wrapper label {
   cursor: pointer;
 }
+
 .avatar {
   width: 120px;
   height: 120px;
-  border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ccc;
-  transition: 0.3s;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent);
+  transition: transform 0.3s ease;
 }
-.image-wrapper:hover .avatar {
-  border-color: #666;
+
+.avatar:hover {
+  transform: scale(1.05);
+}
+
+.image-wrapper button {
+  margin-top: 0.5rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.image-wrapper button:hover {
+  background-color: var(--color-secondary);
+}
+
+.info h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--color-dark);
+}
+
+.username {
+  color: var(--color-secondary);
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+.role {
+  font-size: 0.9rem;
+  color: var(--color-accent);
+  background-color: var(--color-accent + '15'); /* fallback se usar opacidade */
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+.logout {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: var(--color-red, crimson);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.logout:hover {
+  color: var(--color-dark);
 }

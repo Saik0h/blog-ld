@@ -1,7 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { RegisterPayload } from '../../../core/utils/types';
-import { AuthService } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
 import {
   FormControl,
   FormGroup,
@@ -11,11 +9,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthStoreService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-register',
   imports: [ReactiveFormsModule, CommonModule],
-  providers: [AuthService, NgForm],
+  providers: [AuthStoreService, NgForm],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
@@ -33,7 +32,7 @@ export class RegisterComponent {
     ]),
   });
 
-  private authService: AuthService = inject(AuthService);
+  private authService: AuthStoreService = inject(AuthStoreService);
 
   onSubmit() {
     this.authService.register(this.registerForm.value as RegisterPayload).subscribe();

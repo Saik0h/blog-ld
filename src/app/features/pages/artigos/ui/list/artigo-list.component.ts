@@ -14,4 +14,5 @@ export class ArtigoListComponent {
   title = signal('Artigos');
   private articleService = inject(ArtigoListStore);
   readonly isLoading = this.articleService.isLoading;
+  readonly error = this.articleService.error;
 }

@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
 import {
   BehaviorSubject,
   Observable,
@@ -10,6 +9,7 @@ import {
   filter,
   take,
 } from 'rxjs';
+import { AuthStoreService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class RefreshService {
   private isRefreshing = false;
   private refreshSubject = new BehaviorSubject<boolean>(false);
 
-  private authService: AuthService = inject(AuthService);
+  private authService: AuthStoreService = inject(AuthStoreService);
 
   public handle401<T>(retryRequest: () => Observable<T>): Observable<T> {
     if (!this.isRefreshing) {
@@ -35,7 +35,7 @@ export class RefreshService {
           this.isRefreshing = false;
           this.refreshSubject.error(err);
           this.refreshSubject = new BehaviorSubject<boolean>(false);
-          this.authService.forceLogout()
+          this.authService.forceLogout();
           return throwError(() => err);
         })
       );

@@ -1,15 +1,16 @@
 <section class="inbox-widget">
+  <h2>Mensagens não lidas</h2>
   @if(isLoading()){
   <app-loading />
-  } @else {
-  <h2>Mensagens não lidas</h2>
-  @if(mails() && mails()!== null && mails()!.length > 0){
+  } @else if(mails()){
   <ul class="unread-mails" routerLink="/inbox">
     @for (mail of mails(); track mail.id) {
     <app-mail-card [mail]="mail" [redirect]="moveToPage" />
+    } @empty{
+    <app-resource-empty />
     }
   </ul>
-  } @else if(mails()?.length === 0) {
-  <app-resource-empty />
-  } }
+  }@else if(error()){
+    <app-unavailable-resource/>
+   }
 </section>

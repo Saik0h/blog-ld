@@ -4,7 +4,7 @@ import { ImageService } from './image.service';
 @Component({
   selector: 'app-image-uploader',
   imports: [],
-  template: ` <input type="file" (change)="upload($event)" />
+  template: ` <input id="upload-photo-input" type="file" (change)="upload($event)" />
     @if(imagePreview()){
     <img [src]="imagePreview()" alt="Descrição da imagem" width="100%" />
     }`,

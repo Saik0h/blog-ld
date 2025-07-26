@@ -1,11 +1,11 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { AuthService } from '../../../../../core/services/auth.service';
 import { Material } from '../../../../../core/utils/types';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { MaterialCardComponent } from '../material-card/material-card.component';
 import { ResourceEmptyComponent } from '../../../shared/resource-empty/resource-empty.component';
 import { UnavailableResourceComponent } from '../../../shared/resource-temporarily-unavailable/unavailable-resource.component';
 import { MateriaisStoreService } from '../../data-access/materiais-store.service';
+import { AuthStoreService } from '../../../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-materiais-list-loader',
@@ -20,12 +20,12 @@ import { MateriaisStoreService } from '../../data-access/materiais-store.service
 })
 export class MateriaisListLoaderComponent implements OnInit {
   private readonly server = inject(MateriaisStoreService);
-  private readonly authService = inject(AuthService);
+  private readonly authService = inject(AuthStoreService);
 
   public readonly materials = this.server.materials;
   public readonly isLoading = this.server.isLoading;
   public readonly error = this.server.hasError;
-  public hasPermission = signal<boolean>(false);
+  public isAdmin = this.authService.isAdmin;
 
   readonly hasMaterials = computed(() => {
     const list = this.materials();
@@ -37,10 +37,6 @@ export class MateriaisListLoaderComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.authService.getAuthorization().subscribe({
-      next: (isAdmin: boolean) => this.hasPermission.set(isAdmin),
-    });
-
     this.server.initialize();
   }
 

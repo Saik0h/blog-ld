@@ -4,7 +4,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { fadeAnimation } from '../animations/route-animations';
 import { UserWidgetComponent } from "./user-widget/user-widget.component";
-import { AuthService } from '../services/auth.service';
+import { AuthStoreService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -26,10 +26,8 @@ import { AuthService } from '../services/auth.service';
     `,
   ],
 })
-export class LayoutComponent implements OnInit {
-  private authService = inject(AuthService);
-  ngOnInit(): void {
-  }
+export class LayoutComponent  {
+
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData?.['animation'];
   }

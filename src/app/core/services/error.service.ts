@@ -8,26 +8,14 @@ import { ToastrService } from 'ngx-toastr';
 export class ErrorService {
   toastr = inject(ToastrService);
 
-  ERROR_MESSAGES: { [key: number]: string } = {
-    403: 'Você não tem permissão para acessar este recurso.',
-    404: 'Recurso não encontrado.',
-    500: 'Erro interno do servidor. Tente novamente mais tarde.',
+  showMessage = (error: HttpErrorResponse) => {
+    let errMsg = this.singleErrorToString(error);
+    this.toastr.error(errMsg, `Erro ${error.status}`);
   };
 
-  handleHTTPError = (error: HttpErrorResponse) => {
-    let errMsg = 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
-    if (error.error instanceof ErrorEvent) {
-      errMsg = `Erro: ${error.error.message}`;
-    } else if (error.status !== 401) {
-      errMsg =
-        this.ERROR_MESSAGES[error.status] ||
-        `Erro desconhecido: ${error.status}`;
-    } else if(error.status === 401){
-      errMsg = error.error.message
-    }else if (error.message) {
-      errMsg = 'Algo deu errado. Recarregue a página ou tente novamente mais tarde.'
-    }
-    this.toastr.error(errMsg, `Erro: ${error.status}`);
-    return errMsg;
+  singleErrorToString = (err: HttpErrorResponse) => {
+    return typeof err.error.message === 'string'
+      ? err.error.message
+      : err.error.message[0];
   };
 }

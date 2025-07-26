@@ -1,39 +1,37 @@
 @if(isLoading()){
-  <app-global-loading/>
+<app-loading />
 }
 
-  <section class="login-form">
-    <h2>Entrar</h2>
+<section class="login-form">
+  <h2>Entrar</h2>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+    @if(error()){
+    <small>{{ errorMessage() }}</small>
+    }
     
-    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-      <div class="form-control">
-        <label for="username">Usuário</label>
-        <input
+    <div class="form-control">
+      <label for="username">Usuário</label>
+      <input
         type="username"
         id="username"
         name="username"
         formControlName="username"
         autocomplete="username"
       />
-      @if(error()){
-        <small></small>
-      }
     </div>
-    
+
     <div class="form-control">
       <label for="password">Senha</label>
       <input
-      type="password"
-      id="password"
-      name="password"
-      formControlName="password"
-      autocomplete="current-password"
+        type="password"
+        id="password"
+        name="password"
+        formControlName="password"
+        autocomplete="current-password"
       />
-       @if(error()){
-        <small></small>
-      }
     </div>
-    
+
     <button type="submit">Login</button>
   </form>
 </section>

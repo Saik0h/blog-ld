@@ -1,25 +1,23 @@
-@if(!isNotFound() && !isLoading()){
+@if(isLoading() && !mail()){
+<app-loading />
+} @else if(mail()){
 <article>
   <a [routerLink]="'/profile/inbox'">Voltar</a>
   <header>
     <div>
-      <span>Remetente: </span> <span>{{ mail().name }}</span>
+      <span>Remetente: </span> <span>{{ mail()!.name }}</span>
     </div>
     <div>
-      <span>E-mail: </span> <span>{{ mail().email }}</span>
+      <span>E-mail: </span> <span>{{ mail()!.email }}</span>
     </div>
   </header>
-  <h2>{{ mail().subject }}</h2>
-  <p>{{ mail().message }}</p>
+  <h2>{{ mail()!.subject }}</h2>
+  <p>{{ mail()!.message }}</p>
   <p>
-    Sent at: <time>{{ mail().createdAt | date }}</time>
+    Sent at: <time>{{ mail()!.createdAt | date }}</time>
   </p>
-  <button type="button" class="btn" (click)="deleteButtonClick()">
-    Delete
-  </button>
+  <button type="button" class="btn" (click)="deleteMail()">Delete</button>
 </article>
-} @else if(isLoading()) {
-<app-loading/>
 } @else {
-<app-page-not-found/>
+<app-page-not-found />
 }

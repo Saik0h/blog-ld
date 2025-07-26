@@ -1,15 +1,20 @@
-import { Component, Inject, inject, model, signal } from '@angular/core';
-import { AuthService } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { LoginPayload } from '../../../core/utils/types';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
-import { GlobalLoadingComponent } from "../../pages/shared/global-loading/global-loading.component";
+import {
+  FormControl,
+  FormGroup,
+  NgForm,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { AuthStoreService } from '../../../core/services/auth/auth.service';
+import { LoadingComponent } from '../../pages/shared/loading/loading.component';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CommonModule, GlobalLoadingComponent],
-  providers: [AuthService, NgForm],
+  imports: [ReactiveFormsModule, CommonModule, LoadingComponent],
+  providers: [AuthStoreService, NgForm],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -25,9 +30,10 @@ export class LoginComponent {
     ]),
   });
 
-  private authService: AuthService = inject(AuthService);
-  public readonly isLoading = this.authService.isLoading
-  public readonly error = this.authService.hasError
+  private authService: AuthStoreService = inject(AuthStoreService);
+  public readonly isLoading = this.authService.isLoading;
+  public readonly error = this.authService.hasError;
+  public readonly errorMessage = this.authService.message;
 
   onSubmit() {
     const payload: LoginPayload = this.loginForm.value as LoginPayload;

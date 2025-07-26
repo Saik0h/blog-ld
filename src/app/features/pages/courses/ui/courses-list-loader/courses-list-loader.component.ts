@@ -3,8 +3,8 @@ import { CourseCardComponent } from '../course-card/course-card.component';
 import { ResourceEmptyComponent } from '../../../shared/resource-empty/resource-empty.component';
 import { UnavailableResourceComponent } from '../../../shared/resource-temporarily-unavailable/unavailable-resource.component';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
-import { AuthService } from '../../../../../core/services/auth.service';
 import { CoursesStoreService } from '../../data-access/courses-store.service';
+import { AuthStoreService } from '../../../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-courses-list-loader',
@@ -12,24 +12,22 @@ import { CoursesStoreService } from '../../data-access/courses-store.service';
     CourseCardComponent,
     ResourceEmptyComponent,
     LoadingComponent,
-    UnavailableResourceComponent
-],
+    UnavailableResourceComponent,
+  ],
   templateUrl: './courses-list-loader.component.html',
   styleUrl: './courses-list-loader.component.css',
 })
 export class CoursesListLoaderComponent {
   private courseService = inject(CoursesStoreService);
-  private readonly authService = inject(AuthService);
+  private readonly authService = inject(AuthStoreService);
 
   public readonly userHasPermission = signal(false);
   public readonly isLoading = this.courseService.isLoading;
   public readonly error = this.courseService.hasError;
+  public readonly isAdmin = this.authService.isAdmin;
   readonly courses = this.courseService.courses;
 
   ngOnInit() {
-    this.authService.getAuthorization().subscribe({
-      next: (res) => this.userHasPermission.set(res),
-    });
     this.courseService.initialize();
   }
 
